@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ITR-TaxPilot — Deterministic AI Tax Co-Pilot & Form 16 Optimizer</title>
+  <title>ITR-TaxPilot — Deterministic AI Tax Co-Pilot & Form 16 Optimizer (AY 2026-27)</title>
   <meta name="description" content="Free AI-assisted, 100% deterministic Indian income tax return optimizer for AY 2026-27 and AY 2025-26. Compare Old vs New regime, maximize deductions, and get ITR recommendations.">
   
   <!-- Modern Google Fonts -->
@@ -26,7 +26,7 @@
   <!-- Navigation Header -->
   <header class="app-header">
     <div class="header-container">
-      <a href="/" class="brand">
+      <a href="#" class="brand">
         <div class="brand-logo">
           <i class="fa-solid fa-file-invoice-dollar"></i>
         </div>
@@ -37,13 +37,16 @@
       </a>
 
       <nav class="nav-links">
-        <a href="#how-it-works" class="nav-link">How It Works</a>
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#rules" class="nav-link">AY 2026-27 Rules</a>
-        <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="nav-link">
+        <a href="#upload-section" class="nav-link">Upload Form 16</a>
+        <a href="#regimes-guide" class="nav-link">Old vs New</a>
+        <a href="#deduction-guide" class="nav-link">Deduction Hunter</a>
+        <a href="#marginal-relief-guide" class="nav-link">87A Rebate</a>
+        <a href="#itr-selector-guide" class="nav-link">ITR Forms</a>
+        <a href="#security-guide" class="nav-link">Privacy</a>
+        <a href="#faq-section" class="nav-link">FAQ</a>
+        <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="nav-link github-nav-link">
           <i class="fa-brands fa-github"></i> GitHub
         </a>
-        <a href="/docs" target="_blank" class="nav-link"><i class="fa-solid fa-code"></i> API Docs</a>
       </nav>
 
       <div class="header-status">
@@ -91,7 +94,7 @@
         <span>Budget 2024 & 2025 Verified · Section 115BAC Optimized · 100% Free Upload</span>
       </div>
       <h1 class="hero-title">
-        The Intelligent, <span class="gradient-text">Deterministic</span> Tax Optimizer for Indian Taxpayers
+        The Intelligent, <span class="gradient-text">Deterministic</span> Tax Co-Pilot for Indian Taxpayers
       </h1>
       <p class="hero-subtitle">
         Drop your Form 16 PDF for instant free analysis. AI extracts every allowance and deduction with zero math hallucinations, while proven Python engines compute your lowest tax liability down to the rupee.
@@ -193,78 +196,7 @@
       </div>
     </section>
 
-    <!-- Product Showcase & Explanation (Landing Page Content) -->
-    <section class="landing-features-section" id="how-it-works">
-      <div class="section-badge-center">
-        <span>Why ITR-TaxPilot</span>
-      </div>
-      <h2 class="section-main-title">AI Reads the PDF. <span class="gradient-text">Tested Python Does the Math.</span></h2>
-      <p class="section-main-desc">
-        Every year, thousands of taxpayers overpay or receive income tax notices because LLMs hallucinate complex calculations like Section 87A marginal relief. ITR-TaxPilot solves this with deterministic Python engines defended by 80+ test cases.
-      </p>
-
-      <div class="features-grid" id="features">
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-          <h3>Old vs New Regime Optimizer</h3>
-          <p>Instantly calculates your exact tax liability under both regimes, incorporating the updated ₹75,000 standard deduction and Section 115BAC slabs.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-          <h3>Deduction Hunter & Simulator</h3>
-          <p>Interactive simulation tool highlights missed deductions (80C, 80D, 80CCD(1B) NPS, Home Loan) to show if Old Regime can beat the New Regime.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-calculator"></i></div>
-          <h3>Section 87A Marginal Relief</h3>
-          <p>Calculates statutory rebate for incomes up to ₹7 Lakh and accurately applies marginal relief for incomes slightly exceeding the threshold.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-shield-virus"></i></div>
-          <h3>Bank-Grade Privacy</h3>
-          <p>Runs in-memory with automatic PII masking. Uploaded documents are processed ephemerally and wiped from server memory after analysis.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-file-signature"></i></div>
-          <h3>ITR Form Recommendation</h3>
-          <p>Evaluates your salary structure, exemptions, and income components to recommend the right filing form (ITR-1 vs ITR-2).</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-file-pdf"></i></div>
-          <h3>Downloadable Filing Pack</h3>
-          <p>Generate a complete, printable tax summary report matching the official e-Filing portal schedule line by line.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Trust & Statistics Bar -->
-    <section class="trust-bar-section" id="rules">
-      <div class="trust-grid">
-        <div class="trust-stat">
-          <strong class="stat-number">84+</strong>
-          <span class="stat-text">Golden Test Suites Passing</span>
-        </div>
-        <div class="trust-stat">
-          <strong class="stat-number">AY 2026-27</strong>
-          <span class="stat-text">Finance Act 2024 & 2025 Ready</span>
-        </div>
-        <div class="trust-stat">
-          <strong class="stat-number">₹0</strong>
-          <span class="stat-text">Completely Free Analysis</span>
-        </div>
-        <div class="trust-stat">
-          <strong class="stat-number">0.00s</strong>
-          <span class="stat-text">Zero AI Math Hallucinations</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Interactive Results Dashboard (REVEALED AFTER LOGIN OR INSTANT IF LOGGED IN) -->
+    <!-- Interactive Results Dashboard (REVEALED AFTER AUTH OR SAMPLE) -->
     <section class="results-section" id="results-section" style="display: none;">
       
       <!-- Top Overview Banner -->
@@ -498,6 +430,395 @@
         </div>
       </div>
 
+    </section>
+
+    <!-- =========================================================================
+         DETAILED FEATURE PAGES & COMPREHENSIVE STATUTORY GUIDES (LONG INDEX)
+         ========================================================================= -->
+
+    <!-- Feature 1: Old vs New Tax Regime Deep Dive -->
+    <section class="feature-detail-section" id="regimes-guide">
+      <div class="section-badge-center">
+        <span>Statutory Comparison Guide</span>
+      </div>
+      <h2 class="section-main-title">Old vs. New Tax Regime: <span class="gradient-text">What Has Changed?</span></h2>
+      <p class="section-main-desc">
+        Under Finance Act 2024 & 2025, the New Tax Regime (Section 115BAC) is the default regime for Assessment Year 2026-27. Compare the slab rates, standard deductions, and exemption eligibility below.
+      </p>
+
+      <div class="tables-comparison-container">
+        <!-- New Regime Table -->
+        <div class="table-card">
+          <div class="table-header new-regime-hdr">
+            <h3><i class="fa-solid fa-bolt"></i> New Tax Regime (Section 115BAC)</h3>
+            <span class="table-badge">Default for AY 2026-27</span>
+          </div>
+          <table class="tax-slab-table">
+            <thead>
+              <tr>
+                <th>Taxable Income Bracket</th>
+                <th>Tax Rate</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Up to ₹3,00,000</td>
+                <td><strong class="text-green">0% (Nil)</strong></td>
+                <td>Basic Exemption Limit</td>
+              </tr>
+              <tr>
+                <td>₹3,00,001 to ₹7,00,000</td>
+                <td>5%</td>
+                <td>Rebate u/s 87A makes tax ₹0 up to ₹7L</td>
+              </tr>
+              <tr>
+                <td>₹7,00,001 to ₹10,00,000</td>
+                <td>10%</td>
+                <td>Marginal relief applies ₹7L - ₹7.27L</td>
+              </tr>
+              <tr>
+                <td>₹10,00,001 to ₹12,00,000</td>
+                <td>15%</td>
+                <td>Budget 2024 revised threshold</td>
+              </tr>
+              <tr>
+                <td>₹12,00,001 to ₹15,00,000</td>
+                <td>20%</td>
+                <td>Progressive tax rate</td>
+              </tr>
+              <tr>
+                <td>Above ₹15,00,000</td>
+                <td>30%</td>
+                <td>Maximum slab rate</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-footer-notes">
+            <p><strong>Standard Deduction:</strong> ₹75,000 for salaried employees</p>
+            <p><strong>Exemptions allowed:</strong> Employer NPS u/s 80CCD(2), Transport allowance for Divyang</p>
+          </div>
+        </div>
+
+        <!-- Old Regime Table -->
+        <div class="table-card">
+          <div class="table-header old-regime-hdr">
+            <h3><i class="fa-solid fa-landmark"></i> Old Tax Regime</h3>
+            <span class="table-badge secondary">Optional Opt-In</span>
+          </div>
+          <table class="tax-slab-table">
+            <thead>
+              <tr>
+                <th>Taxable Income Bracket</th>
+                <th>Tax Rate</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Up to ₹2,50,000</td>
+                <td><strong class="text-green">0% (Nil)</strong></td>
+                <td>Basic Exemption Limit</td>
+              </tr>
+              <tr>
+                <td>₹2,50,001 to ₹5,00,000</td>
+                <td>5%</td>
+                <td>Rebate u/s 87A up to ₹12,500 (₹5L net)</td>
+              </tr>
+              <tr>
+                <td>₹5,00,001 to ₹10,00,000</td>
+                <td>20%</td>
+                <td>Steep jump from 5% to 20%</td>
+              </tr>
+              <tr>
+                <td>Above ₹10,00,000</td>
+                <td>30%</td>
+                <td>Applies on income over ₹10 Lakh</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-footer-notes">
+            <p><strong>Standard Deduction:</strong> ₹50,000 for salaried employees</p>
+            <p><strong>Exemptions allowed:</strong> 80C, 80D, 80E, 80G, HRA, LTA, Home Loan 24(b)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 2: Section 87A Marginal Relief Explained -->
+    <section class="feature-detail-section" id="marginal-relief-guide">
+      <div class="section-badge-center">
+        <span>Cliff & Marginal Relief Architecture</span>
+      </div>
+      <h2 class="section-main-title">Never Pay ₹25,000 Tax for <span class="gradient-text">Earning ₹5,000 Extra</span></h2>
+      <p class="section-main-desc">
+        Under the New Tax Regime, taxable income up to ₹7,00,000 enjoys a full Section 87A rebate (zero tax). But what happens if you earn ₹7,05,000? ITR-TaxPilot’s mathematical engine enforces Section 87A Marginal Relief.
+      </p>
+
+      <div class="marginal-relief-card">
+        <div class="marginal-grid">
+          <div class="marginal-content">
+            <h3>How Section 87A Marginal Relief Works:</h3>
+            <p>
+              Without marginal relief, a taxpayer earning ₹7,05,000 would pay ₹25,500 in tax—meaning ₹5,000 extra salary costs ₹25,500 in taxes (an effective marginal tax rate of over 500%!).
+            </p>
+            <div class="formula-box">
+              <span class="formula-label">Statutory Marginal Relief Formula:</span>
+              <code>Tax Payable = Minimum(Computed Tax, Taxable Income - ₹7,00,000) + 4% Cess</code>
+            </div>
+            <p>
+              For ₹7,05,000 income, the excess over ₹7,00,000 is ₹5,000. Marginal relief ensures your tax before cess is capped strictly at <strong>₹5,000</strong> instead of ₹25,500!
+            </p>
+          </div>
+          <div class="marginal-table-box">
+            <h4>Marginal Relief Example Table</h4>
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th>Net Taxable Income</th>
+                  <th>Raw Tax</th>
+                  <th>Relief u/s 87A</th>
+                  <th>Final Tax (with Cess)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>₹7,00,000</td>
+                  <td>₹20,000</td>
+                  <td>₹20,000</td>
+                  <td><strong class="text-green">₹0</strong></td>
+                </tr>
+                <tr>
+                  <td>₹7,05,000</td>
+                  <td>₹20,500</td>
+                  <td>₹15,500</td>
+                  <td><strong>₹5,200</strong></td>
+                </tr>
+                <tr>
+                  <td>₹7,15,000</td>
+                  <td>₹21,500</td>
+                  <td>₹6,500</td>
+                  <td><strong>₹15,600</strong></td>
+                </tr>
+                <tr>
+                  <td>₹7,30,000</td>
+                  <td>₹23,000</td>
+                  <td>₹0</td>
+                  <td><strong>₹23,920</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 3: Chapter VI-A Deduction Hunter Catalog -->
+    <section class="feature-detail-section" id="deduction-guide">
+      <div class="section-badge-center">
+        <span>Chapter VI-A Deduction Catalog</span>
+      </div>
+      <h2 class="section-main-title">Maximize Every Rupee with the <span class="gradient-text">Deduction Hunter</span></h2>
+      <p class="section-main-desc">
+        Many taxpayers leave money on the table because their Form 16 misses investments made outside corporate payroll. Here is our complete deduction encyclopedia:
+      </p>
+
+      <div class="deduction-cards-grid">
+        <div class="deduction-info-card">
+          <div class="ded-header">
+            <span class="ded-code">Section 80C</span>
+            <span class="ded-limit">Max ₹1,50,000</span>
+          </div>
+          <h4>EPF, PPF, ELSS, Life Insurance, School Fees</h4>
+          <p>Covers employee provident fund, Public Provident Fund, ELSS mutual funds, 5-year tax saver FDs, home loan principal repayment, and children tuition fees.</p>
+        </div>
+
+        <div class="deduction-info-card">
+          <div class="ded-header">
+            <span class="ded-code">Section 80D</span>
+            <span class="ded-limit">Max ₹1,00,000</span>
+          </div>
+          <h4>Health Insurance & Preventive Health Checkup</h4>
+          <p>₹25,000 for self, spouse, and children (<60 yrs). Additional ₹50,000 for senior citizen parents. Includes ₹5,000 for annual preventive checkups.</p>
+        </div>
+
+        <div class="deduction-info-card">
+          <div class="ded-header">
+            <span class="ded-code">Section 80CCD(1B)</span>
+            <span class="ded-limit">Extra ₹50,000</span>
+          </div>
+          <h4>National Pension System (NPS Tier-1)</h4>
+          <p>Exclusive additional deduction of ₹50,000 for self-contributions to NPS over and above the ₹1.5 Lakh ceiling under Section 80C.</p>
+        </div>
+
+        <div class="deduction-info-card">
+          <div class="ded-header">
+            <span class="ded-code">Section 24(b)</span>
+            <span class="ded-limit">Max ₹2,00,000</span>
+          </div>
+          <h4>Interest on Housing Loan</h4>
+          <p>Deduction for interest paid on home loans for self-occupied house property. Can be set off against salary income up to ₹2 Lakh u/s 71 in Old Regime.</p>
+        </div>
+
+        <div class="deduction-info-card">
+          <div class="ded-header">
+            <span class="ded-code">Section 80E</span>
+            <span class="ded-limit">No Upper Limit</span>
+          </div>
+          <h4>Interest on Higher Education Loan</h4>
+          <p>100% of interest paid on loans taken for higher education of self, spouse, or children for up to 8 consecutive assessment years.</p>
+        </div>
+
+        <div class="deduction-info-card">
+          <div class="ded-header">
+            <span class="ded-code">Section 80TTA / 80TTB</span>
+            <span class="ded-limit">₹10k / ₹50k</span>
+          </div>
+          <h4>Savings Account & Fixed Deposit Interest</h4>
+          <p>Section 80TTA allows up to ₹10,000 on savings bank interest. Section 80TTB provides up to ₹50,000 interest deduction for senior citizens on FDs and savings.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 4: ITR Form Eligibility Guide -->
+    <section class="feature-detail-section" id="itr-selector-guide">
+      <div class="section-badge-center">
+        <span>Filing Form Decision Tree</span>
+      </div>
+      <h2 class="section-main-title">Which ITR Form <span class="gradient-text">Should You File?</span></h2>
+      <p class="section-main-desc">
+        Selecting the wrong ITR form is the #1 reason for defective return notices u/s 139(9). ITR-TaxPilot automatically detects your income sources to guide you to the exact form.
+      </p>
+
+      <div class="itr-forms-grid">
+        <div class="itr-form-box">
+          <div class="form-tag">ITR-1 (Sahaj)</div>
+          <h3>For Salaried Residents with Simple Income</h3>
+          <ul class="form-check-list">
+            <li><i class="fa-solid fa-check text-green"></i> Total Income up to ₹50,00,000</li>
+            <li><i class="fa-solid fa-check text-green"></i> Income from One Salary and One House Property</li>
+            <li><i class="fa-solid fa-check text-green"></i> Other sources income (Interest, Dividends)</li>
+            <li><i class="fa-solid fa-check text-green"></i> Agricultural income up to ₹5,000</li>
+            <li class="rejection"><i class="fa-solid fa-xmark text-payable"></i> Not eligible if capital gains, crypto, or directorship exists</li>
+          </ul>
+        </div>
+
+        <div class="itr-form-box">
+          <div class="form-tag highlight">ITR-2</div>
+          <h3>For Individuals & HUFs with Capital Gains</h3>
+          <ul class="form-check-list">
+            <li><i class="fa-solid fa-check text-green"></i> Total Income exceeds ₹50 Lakh</li>
+            <li><i class="fa-solid fa-check text-green"></i> Equity / Mutual Fund Capital Gains (111A, 112A)</li>
+            <li><i class="fa-solid fa-check text-green"></i> Multiple House Properties & Loss Set-Off</li>
+            <li><i class="fa-solid fa-check text-green"></i> Foreign Assets & Foreign Income Schedule</li>
+            <li class="rejection"><i class="fa-solid fa-xmark text-payable"></i> Not for Business or Professional income</li>
+          </ul>
+        </div>
+
+        <div class="itr-form-box">
+          <div class="form-tag">ITR-3 & ITR-4 (Sugam)</div>
+          <h3>For Business, Freelancers & Professionals</h3>
+          <ul class="form-check-list">
+            <li><i class="fa-solid fa-check text-green"></i> Presumptive Taxation u/s 44AD, 44ADA, 44AE (ITR-4)</li>
+            <li><i class="fa-solid fa-check text-green"></i> F&O, Intraday trading, or Business Profits (ITR-3)</li>
+            <li><i class="fa-solid fa-check text-green"></i> Professionals (Doctors, Tech Freelancers, Lawyers)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 5: Security & Privacy Architecture -->
+    <section class="feature-detail-section" id="security-guide">
+      <div class="section-badge-center">
+        <span>Security & Privacy Architecture</span>
+      </div>
+      <h2 class="section-main-title">Bank-Grade Privacy: <span class="gradient-text">Your Data Never Lingers</span></h2>
+      <p class="section-main-desc">
+        Tax forms contain your most confidential financial secrets. We architected ITR-TaxPilot with zero data persistence and multi-layer privacy protections.
+      </p>
+
+      <div class="security-pillars-grid">
+        <div class="security-pillar-card">
+          <div class="pillar-icon"><i class="fa-solid fa-memory"></i></div>
+          <h3>In-Memory Ephemeral Storage</h3>
+          <p>Uploaded PDF buffers reside strictly in ephemeral memory during the parsing lifecycle and are securely overwritten after calculation.</p>
+        </div>
+
+        <div class="security-pillar-card">
+          <div class="pillar-icon"><i class="fa-solid fa-user-ninja"></i></div>
+          <h3>Automated PII Masking</h3>
+          <p>Sensitive taxpayer identifiers (PAN, TAN, Aadhaar, bank accounts) are automatically masked in logging pipelines and audit trails.</p>
+        </div>
+
+        <div class="security-pillar-card">
+          <div class="pillar-icon"><i class="fa-solid fa-code-compare"></i></div>
+          <h3>Dual-Model AI Verification</h3>
+          <p>Form 16 text is cross-verified by independent AI models (Google Gemini + Anthropic Claude) with strict JSON schema enforcement to ensure zero hallucinations.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive FAQ Section -->
+    <section class="feature-detail-section" id="faq-section">
+      <div class="section-badge-center">
+        <span>Got Questions?</span>
+      </div>
+      <h2 class="section-main-title">Frequently Asked <span class="gradient-text">Tax Questions</span></h2>
+      <p class="section-main-desc">
+        Everything you need to know about Form 16 analysis, tax regimes, and how ITR-TaxPilot works.
+      </p>
+
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Is the Form 16 PDF upload really free?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Yes! Uploading and analyzing your Form 16 is 100% free. You can view your complete regime comparison, deduction recommendations, and download your filing summary with zero platform charges.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What is the standard deduction for AY 2026-27 (FY 2025-26)?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Under the New Tax Regime (Section 115BAC), the standard deduction was increased from ₹50,000 to ₹75,000. Under the Old Tax Regime, the standard deduction remains ₹50,000.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can I switch between Old and New Regime while filing?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Salaried individuals without business income can freely choose between the Old and New Regime every single assessment year when filing on or before the due date (31 July 2026). However, if you file belatedly post July 31, Section 115BAC(6) locks you into the New Regime.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Does AI perform the tax calculations?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>No! AI is used strictly for optical character recognition (OCR) and semantic field extraction from your PDF. 100% of the tax mathematics, slab brackets, surcharge, cess, and Section 87A rebate calculations are executed by deterministic, test-proven Python algorithms.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Do you store my Form 16 on your servers?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>No. Your document is processed in ephemeral memory. Once the tax parameters are computed, the file is automatically purged. We never sell or share your financial data.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
   </main>

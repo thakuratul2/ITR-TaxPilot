@@ -1,6 +1,6 @@
 /**
  * ITR-TaxPilot — Core Interactive Frontend Application
- * Handles file uploads, free pipeline tracking, auth gating, deterministic calculation, and live deduction simulator.
+ * Handles file uploads, free pipeline tracking, auth gating, deterministic calculation, live deduction simulator, and FAQ accordion.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .join('')
         .toUpperCase()
         .slice(0, 2);
-      userAvatarInitials.textContent = initials || 'TP';
+      userAvatarInitials.textContent = initials || 'AP';
     } else {
       authButtonsContainer.style.display = 'flex';
       userProfileBadge.style.display = 'none';
@@ -305,10 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if user is logged in
     const user = getStoredUser();
     if (user) {
-      // User is authenticated -> show results directly!
       revealResults();
     } else {
-      // User is not authenticated -> show Auth Gate modal!
       hasPendingResults = true;
       openAuthModal(false, true);
     }
@@ -342,7 +340,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const taxableIncome = Math.max(0, grossSalary - allowancesSec10 - stdDeduction);
 
     // Slabs AY 2026-27 (Section 115BAC)
-    // 0-3L: 0%, 3-7L: 5%, 7-10L: 10%, 10-12L: 15%, 12-15L: 20%, >15L: 30%
     let tax = 0;
     if (taxableIncome > 1500000) {
       tax += (taxableIncome - 1500000) * 0.30;
@@ -513,6 +510,29 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('hunter-extra-savings').textContent = `${formatINR(savings)} Saved!`;
     }
   }
+
+  // 8. FAQ Accordion Interaction
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const questionBtn = item.querySelector('.faq-question');
+    const answerDiv = item.querySelector('.faq-answer');
+
+    questionBtn.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+
+      // Close all other accordion items
+      faqItems.forEach(otherItem => {
+        otherItem.classList.remove('active');
+        const otherAnswer = otherItem.querySelector('.faq-answer');
+        if (otherAnswer) otherAnswer.style.maxHeight = null;
+      });
+
+      if (!isActive) {
+        item.classList.add('active');
+        answerDiv.style.maxHeight = answerDiv.scrollHeight + 40 + 'px';
+      }
+    });
+  });
 
   // Slider Event Listeners
   [slider80c, slider80d, sliderNps, sliderHomeLoan].forEach(slider => {
