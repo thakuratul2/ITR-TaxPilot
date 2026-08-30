@@ -8,8 +8,8 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [████████░░░░░░░░░░░░░░░░░░] 28% (5 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 45 | In Progress: 0 | Pending: 78
+Progress: [██████████░░░░░░░░░░░░░░░░] 33% (6 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 52 | In Progress: 0 | Pending: 71
 Current Active Branch: main
 ```
 
@@ -24,7 +24,7 @@ Current Active Branch: main
 | **M03** | [Milestone 3 — Form 16 Upload & Document Pipeline](file:///D:/Projects/ITR-TaxPilot/milestones/milestone3-form16-upload-pipeline) | Phase 2 | `milestone/m03-form16-upload-pipeline` | 8 | 8 | 🟢 Completed |
 | **M04** | [Milestone 4 — AI Extraction Layer](file:///D:/Projects/ITR-TaxPilot/milestones/milestone4-ai-extraction-layer) | Phase 3 | `milestone/m04-ai-extraction-layer` | 8 | 8 | 🟢 Completed |
 | **M05** | [Milestone 5 — Validation & Data Normalization](file:///D:/Projects/ITR-TaxPilot/milestones/milestone5-validation-and-normalization) | Phase 4 | `milestone/m05-validation-and-normalization` | 7 | 7 | 🟢 Completed |
-| **M06** | [Milestone 6 — Assessment Year Rule Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone6-assessment-year-rules) | Phase 5 | `milestone/m06-assessment-year-rules` | 7 | 0 | ⚪ Pending |
+| **M06** | [Milestone 6 — Assessment Year Rule Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone6-assessment-year-rules) | Phase 5 | `milestone/m06-assessment-year-rules` | 7 | 7 | � Completed |
 | **M07** | [Milestone 7 — Deterministic Tax Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone7-deterministic-tax-engine) | Phase 6 | `milestone/m07-deterministic-tax-engine` | 13 | 0 | ⚪ Pending |
 | **M08** | [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison) | Phase 7 | `milestone/m08-tax-regime-comparison` | 5 | 0 | ⚪ Pending |
 | **M09** | [Milestone 9 — ITR Recommendation Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone9-itr-recommendation-engine) | Phase 8 | `milestone/m09-itr-recommendation-engine` | 6 | 0 | ⚪ Pending |
@@ -213,4 +213,4 @@ Current Active Branch: main
 
 ---
 
-*Last Updated: 2026-08-30 | Maintained automatically via [`EXECUTION_PROMPT.md`](file:///D:/Projects/ITR-TaxPilot/EXECUTION_PROMPT.md)*
+*Last Updated: 2026-08-30 (Milestone 6 In Progress) | Maintained automatically via [`EXECUTION_PROMPT.md`](file:///D:/Projects/ITR-TaxPilot/EXECUTION_PROMPT.md)*
