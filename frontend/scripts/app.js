@@ -1,6 +1,6 @@
 /**
  * ITR-TaxPilot — Core Interactive Frontend Application
- * Handles file uploads, pipeline tracking, deterministic calculation, and live deduction simulator.
+ * Handles file uploads, free pipeline tracking, auth gating, deterministic calculation, and live deduction simulator.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,13 +17,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultsSection = document.getElementById('results-section');
   const apiStatus = document.getElementById('api-status');
 
+  // Auth Elements
+  const authModal = document.getElementById('auth-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const tabLoginBtn = document.getElementById('tab-login-btn');
+  const tabSignupBtn = document.getElementById('tab-signup-btn');
+  const navLoginBtn = document.getElementById('nav-login-btn');
+  const navSignupBtn = document.getElementById('nav-signup-btn');
+  const authForm = document.getElementById('auth-form');
+  const groupName = document.getElementById('group-name');
+  const modalTitle = document.getElementById('modal-title');
+  const modalSubtitle = document.getElementById('modal-subtitle');
+  const authSwitchBtn = document.getElementById('auth-switch-btn');
+  const authSwitchPrompt = document.getElementById('auth-switch-prompt');
+  const btnSubmitAuth = document.getElementById('btn-submit-auth');
+  const btnGoogleLogin = document.getElementById('btn-google-login');
+  const btnGithubLogin = document.getElementById('btn-github-login');
+  const authButtonsContainer = document.getElementById('auth-buttons-container');
+  const userProfileBadge = document.getElementById('user-profile-badge');
+  const userDisplayName = document.getElementById('user-display-name');
+  const userAvatarInitials = document.getElementById('user-avatar-initials');
+  const logoutBtn = document.getElementById('logout-btn');
+
   // Deduction Sliders
   const slider80c = document.getElementById('slider-80c');
   const slider80d = document.getElementById('slider-80d');
   const sliderNps = document.getElementById('slider-nps');
   const sliderHomeLoan = document.getElementById('slider-home-loan');
 
-  // Active Tax State
+  // State Management
+  let isSignupMode = false;
+  let hasPendingResults = false;
+
   let currentTaxpayer = {
     grossSalary: 2606700,
     allowancesSec10: 0,
@@ -32,7 +57,47 @@ document.addEventListener('DOMContentLoaded', () => {
     ay: '2026-27',
   };
 
-  // 1. Check Backend Connectivity
+  // 1. Auth & Session Management
+  function getStoredUser() {
+    try {
+      const u = localStorage.getItem('taxpilot_user');
+      return u ? JSON.parse(u) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function saveUser(user) {
+    localStorage.setItem('taxpilot_user', JSON.stringify(user));
+    renderAuthState();
+  }
+
+  function clearUser() {
+    localStorage.removeItem('taxpilot_user');
+    renderAuthState();
+  }
+
+  function renderAuthState() {
+    const user = getStoredUser();
+    if (user) {
+      authButtonsContainer.style.display = 'none';
+      userProfileBadge.style.display = 'flex';
+      userDisplayName.textContent = user.name || user.email.split('@')[0];
+      const initials = (user.name || user.email)
+        .split(' ')
+        .map(n => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2);
+      userAvatarInitials.textContent = initials || 'TP';
+    } else {
+      authButtonsContainer.style.display = 'flex';
+      userProfileBadge.style.display = 'none';
+    }
+  }
+  renderAuthState();
+
+  // 2. Check Backend Connectivity
   async function checkBackendHealth() {
     try {
       const res = await fetch('/health');
@@ -44,14 +109,111 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
       }
-    } catch (e) {
+    } catch {
       // Fallback display
     }
     apiStatus.innerHTML = '<span class="status-dot" style="background:#F59E0B"></span><span class="status-label">Client Mode</span>';
   }
   checkBackendHealth();
 
-  // 2. Drag & Drop Handlers
+  // 3. Modal Control
+  function openAuthModal(isSignup = false, pending = false) {
+    isSignupMode = isSignup;
+    hasPendingResults = pending;
+    updateModalUI();
+    authModal.style.display = 'flex';
+  }
+
+  function closeAuthModal() {
+    authModal.style.display = 'none';
+  }
+
+  function updateModalUI() {
+    if (isSignupMode) {
+      tabSignupBtn.classList.add('active');
+      tabLoginBtn.classList.remove('active');
+      groupName.style.display = 'flex';
+      modalTitle.textContent = 'Create Free Account';
+      modalSubtitle.textContent = hasPendingResults 
+        ? 'Your Form 16 extraction is complete! Create a free account to view your regime comparison and download your filing report.'
+        : 'Get instant access to deterministic AI tax analysis, Form 16 extraction, and regime optimization.';
+      btnSubmitAuth.innerHTML = '<i class="fa-solid fa-user-plus"></i> Create Free Account';
+      authSwitchPrompt.textContent = 'Already have an account?';
+      authSwitchBtn.textContent = 'Sign in';
+    } else {
+      tabLoginBtn.classList.add('active');
+      tabSignupBtn.classList.remove('active');
+      groupName.style.display = 'none';
+      modalTitle.textContent = 'Sign In to View Analysis';
+      modalSubtitle.textContent = hasPendingResults
+        ? 'Your Form 16 analysis is ready! Sign in to unlock your side-by-side regime comparison and deduction simulator.'
+        : 'Sign in to access your saved tax summaries, Form 16 documents, and filing packs.';
+      btnSubmitAuth.innerHTML = '<i class="fa-solid fa-unlock"></i> View Tax Analysis';
+      authSwitchPrompt.textContent = "Don't have an account?";
+      authSwitchBtn.textContent = 'Sign up for free';
+    }
+  }
+
+  // Modal Event Listeners
+  modalCloseBtn.addEventListener('click', closeAuthModal);
+  authModal.addEventListener('click', (e) => {
+    if (e.target === authModal) closeAuthModal();
+  });
+
+  tabLoginBtn.addEventListener('click', () => {
+    isSignupMode = false;
+    updateModalUI();
+  });
+
+  tabSignupBtn.addEventListener('click', () => {
+    isSignupMode = true;
+    updateModalUI();
+  });
+
+  authSwitchBtn.addEventListener('click', () => {
+    isSignupMode = !isSignupMode;
+    updateModalUI();
+  });
+
+  navLoginBtn.addEventListener('click', () => openAuthModal(false, false));
+  navSignupBtn.addEventListener('click', () => openAuthModal(true, false));
+
+  logoutBtn.addEventListener('click', () => {
+    clearUser();
+    alert('You have been signed out.');
+  });
+
+  function performAuthSuccess(email, name = '') {
+    const user = {
+      email,
+      name: name || email.split('@')[0],
+      createdAt: new Date().toISOString(),
+    };
+    saveUser(user);
+    closeAuthModal();
+
+    if (hasPendingResults) {
+      revealResults();
+      hasPendingResults = false;
+    }
+  }
+
+  authForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('input-email').value;
+    const name = document.getElementById('input-name').value;
+    performAuthSuccess(email, name);
+  });
+
+  btnGoogleLogin.addEventListener('click', () => {
+    performAuthSuccess('taxpayer@gmail.com', 'Google User');
+  });
+
+  btnGithubLogin.addEventListener('click', () => {
+    performAuthSuccess('taxpayer@github.com', 'GitHub Developer');
+  });
+
+  // 4. Drag & Drop and Upload Flow (FREE)
   dropZone.addEventListener('click', () => fileInput.click());
   browseBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -83,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   demoBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    loadSampleData();
+    runExtractionSimulation();
   });
 
   reuploadBtn.addEventListener('click', () => {
@@ -96,64 +258,66 @@ document.addEventListener('DOMContentLoaded', () => {
     window.print();
   });
 
-  // 3. File Upload & Processing Simulation
+  // 5. File Processing Simulation & Gated Result Reveal
   async function handleFileUpload(file) {
     if (!file.name.toLowerCase().endsWith('.pdf')) {
       alert('Please upload a valid Form 16 PDF file.');
       return;
     }
+    runExtractionSimulation(file);
+  }
 
+  async function runExtractionSimulation(file = null) {
     uploadSection.style.display = 'none';
     pipelineSection.style.display = 'block';
 
-    const formData = new FormData();
-    formData.append('file', file);
-
-    // Run Visual Stepper
-    try {
-      updateStep(1, 'active');
-      await sleep(600);
-      updateStep(1, 'completed');
-
-      updateStep(2, 'active');
-      // Call live backend endpoint
-      const uploadPromise = fetch('/api/v1/documents/form16', {
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      fetch('/api/v1/documents/form16', {
         method: 'POST',
         body: formData,
-      });
+      }).catch(() => null);
+    }
 
-      await sleep(800);
-      updateStep(2, 'completed');
+    // Step 1
+    updateStep(1, 'active');
+    await sleep(600);
+    updateStep(1, 'completed');
 
-      updateStep(3, 'active');
-      await sleep(700);
-      updateStep(3, 'completed');
+    // Step 2
+    updateStep(2, 'active');
+    await sleep(800);
+    updateStep(2, 'completed');
 
-      updateStep(4, 'active');
-      await sleep(500);
-      updateStep(4, 'completed');
+    // Step 3
+    updateStep(3, 'active');
+    await sleep(700);
+    updateStep(3, 'completed');
 
-      await uploadPromise.catch(() => null);
+    // Step 4
+    updateStep(4, 'active');
+    await sleep(500);
+    updateStep(4, 'completed');
 
-      // Load results into view
-      pipelineSection.style.display = 'none';
-      resultsSection.style.display = 'block';
-      recalculateTax();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    pipelineSection.style.display = 'none';
 
-    } catch (err) {
-      alert('Processing encountered an issue. Loading deterministic computation fallback.');
-      pipelineSection.style.display = 'none';
-      resultsSection.style.display = 'block';
-      recalculateTax();
+    // Check if user is logged in
+    const user = getStoredUser();
+    if (user) {
+      // User is authenticated -> show results directly!
+      revealResults();
+    } else {
+      // User is not authenticated -> show Auth Gate modal!
+      hasPendingResults = true;
+      openAuthModal(false, true);
     }
   }
 
-  function loadSampleData() {
-    uploadSection.style.display = 'none';
+  function revealResults() {
     resultsSection.style.display = 'block';
     recalculateTax();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: resultsSection.offsetTop - 80, behavior: 'smooth' });
   }
 
   function updateStep(stepNum, state) {
@@ -172,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  // 4. Deterministic Tax Engine (AY 2026-27 / Finance Act 2024 & 2025)
+  // 6. Deterministic Tax Engine (AY 2026-27 / Finance Act 2024 & 2025)
   function computeNewRegimeTax(grossSalary, allowancesSec10) {
     const stdDeduction = 75000;
     const taxableIncome = Math.max(0, grossSalary - allowancesSec10 - stdDeduction);
@@ -208,7 +372,6 @@ document.addEventListener('DOMContentLoaded', () => {
       rebate87a = tax;
       tax = 0;
     } else if (taxableIncome <= 727777) {
-      // Marginal relief under Section 87A
       const excessIncome = taxableIncome - 700000;
       if (tax > excessIncome) {
         rebate87a = tax - excessIncome;
@@ -274,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return '₹' + Number(num).toLocaleString('en-IN');
   }
 
-  // 5. Dynamic Recalculation Triggered by UI Sliders
+  // 7. Dynamic Recalculation Triggered by UI Sliders
   function recalculateTax() {
     const val80c = Number(slider80c.value);
     const val80d = Number(slider80d.value);
@@ -328,7 +491,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardOld = document.getElementById('card-old-regime');
     const badge = document.getElementById('recommended-regime-badge');
     const savingsHeadline = document.getElementById('savings-headline');
-    const savingsAmount = document.getElementById('savings-amount');
     const savingsSubtext = document.getElementById('savings-subtext');
 
     if (newResult.totalTax <= oldResult.totalTax) {
