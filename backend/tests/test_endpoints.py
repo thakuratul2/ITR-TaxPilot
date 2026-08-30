@@ -4,10 +4,12 @@ import io
 
 from fastapi.testclient import TestClient
 
+from tests.test_document_pipeline import create_sample_form16_pdf
+
 
 def test_upload_form16_success(client: TestClient):
     """Test POST /api/v1/documents/form16 with valid PDF."""
-    pdf_content = b"%PDF-1.4 sample content for form 16 test"
+    pdf_content = create_sample_form16_pdf()
     files = {"file": ("form16_2026.pdf", io.BytesIO(pdf_content), "application/pdf")}
 
     response = client.post("/api/v1/documents/form16", files=files)
