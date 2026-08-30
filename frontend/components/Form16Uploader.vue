@@ -28,6 +28,7 @@
           ref="fileInputRef"
           type="file"
           accept=".pdf,application/pdf"
+          multiple
           class="hidden-file-input"
           @change="handleFileChange"
         />
@@ -37,14 +38,20 @@
         </div>
 
         <div class="upload-text-group">
-          <h3>Drop your Form 16 PDF here, or <span class="upload-browse-link">browse files</span></h3>
-          <p>Supports signed or digitally generated Part A & Part B PDFs (Max 10MB)</p>
+          <h3>Drop your Form 16 PDF(s) here, or <span class="upload-browse-link">browse files</span></h3>
+          <p>Upload <strong>Part A</strong> (TRACES TDS summary) and/or <strong>Part B</strong> (Salary & Deductions Annexure)</p>
+        </div>
+
+        <div class="part-badges-row">
+          <span class="part-badge"><i class="fa-solid fa-file-contract text-green"></i> Part A (TRACES TDS)</span>
+          <span class="part-badge-plus">+</span>
+          <span class="part-badge"><i class="fa-solid fa-file-invoice-dollar text-green"></i> Part B (Salary & 80C Deductions)</span>
         </div>
 
         <div class="upload-features">
-          <div class="upload-feature"><i class="fa-solid fa-shield-check text-green"></i> 100% In-Memory RAM Only</div>
-          <div class="upload-feature"><i class="fa-solid fa-lock text-green"></i> Client-Side PII Masking</div>
-          <div class="upload-feature"><i class="fa-solid fa-bolt text-green"></i> Instant AI Extraction</div>
+          <div class="upload-feature"><i class="fa-solid fa-shield-check text-green"></i> 100% Ephemeral RAM</div>
+          <div class="upload-feature"><i class="fa-solid fa-robot text-green"></i> AI Extraction & Normalization</div>
+          <div class="upload-feature"><i class="fa-solid fa-calculator text-green"></i> Deterministic Tax Engine</div>
         </div>
 
         <div class="upload-divider">
@@ -199,6 +206,34 @@ const handleSampleData = () => {
 .upload-text-group p {
   font-size: 0.85rem;
   color: var(--text-secondary);
+}
+
+.part-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.4rem 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.part-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.part-badge-plus {
+  color: var(--text-muted);
+  font-weight: 800;
+  font-size: 0.85rem;
 }
 
 .upload-features {

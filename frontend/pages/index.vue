@@ -16,16 +16,26 @@
               <i class="fa-solid fa-file-check text-green"></i> Form 16 Analyzed (AY {{ assessmentYear }})
             </span>
             <h2 class="results-heading">
-              {{
-                isNewRegimeRecommended
-                  ? 'New Tax Regime saves you more tax!'
-                  : 'Old Tax Regime saves you more tax!'
-              }}
+              <span v-if="newRegimeResult.totalTax === 0 && oldRegimeResult.totalTax === 0">
+                🎉 Zero Tax Liability under Section 87A Rebate!
+              </span>
+              <span v-else>
+                {{
+                  isNewRegimeRecommended
+                    ? 'New Tax Regime saves you more tax!'
+                    : 'Old Tax Regime saves you more tax!'
+                }}
+              </span>
             </h2>
             <p class="results-subheading">
-              Based on your gross salary of <strong>{{ formatINR(grossSalary) }}</strong>, you save
-              <strong class="text-green">{{ formatINR(savingsAmount) }}</strong> by opting for the
-              <strong>{{ isNewRegimeRecommended ? 'New Tax Regime' : 'Old Tax Regime' }}</strong>.
+              <span v-if="newRegimeResult.totalTax === 0 && oldRegimeResult.totalTax === 0">
+                Based on your extracted income of <strong>{{ formatINR(grossSalary) }}</strong>, your net tax is <strong>₹0</strong> under both regimes.
+              </span>
+              <span v-else>
+                Based on your gross salary of <strong>{{ formatINR(grossSalary) }}</strong>, you save
+                <strong class="text-green">{{ formatINR(savingsAmount) }}</strong> by opting for the
+                <strong>{{ isNewRegimeRecommended ? 'New Tax Regime' : 'Old Tax Regime' }}</strong>.
+              </span>
             </p>
           </div>
 
@@ -62,6 +72,8 @@ const {
   assessmentYear,
   isNewRegimeRecommended,
   savingsAmount,
+  newRegimeResult,
+  oldRegimeResult,
   formatINR,
 } = useTaxCalculator()
 
