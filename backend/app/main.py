@@ -167,21 +167,29 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     # API v1 Router (GET /api/v1/health etc.)
     app.include_router(api_router, prefix=app_settings.API_V1_STR)
 
-    # Mount interactive frontend UI
+    # Mount interactive Nuxt 3 frontend UI
     from pathlib import Path
-
+    from starlette.types import Scope, Receive, Send
     from fastapi.staticfiles import StaticFiles
 
+    class SPAStaticFiles(StaticFiles):
+        async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+            if scope.get("path", "").startswith("/api/"):
+                raise StarletteHTTPException(status_code=404, detail="Not Found")
+            await super().__call__(scope, receive, send)
+
     candidate_frontend_paths = [
-        Path(__file__).resolve().parent.parent.parent / "frontend",  # Local dev
-        Path("/app/frontend"),                                      # Docker mounted /app/frontend
-        Path("/frontend"),                                          # Docker root
-        Path("frontend"),                                           # Cwd
+        Path(__file__).resolve().parent.parent.parent / "frontend" / ".output" / "public",  # Nuxt 3 local build
+        Path("/app/frontend/.output/public"),                                              # Nuxt 3 docker build
+        Path(__file__).resolve().parent.parent.parent / "frontend",                         # Local dev static
+        Path("/app/frontend"),                                                             # Docker mounted /app/frontend
+        Path("/frontend"),                                                                 # Docker root
+        Path("frontend"),                                                                  # Cwd
     ]
 
     frontend_dir = next((p for p in candidate_frontend_paths if p.exists() and (p / "index.html").exists()), None)
     if frontend_dir:
-        app.mount("/", StaticFiles(directory=str(frontend_dir), html=True), name="frontend")
+        app.mount("/", SPAStaticFiles(directory=str(frontend_dir), html=True), name="frontend")
 
     return app
 

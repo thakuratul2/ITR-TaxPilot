@@ -43,8 +43,8 @@ def test_request_id_header(client: TestClient):
 
 
 def test_404_error_envelope(client: TestClient):
-    """Test that unhandled routes return standard error envelope."""
-    response = client.get("/non-existent-endpoint")
+    """Test that unhandled API routes return standard error envelope."""
+    response = client.get("/api/v1/non-existent-endpoint")
     assert response.status_code == 404
 
     payload = response.json()

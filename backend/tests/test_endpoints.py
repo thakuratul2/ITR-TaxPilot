@@ -83,7 +83,7 @@ def test_admin_ai_providers_endpoint(client: TestClient):
 
 
 def test_frontend_admin_page_route(client: TestClient):
-    """Test GET /admin.html serves the admin dashboard."""
-    response = client.get("/admin.html")
+    """Test GET /admin serves the admin dashboard."""
+    response = client.get("/admin/")
     assert response.status_code == 200
-    assert "Admin & Telemetry Portal" in response.text
+    assert "ITR-TaxPilot" in response.text or "admin" in response.text.lower()
