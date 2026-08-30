@@ -9,8 +9,8 @@
 
 ```text
 Progress: [░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 0% (0 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 0 | In Progress: 0 | Pending: 123
-Current Active Branch: main
+Total Tasks: 123 | Completed: 0 | In Progress: 12 | Pending: 111
+Current Active Branch: milestone/m01-project-setup
 ```
 
 ---
@@ -19,7 +19,7 @@ Current Active Branch: main
 
 | # | Milestone | Phase | Target Branch | Tasks | Completed | Status |
 |:---:|---|:---:|---|:---:|:---:|:---:|
-| **M01** | [Milestone 1 — Project Setup & Foundation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone1-project-setup) | Phase 0 | `milestone/m01-project-setup` | 12 | 0 | ⚪ Pending |
+| **M01** | [Milestone 1 — Project Setup & Foundation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone1-project-setup) | Phase 0 | `milestone/m01-project-setup` | 12 | 0 | 🟡 In Progress |
 | **M02** | [Milestone 2 — Backend Core & Architecture](file:///D:/Projects/ITR-TaxPilot/milestones/milestone2-backend-core) | Phase 1 | `milestone/m02-backend-core` | 10 | 0 | ⚪ Pending |
 | **M03** | [Milestone 3 — Form 16 Upload & Document Pipeline](file:///D:/Projects/ITR-TaxPilot/milestones/milestone3-form16-upload-pipeline) | Phase 2 | `milestone/m03-form16-upload-pipeline` | 8 | 0 | ⚪ Pending |
 | **M04** | [Milestone 4 — AI Extraction Layer](file:///D:/Projects/ITR-TaxPilot/milestones/milestone4-ai-extraction-layer) | Phase 3 | `milestone/m04-ai-extraction-layer` | 8 | 0 | ⚪ Pending |
@@ -44,7 +44,7 @@ Current Active Branch: main
 
 ### [Milestone 1 — Project Setup & Foundation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone1-project-setup)
 - **Branch:** `milestone/m01-project-setup`
-- **Status:** `Pending`
+- **Status:** `In Progress`
 - **Tasks Completed:** 0 / 12
   - [ ] `TASK-1.1`: Create backend and frontend directory structure
   - [ ] `TASK-1.2`: Configure Python 3.12+ environment & `requirements.txt`

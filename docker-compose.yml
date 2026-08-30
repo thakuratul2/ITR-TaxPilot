@@ -1,0 +1,78 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: itr_taxpilot_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=ITR-TaxPilot
+      - APP_ENV=development
+      - DEBUG=True
+      - DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/itrtaxpilot
+      - REDIS_URL=redis://redis:6379/0
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - LOG_LEVEL=INFO
+      - LOG_FORMAT=json
+      - ENABLE_PII_MASKING=True
+      - MAX_UPLOAD_SIZE_MB=10
+      - DOCUMENT_RETENTION_MINUTES=30
+    volumes:
+      - ./backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - taxpilot-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: itr_taxpilot_postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=itrtaxpilot
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d itrtaxpilot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - taxpilot-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: itr_taxpilot_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - taxpilot-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  taxpilot-network:
+    driver: bridge
