@@ -1,6 +1,12 @@
 /**
- * ITR-TaxPilot — Core Interactive Frontend Application
- * Handles file uploads, free pipeline tracking, auth gating, deterministic calculation, live deduction simulator, and FAQ accordion.
+ * ITR-TaxPilot — Dynamic Interactive Frontend Application
+ * Features:
+ * - Dynamic Backend Auth (JWT Registration, Login, Token Persistence, Session Verification)
+ * - Free PDF Upload & Step Tracker
+ * - Deterministic Tax Calculation (AY 2026-27 & AY 2025-26)
+ * - Interactive Chapter VI-A Deduction Hunter Simulator
+ * - Section 87A Marginal Relief Engine
+ * - Interactive FAQ Accordion
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -57,7 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
     ay: '2026-27',
   };
 
-  // 1. Auth & Session Management
+  // =========================================================================
+  // 1. Dynamic Backend Authentication (JWT & Session)
+  // =========================================================================
+  function getAuthToken() {
+    return localStorage.getItem('taxpilot_token');
+  }
+
   function getStoredUser() {
     try {
       const u = localStorage.getItem('taxpilot_user');
@@ -67,12 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function saveUser(user) {
+  function saveAuthSession(token, user) {
+    localStorage.setItem('taxpilot_token', token);
     localStorage.setItem('taxpilot_user', JSON.stringify(user));
     renderAuthState();
   }
 
-  function clearUser() {
+  function clearAuthSession() {
+    localStorage.removeItem('taxpilot_token');
     localStorage.removeItem('taxpilot_user');
     renderAuthState();
   }
@@ -82,9 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (user) {
       authButtonsContainer.style.display = 'none';
       userProfileBadge.style.display = 'flex';
-      userDisplayName.textContent = user.name || user.email.split('@')[0];
-      const initials = (user.name || user.email)
+      userDisplayName.textContent = user.full_name || user.email.split('@')[0];
+      const nameForInitials = user.full_name || user.email;
+      const initials = nameForInitials
         .split(' ')
+        .filter(Boolean)
         .map(n => n[0])
         .join('')
         .toUpperCase()
@@ -95,9 +111,32 @@ document.addEventListener('DOMContentLoaded', () => {
       userProfileBadge.style.display = 'none';
     }
   }
-  renderAuthState();
 
-  // 2. Check Backend Connectivity
+  // Verify stored session against backend /api/v1/auth/me
+  async function verifySessionWithBackend() {
+    const token = getAuthToken();
+    if (!token) {
+      renderAuthState();
+      return;
+    }
+    try {
+      const res = await fetch('/api/v1/auth/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const user = await res.json();
+        saveAuthSession(token, user);
+      } else {
+        clearAuthSession();
+      }
+    } catch {
+      // Offline / fallback to local storage
+      renderAuthState();
+    }
+  }
+  verifySessionWithBackend();
+
+  // 2. Check Backend Health
   async function checkBackendHealth() {
     try {
       const res = await fetch('/health');
@@ -105,18 +144,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const json = await res.json();
         if (json.success) {
           apiStatus.innerHTML = '<span class="status-dot"></span><span class="status-label">Backend Online</span>';
-          apiStatus.style.borderColor = 'rgba(16, 185, 129, 0.3)';
           return;
         }
       }
     } catch {
-      // Fallback display
+      // Silent catch
     }
     apiStatus.innerHTML = '<span class="status-dot" style="background:#F59E0B"></span><span class="status-label">Client Mode</span>';
   }
   checkBackendHealth();
 
-  // 3. Modal Control
+  // =========================================================================
+  // 3. Auth Modal UI Control & Submission
+  // =========================================================================
   function openAuthModal(isSignup = false, pending = false) {
     isSignupMode = isSignup;
     hasPendingResults = pending;
@@ -134,8 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
       tabLoginBtn.classList.remove('active');
       groupName.style.display = 'flex';
       modalTitle.textContent = 'Create Free Account';
-      modalSubtitle.textContent = hasPendingResults 
-        ? 'Your Form 16 extraction is complete! Create a free account to view your regime comparison and download your filing report.'
+      modalSubtitle.textContent = hasPendingResults
+        ? 'Your Form 16 extraction is complete! Create a free account to unlock your tax optimization summary and printable report.'
         : 'Get instant access to deterministic AI tax analysis, Form 16 extraction, and regime optimization.';
       btnSubmitAuth.innerHTML = '<i class="fa-solid fa-user-plus"></i> Create Free Account';
       authSwitchPrompt.textContent = 'Already have an account?';
@@ -154,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Modal Event Listeners
   modalCloseBtn.addEventListener('click', closeAuthModal);
   authModal.addEventListener('click', (e) => {
     if (e.target === authModal) closeAuthModal();
@@ -178,42 +217,91 @@ document.addEventListener('DOMContentLoaded', () => {
   navLoginBtn.addEventListener('click', () => openAuthModal(false, false));
   navSignupBtn.addEventListener('click', () => openAuthModal(true, false));
 
-  logoutBtn.addEventListener('click', () => {
-    clearUser();
-    alert('You have been signed out.');
+  logoutBtn.addEventListener('click', async () => {
+    try {
+      await fetch('/api/v1/auth/logout', { method: 'POST' });
+    } catch {
+      // Ignore
+    }
+    clearAuthSession();
+    alert('You have been signed out successfully.');
   });
 
-  function performAuthSuccess(email, name = '') {
-    const user = {
-      email,
-      name: name || email.split('@')[0],
-      createdAt: new Date().toISOString(),
-    };
-    saveUser(user);
-    closeAuthModal();
+  // Dynamic Auth Form Submit (POST /api/v1/auth/register or /api/v1/auth/login)
+  authForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('input-email').value.trim();
+    const password = document.getElementById('input-password').value;
+    const fullName = document.getElementById('input-name')?.value.trim() || '';
 
+    btnSubmitAuth.disabled = true;
+    btnSubmitAuth.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
+
+    const endpoint = isSignupMode ? '/api/v1/auth/register' : '/api/v1/auth/login';
+    const payload = isSignupMode
+      ? { email, password, full_name: fullName }
+      : { email, password };
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.access_token) {
+        saveAuthSession(data.access_token, data.user);
+        closeAuthModal();
+
+        if (hasPendingResults) {
+          revealResults();
+          hasPendingResults = false;
+        }
+      } else {
+        const errorMsg = data.detail || (data.error && data.error.message) || 'Authentication failed. Please try again.';
+        alert(errorMsg);
+      }
+    } catch (err) {
+      // Fallback for standalone demo
+      const fallbackUser = { email, full_name: fullName || email.split('@')[0] };
+      saveAuthSession('demo-jwt-token', fallbackUser);
+      closeAuthModal();
+      if (hasPendingResults) {
+        revealResults();
+        hasPendingResults = false;
+      }
+    } finally {
+      btnSubmitAuth.disabled = false;
+      updateModalUI();
+    }
+  });
+
+  // Social Auth 1-Click Handlers
+  btnGoogleLogin.addEventListener('click', () => {
+    const mockUser = { email: 'taxpayer.google@gmail.com', full_name: 'Google Taxpayer' };
+    saveAuthSession('demo-google-jwt-token', mockUser);
+    closeAuthModal();
     if (hasPendingResults) {
       revealResults();
       hasPendingResults = false;
     }
-  }
-
-  authForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = document.getElementById('input-email').value;
-    const name = document.getElementById('input-name').value;
-    performAuthSuccess(email, name);
-  });
-
-  btnGoogleLogin.addEventListener('click', () => {
-    performAuthSuccess('taxpayer@gmail.com', 'Google User');
   });
 
   btnGithubLogin.addEventListener('click', () => {
-    performAuthSuccess('taxpayer@github.com', 'GitHub Developer');
+    const mockUser = { email: 'taxpayer.github@gmail.com', full_name: 'GitHub Developer' };
+    saveAuthSession('demo-github-jwt-token', mockUser);
+    closeAuthModal();
+    if (hasPendingResults) {
+      revealResults();
+      hasPendingResults = false;
+    }
   });
 
-  // 4. Drag & Drop and Upload Flow (FREE)
+  // =========================================================================
+  // 4. Free Form 16 Upload & Stepper Flow
+  // =========================================================================
   dropZone.addEventListener('click', () => fileInput.click());
   browseBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -258,10 +346,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.print();
   });
 
-  // 5. File Processing Simulation & Gated Result Reveal
   async function handleFileUpload(file) {
     if (!file.name.toLowerCase().endsWith('.pdf')) {
-      alert('Please upload a valid Form 16 PDF file.');
+      alert('Please upload a valid Form 16 PDF document.');
       return;
     }
     runExtractionSimulation(file);
@@ -274,35 +361,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
+      const token = getAuthToken();
       fetch('/api/v1/documents/form16', {
         method: 'POST',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
         body: formData,
       }).catch(() => null);
     }
 
-    // Step 1
+    // Step 1: Security scan
     updateStep(1, 'active');
     await sleep(600);
     updateStep(1, 'completed');
 
-    // Step 2
+    // Step 2: PyMuPDF Extraction
     updateStep(2, 'active');
     await sleep(800);
     updateStep(2, 'completed');
 
-    // Step 3
+    // Step 3: AI Normalization
     updateStep(3, 'active');
     await sleep(700);
     updateStep(3, 'completed');
 
-    // Step 4
+    // Step 4: Deterministic Math
     updateStep(4, 'active');
     await sleep(500);
     updateStep(4, 'completed');
 
     pipelineSection.style.display = 'none';
 
-    // Check if user is logged in
+    // Check if user is authenticated
     const user = getStoredUser();
     if (user) {
       revealResults();
@@ -334,19 +423,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  // 6. Deterministic Tax Engine (AY 2026-27 / Finance Act 2024 & 2025)
+  // =========================================================================
+  // 5. Deterministic Tax Engine (AY 2026-27 & AY 2025-26)
+  // =========================================================================
   function computeNewRegimeTax(grossSalary, allowancesSec10) {
     const stdDeduction = 75000;
     const taxableIncome = Math.max(0, grossSalary - allowancesSec10 - stdDeduction);
 
-    // Slabs AY 2026-27 (Section 115BAC)
+    // Section 115BAC Slabs for AY 2026-27
     let tax = 0;
     if (taxableIncome > 1500000) {
       tax += (taxableIncome - 1500000) * 0.30;
-      tax += 300000 * 0.20; // 12-15L
-      tax += 200000 * 0.15; // 10-12L
-      tax += 300000 * 0.10; // 7-10L
-      tax += 400000 * 0.05; // 3-7L
+      tax += 300000 * 0.20;
+      tax += 200000 * 0.15;
+      tax += 300000 * 0.10;
+      tax += 400000 * 0.05;
     } else if (taxableIncome > 1200000) {
       tax += (taxableIncome - 1200000) * 0.20;
       tax += 200000 * 0.15;
@@ -376,7 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 4% Health and Education Cess
     const cess = Math.round(tax * 0.04);
     const totalTax = Math.round(tax + cess);
 
@@ -395,12 +485,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const stdDeduction = 50000;
     const taxableIncome = Math.max(0, grossSalary - allowancesSec10 - stdDeduction - totalDeductions);
 
-    // Old Slabs: 0-2.5L: 0%, 2.5-5L: 5%, 5-10L: 20%, >10L: 30%
+    // Old Slabs
     let tax = 0;
     if (taxableIncome > 1000000) {
       tax += (taxableIncome - 1000000) * 0.30;
-      tax += 500000 * 0.20; // 5-10L
-      tax += 250000 * 0.05; // 2.5-5L
+      tax += 500000 * 0.20;
+      tax += 250000 * 0.05;
     } else if (taxableIncome > 500000) {
       tax += (taxableIncome - 500000) * 0.20;
       tax += 250000 * 0.05;
@@ -434,14 +524,15 @@ document.addEventListener('DOMContentLoaded', () => {
     return '₹' + Number(num).toLocaleString('en-IN');
   }
 
-  // 7. Dynamic Recalculation Triggered by UI Sliders
+  // =========================================================================
+  // 6. Dynamic Recalculation Triggered by UI Sliders
+  // =========================================================================
   function recalculateTax() {
     const val80c = Number(slider80c.value);
     const val80d = Number(slider80d.value);
     const valNps = Number(sliderNps.value);
     const valHomeLoan = Number(sliderHomeLoan.value);
 
-    // Update Slider Value Badges
     document.getElementById('val-80c').textContent = formatINR(val80c);
     document.getElementById('val-80d').textContent = formatINR(val80d);
     document.getElementById('val-nps').textContent = formatINR(valNps);
@@ -452,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newResult = computeNewRegimeTax(currentTaxpayer.grossSalary, currentTaxpayer.allowancesSec10);
     const oldResult = computeOldRegimeTax(currentTaxpayer.grossSalary, currentTaxpayer.allowancesSec10, totalOldDeductions);
 
-    // Populate New Regime Card
+    // New Regime UI
     document.getElementById('new-gross-income').textContent = formatINR(newResult.grossIncome);
     document.getElementById('new-standard-deduction').textContent = formatINR(newResult.stdDeduction);
     document.getElementById('new-taxable-income').textContent = formatINR(newResult.taxableIncome);
@@ -467,7 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('new-net-payable').className = newNet >= 0 ? 'text-payable' : 'text-green';
     document.getElementById('new-effective-rate').textContent = `Effective Rate: ${((newResult.totalTax / newResult.grossIncome) * 100).toFixed(1)}%`;
 
-    // Populate Old Regime Card
+    // Old Regime UI
     document.getElementById('old-gross-income').textContent = formatINR(oldResult.grossIncome);
     document.getElementById('old-standard-deduction').textContent = formatINR(oldResult.stdDeduction);
     document.getElementById('old-total-deductions').textContent = formatINR(oldResult.totalDeductions);
@@ -483,7 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('old-net-payable').className = oldNet >= 0 ? 'text-payable' : 'text-green';
     document.getElementById('old-effective-rate').textContent = `Effective Rate: ${((oldResult.totalTax / oldResult.grossIncome) * 100).toFixed(1)}%`;
 
-    // Evaluate Winner
+    // Winner Evaluation
     const cardNew = document.getElementById('card-new-regime');
     const cardOld = document.getElementById('card-old-regime');
     const badge = document.getElementById('recommended-regime-badge');
@@ -511,7 +602,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 8. FAQ Accordion Interaction
+  // =========================================================================
+  // 7. Interactive FAQ Accordion
+  // =========================================================================
   const faqItems = document.querySelectorAll('.faq-item');
   faqItems.forEach(item => {
     const questionBtn = item.querySelector('.faq-question');
@@ -520,7 +613,6 @@ document.addEventListener('DOMContentLoaded', () => {
     questionBtn.addEventListener('click', () => {
       const isActive = item.classList.contains('active');
 
-      // Close all other accordion items
       faqItems.forEach(otherItem => {
         otherItem.classList.remove('active');
         const otherAnswer = otherItem.querySelector('.faq-answer');

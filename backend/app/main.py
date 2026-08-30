@@ -30,6 +30,17 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     )
     logger.info("Initializing %s (v%s) in %s mode", settings.APP_NAME, settings.APP_VERSION, settings.APP_ENV)
 
+    # Initialize database tables
+    try:
+        import app.models  # noqa: F401
+        from app.db.base import Base
+        from app.db.session import async_engine
+        async with async_engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("Database tables verified/created successfully.")
+    except Exception as exc:
+        logger.warning("Could not auto-create database tables (fallback mode): %s", exc)
+
     yield
 
     logger.info("Shutting down %s", settings.APP_NAME)
@@ -158,6 +169,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     # Mount interactive frontend UI
     from pathlib import Path
+
     from fastapi.staticfiles import StaticFiles
 
     candidate_frontend_paths = [

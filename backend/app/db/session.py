@@ -64,6 +64,9 @@ async def get_async_db() -> AsyncGenerator[AsyncSession, None]:
             await session.close()
 
 
+get_db = get_async_db
+
+
 async def check_db_health() -> bool:
     """Check database connectivity with fast timeout."""
     import asyncio
