@@ -16,7 +16,9 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
-      - DEFAULT_AI_PROVIDER=openai
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - DEFAULT_AI_PROVIDER=${DEFAULT_AI_PROVIDER:-gemini}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-3.6-flash}
       - LOG_LEVEL=INFO
       - LOG_FORMAT=json
       - ENABLE_PII_MASKING=True

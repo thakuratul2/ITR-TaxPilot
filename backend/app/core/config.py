@@ -44,8 +44,8 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str = ""
     GOOGLE_API_KEY: str = ""
     GEMINI_API_KEY: str = ""
-    DEFAULT_AI_PROVIDER: str = "openai"
-    GEMINI_MODEL: str = "gemini-2.5-flash"
+    DEFAULT_AI_PROVIDER: str = "gemini"
+    GEMINI_MODEL: str = "gemini-3.6-flash"
     CLAUDE_MODEL: str = "claude-3-7-sonnet-20250219"
 
     # Document upload limits
