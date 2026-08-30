@@ -63,19 +63,21 @@ async def upload_form16(
 
     # Persist document record in PostgreSQL DB for Admin telemetry
     try:
+        import hashlib
+        file_sha256 = hashlib.sha256(file_bytes).hexdigest()
         doc_record = Document(
             id=normalized_doc.document_id,
             filename=normalized_doc.filename,
             original_filename=file.filename or "form16.pdf",
             content_type=file.content_type or "application/pdf",
             file_size_bytes=len(file_bytes),
-            storage_path=normalized_doc.storage_path,
+            storage_path=f"ephemeral://{normalized_doc.document_id}",
             status=DocumentStatus.PARSED,
-            sha256_hash=normalized_doc.sha256_hash,
+            sha256_hash=file_sha256,
         )
         db.add(doc_record)
         await db.commit()
-    except Exception:
+    except Exception as exc:
         await db.rollback()
 
     job_id = str(uuid.uuid4())

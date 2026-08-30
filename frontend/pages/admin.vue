@@ -313,7 +313,10 @@ const fetchAdminTelemetry = async () => {
     try {
       const docsRes = await fetch('/api/v1/admin/documents')
       if (docsRes.ok) {
-        docsList.value = await docsRes.json()
+        const docs = await docsRes.json()
+        if (Array.isArray(docs)) {
+          docsList.value = docs
+        }
       }
     } catch {}
   } finally {
@@ -321,10 +324,27 @@ const fetchAdminTelemetry = async () => {
   }
 }
 
+let pollTimer: any = null
+
 onMounted(() => {
   if (isAdminAuthenticated.value) {
     fetchAdminTelemetry()
   }
+  // Auto-refresh telemetry every 4 seconds for real-time dashboard sync
+  if (import.meta.client) {
+    pollTimer = setInterval(() => {
+      if (isAdminAuthenticated.value) {
+        fetchAdminTelemetry()
+      }
+    }, 4000)
+    window.addEventListener('focus', () => {
+      if (isAdminAuthenticated.value) fetchAdminTelemetry()
+    })
+  }
+})
+
+onUnmounted(() => {
+  if (pollTimer) clearInterval(pollTimer)
 })
 </script>
 
