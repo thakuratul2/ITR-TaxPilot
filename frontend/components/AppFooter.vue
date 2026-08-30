@@ -23,12 +23,12 @@
       </div>
 
       <div class="footer-links-group">
-        <h4>Platform & Admin</h4>
+        <h4>Platform & Guides</h4>
         <ul>
-          <li><NuxtLink to="/admin">Executive Telemetry Portal</NuxtLink></li>
           <li><a href="#faq-section">Frequently Asked Questions</a></li>
           <li><a href="#security-guide">Bank-Grade Privacy Model</a></li>
           <li><a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank">Open Source Repository</a></li>
+          <li><a href="https://github.com/thakuratul2" target="_blank">Author Profile</a></li>
         </ul>
       </div>
     </div>

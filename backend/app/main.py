@@ -38,8 +38,30 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         async with async_engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         logger.info("Database tables verified/created successfully.")
+
+        # Seed default admin account if not present
+        from sqlalchemy import select
+        from app.models.user import User
+        from app.core.security import get_password_hash
+        from app.db.session import AsyncSessionLocal
+        import uuid
+
+        async with AsyncSessionLocal() as session:
+            admin_res = await session.execute(select(User).where(User.email == "admin@itrtaxpilot.com"))
+            if not admin_res.scalars().first():
+                admin_user = User(
+                    id=str(uuid.uuid4()),
+                    email="admin@itrtaxpilot.com",
+                    hashed_password=get_password_hash("admin123"),
+                    full_name="System Administrator",
+                    is_active=True,
+                    is_verified=True,
+                )
+                session.add(admin_user)
+                await session.commit()
+                logger.info("Default admin account created (admin@itrtaxpilot.com / admin123).")
     except Exception as exc:
-        logger.warning("Could not auto-create database tables (fallback mode): %s", exc)
+        logger.warning("Could not auto-create database tables/admin seed (fallback mode): %s", exc)
 
     yield
 

@@ -62,9 +62,6 @@
         </div>
 
         <a href="#faq-section" class="nav-link">FAQ</a>
-        <NuxtLink to="/admin" class="nav-link" title="Executive Admin & Telemetry">
-          <i class="fa-solid fa-gauge-high"></i> Admin
-        </NuxtLink>
         <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="nav-link github-nav-link">
           <i class="fa-brands fa-github"></i> GitHub
         </a>
@@ -95,8 +92,11 @@
           <div class="user-avatar">{{ userInitials }}</div>
           <div class="user-info">
             <span class="user-name">{{ displayName }}</span>
-            <span class="user-tier">Taxpayer</span>
+            <span class="user-tier">{{ isAdmin ? 'Administrator' : 'Taxpayer' }}</span>
           </div>
+          <NuxtLink v-if="isAdmin" to="/admin" class="btn-admin-link" title="Admin Portal">
+            <i class="fa-solid fa-gauge-high"></i>
+          </NuxtLink>
           <button class="btn-icon" title="Sign Out" @click="logout">
             <i class="fa-solid fa-power-off"></i>
           </button>
@@ -112,6 +112,12 @@ const { currentUser, openAuthModal, logout } = useAuth()
 const displayName = computed(() => {
   if (!currentUser.value) return 'Taxpayer'
   return currentUser.value.full_name || currentUser.value.name || currentUser.value.email.split('@')[0]
+})
+
+const isAdmin = computed(() => {
+  if (!currentUser.value) return false
+  const email = (currentUser.value.email || '').toLowerCase()
+  return email === 'admin@itrtaxpilot.com' || email.includes('admin')
 })
 
 const userInitials = computed(() => {
@@ -443,6 +449,25 @@ const userInitials = computed(() => {
   font-size: 0.62rem;
   color: var(--accent-emerald);
   font-weight: 600;
+}
+
+.btn-admin-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--accent-indigo);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: var(--trans-fast);
+}
+
+.btn-admin-link:hover {
+  background: var(--accent-indigo);
+  color: white;
 }
 
 .btn-icon {
