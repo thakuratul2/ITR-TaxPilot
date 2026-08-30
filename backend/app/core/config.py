@@ -41,7 +41,10 @@ class Settings(BaseSettings):
     # AI Providers
     ANTHROPIC_API_KEY: str = ""
     GOOGLE_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
     DEFAULT_AI_PROVIDER: str = "gemini"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+    CLAUDE_MODEL: str = "claude-3-7-sonnet-20250219"
 
     # Document upload limits
     MAX_UPLOAD_SIZE_MB: int = 10

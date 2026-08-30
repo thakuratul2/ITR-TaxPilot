@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [█████░░░░░░░░░░░░░░░░░░░░░░░] 17% (3 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 30 | In Progress: 0 | Pending: 93
-Current Active Branch: main
+Progress: [██████░░░░░░░░░░░░░░░░░░░░] 22% (4 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 38 | In Progress: 0 | Pending: 85
+Current Active Branch: milestone/m04-ai-extraction-layer
 ```
 
 ---
@@ -22,7 +22,7 @@ Current Active Branch: main
 | **M01** | [Milestone 1 — Project Setup & Foundation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone1-project-setup) | Phase 0 | `milestone/m01-project-setup` | 12 | 12 | 🟢 Completed |
 | **M02** | [Milestone 2 — Backend Core & Architecture](file:///D:/Projects/ITR-TaxPilot/milestones/milestone2-backend-core) | Phase 1 | `milestone/m02-backend-core` | 10 | 10 | 🟢 Completed |
 | **M03** | [Milestone 3 — Form 16 Upload & Document Pipeline](file:///D:/Projects/ITR-TaxPilot/milestones/milestone3-form16-upload-pipeline) | Phase 2 | `milestone/m03-form16-upload-pipeline` | 8 | 8 | 🟢 Completed |
-| **M04** | [Milestone 4 — AI Extraction Layer](file:///D:/Projects/ITR-TaxPilot/milestones/milestone4-ai-extraction-layer) | Phase 3 | `milestone/m04-ai-extraction-layer` | 8 | 0 | ⚪ Pending |
+| **M04** | [Milestone 4 — AI Extraction Layer](file:///D:/Projects/ITR-TaxPilot/milestones/milestone4-ai-extraction-layer) | Phase 3 | `milestone/m04-ai-extraction-layer` | 8 | 8 | 🟢 Completed |
 | **M05** | [Milestone 5 — Validation & Data Normalization](file:///D:/Projects/ITR-TaxPilot/milestones/milestone5-validation-and-normalization) | Phase 4 | `milestone/m05-validation-and-normalization` | 7 | 0 | ⚪ Pending |
 | **M06** | [Milestone 6 — Assessment Year Rule Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone6-assessment-year-rules) | Phase 5 | `milestone/m06-assessment-year-rules` | 7 | 0 | ⚪ Pending |
 | **M07** | [Milestone 7 — Deterministic Tax Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone7-deterministic-tax-engine) | Phase 6 | `milestone/m07-deterministic-tax-engine` | 13 | 0 | ⚪ Pending |
@@ -95,8 +95,16 @@ Current Active Branch: main
 
 ### [Milestone 4 — AI Extraction Layer](file:///D:/Projects/ITR-TaxPilot/milestones/milestone4-ai-extraction-layer)
 - **Branch:** `milestone/m04-ai-extraction-layer`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 8
+- **Status:** `Completed`
+- **Tasks Completed:** 8 / 8
+  - [x] `TASK-4.1`: Strict Pydantic Form 16 extraction schema
+  - [x] `TASK-4.2`: Abstract AIProvider base interface
+  - [x] `TASK-4.3`: Google Gemini provider implementation
+  - [x] `TASK-4.4`: Anthropic Claude provider implementation
+  - [x] `TASK-4.5`: Versioned prompt templates for extraction
+  - [x] `TASK-4.6`: JSON parsing and failure recovery
+  - [x] `TASK-4.7`: Field-level confidence score calculation
+  - [x] `TASK-4.8`: Dual-model cross-verification mechanism
 
 ---
 
