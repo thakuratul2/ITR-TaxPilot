@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITR-TaxPilot — Deterministic AI Tax Co-Pilot & Form 16 Optimizer</title>
+  <meta name="description" content="AI-assisted, 100% deterministic Indian income tax return optimizer for AY 2026-27 and AY 2025-26. Compare Old vs New regime, maximize deductions, and get ITR recommendations.">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <!-- Ambient background glow effects -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="glow-orb orb-3"></div>
+
+  <!-- Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">ITR-TaxPilot</span>
+          <span class="brand-tagline">Deterministic Tax Co-Pilot</span>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <div class="ay-pill" id="ay-selector">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>AY 2026-27 (FY 2025-26)</span>
+        </div>
+
+        <div class="api-status-badge" id="api-status">
+          <span class="status-dot"></span>
+          <span class="status-label">Backend Online</span>
+        </div>
+
+        <a href="/docs" target="_blank" class="nav-link-btn" title="API Documentation">
+          <i class="fa-solid fa-code"></i>
+          <span>Swagger Docs</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-content">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="badge-hero">
+        <span class="sparkle"><i class="fa-solid fa-bolt"></i></span>
+        <span>Budget 2024 & 2025 Verified · Section 115BAC Optimized</span>
+      </div>
+      <h1 class="hero-title">
+        Maximize Your Tax Savings with <span class="gradient-text">Deterministic Precision</span>
+      </h1>
+      <p class="hero-subtitle">
+        AI reads your Form 16 with zero hallucinations. Tested Python engines calculate every slab, 87A marginal rebate, and Chapter VI-A deduction down to the rupee.
+      </p>
+    </section>
+
+    <!-- Upload & Quick Start Section -->
+    <section class="upload-section" id="upload-section">
+      <div class="upload-card" id="drop-zone">
+        <input type="file" id="file-input" accept="application/pdf" class="file-input-hidden">
+        
+        <div class="upload-icon-container">
+          <div class="icon-pulse"></div>
+          <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+        </div>
+
+        <h3 class="upload-title">Drop your Form 16 PDF here</h3>
+        <p class="upload-hint">Supports digitally signed Part A & Part B PDFs up to 10MB</p>
+
+        <div class="upload-actions">
+          <button class="btn btn-primary" id="browse-btn">
+            <i class="fa-solid fa-folder-open"></i> Browse File
+          </button>
+          <span class="action-or">or</span>
+          <button class="btn btn-secondary" id="demo-btn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Try Sample Data (₹12 Lakh Salary)
+          </button>
+        </div>
+
+        <div class="security-guarantee">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>100% Privacy: PII Sanitized · In-Memory Ephemeral Processing · Zero Data Retention</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pipeline Processing State Modal/Tracker -->
+    <section class="pipeline-section" id="pipeline-section" style="display: none;">
+      <div class="pipeline-card">
+        <div class="pipeline-header">
+          <h3 class="pipeline-title"><i class="fa-solid fa-microchip"></i> Analyzing Document Pipeline</h3>
+          <div class="spinner-circle"></div>
+        </div>
+
+        <div class="stepper">
+          <div class="step-item active" id="step-1">
+            <div class="step-icon"><i class="fa-solid fa-shield-check"></i></div>
+            <div class="step-details">
+              <h4>1. Security Scan</h4>
+              <p>Magic byte verification & malware payload inspection</p>
+            </div>
+            <span class="step-status"><i class="fa-solid fa-check"></i></span>
+          </div>
+
+          <div class="step-item" id="step-2">
+            <div class="step-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="step-details">
+              <h4>2. PyMuPDF Extraction</h4>
+              <p>Extracting text, Part A deductions, and Part B tables</p>
+            </div>
+            <span class="step-status"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+          </div>
+
+          <div class="step-item" id="step-3">
+            <div class="step-icon"><i class="fa-solid fa-robot"></i></div>
+            <div class="step-details">
+              <h4>3. AI Normalization & Confidence</h4>
+              <p>Gemini & Claude dual-model validation & PAN check</p>
+            </div>
+            <span class="step-status">Pending</span>
+          </div>
+
+          <div class="step-item" id="step-4">
+            <div class="step-icon"><i class="fa-solid fa-calculator"></i></div>
+            <div class="step-details">
+              <h4>4. Deterministic Tax Computation</h4>
+              <p>Calculating Old vs New slabs, standard deduction & 87A rebate</p>
+            </div>
+            <span class="step-status">Pending</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Results Dashboard -->
+    <section class="results-section" id="results-section" style="display: none;">
+      
+      <!-- Top Overview Banner -->
+      <div class="recommendation-banner" id="recommendation-banner">
+        <div class="banner-content">
+          <div class="banner-badge" id="recommended-regime-badge">NEW REGIME RECOMMENDED</div>
+          <h2 class="banner-title" id="savings-headline">You Save <span class="highlight-green" id="savings-amount">₹42,811</span> with the New Tax Regime!</h2>
+          <p class="banner-desc" id="savings-subtext">The New Regime with the ₹75,000 standard deduction and lower tax slabs offers the lowest overall liability for your profile.</p>
+        </div>
+        <div class="banner-actions">
+          <button class="btn btn-export" id="export-pdf-btn">
+            <i class="fa-solid fa-file-pdf"></i> Download Tax Summary
+          </button>
+          <button class="btn btn-outline" id="reupload-btn">
+            <i class="fa-solid fa-rotate-left"></i> Analyze Another
+          </button>
+        </div>
+      </div>
+
+      <!-- Regime Comparison Cards -->
+      <div class="comparison-grid">
+        <!-- New Regime Card -->
+        <div class="regime-card featured" id="card-new-regime">
+          <div class="card-glow"></div>
+          <div class="regime-header">
+            <div>
+              <span class="regime-tag">Default Regime</span>
+              <h3 class="regime-name">New Tax Regime</h3>
+              <p class="regime-sec">Section 115BAC (Budget 2024/2025)</p>
+            </div>
+            <div class="status-icon success"><i class="fa-solid fa-crown"></i></div>
+          </div>
+
+          <div class="tax-amount-box">
+            <span class="amount-label">Total Tax Payable</span>
+            <span class="amount-value" id="new-total-tax">₹3,00,350</span>
+            <span class="tax-breakdown-hint" id="new-effective-rate">Effective Rate: 11.5%</span>
+          </div>
+
+          <div class="card-stats">
+            <div class="stat-row">
+              <span>Gross Total Income:</span>
+              <strong id="new-gross-income">₹26,06,700</strong>
+            </div>
+            <div class="stat-row">
+              <span>Standard Deduction:</span>
+              <strong class="text-green" id="new-standard-deduction">₹75,000</strong>
+            </div>
+            <div class="stat-row">
+              <span>Taxable Income:</span>
+              <strong id="new-taxable-income">₹25,06,700</strong>
+            </div>
+            <div class="stat-row">
+              <span>Base Income Tax:</span>
+              <strong id="new-base-tax">₹2,88,800</strong>
+            </div>
+            <div class="stat-row">
+              <span>Section 87A Rebate:</span>
+              <strong class="text-green" id="new-rebate-87a">₹0</strong>
+            </div>
+            <div class="stat-row">
+              <span>Health & Edu Cess (4%):</span>
+              <strong id="new-cess">₹11,550</strong>
+            </div>
+            <div class="stat-row highlight">
+              <span>TDS Deducted:</span>
+              <strong id="new-tds-deducted">₹2,99,630</strong>
+            </div>
+            <div class="stat-row final">
+              <span>Net Balance:</span>
+              <strong class="text-payable" id="new-net-payable">₹720 (Payable)</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Old Regime Card -->
+        <div class="regime-card" id="card-old-regime">
+          <div class="regime-header">
+            <div>
+              <span class="regime-tag secondary">Optional Opt-In</span>
+              <h3 class="regime-name">Old Tax Regime</h3>
+              <p class="regime-sec">With Chapter VI-A Exemptions</p>
+            </div>
+          </div>
+
+          <div class="tax-amount-box">
+            <span class="amount-label">Total Tax Payable</span>
+            <span class="amount-value" id="old-total-tax">₹3,43,161</span>
+            <span class="tax-breakdown-hint" id="old-effective-rate">Effective Rate: 13.2%</span>
+          </div>
+
+          <div class="card-stats">
+            <div class="stat-row">
+              <span>Gross Total Income:</span>
+              <strong id="old-gross-income">₹26,06,700</strong>
+            </div>
+            <div class="stat-row">
+              <span>Standard Deduction:</span>
+              <strong id="old-standard-deduction">₹50,000</strong>
+            </div>
+            <div class="stat-row">
+              <span>Chapter VI-A Deductions:</span>
+              <strong class="text-green" id="old-total-deductions">₹3,47,400</strong>
+            </div>
+            <div class="stat-row">
+              <span>Taxable Income:</span>
+              <strong id="old-taxable-income">₹22,09,300</strong>
+            </div>
+            <div class="stat-row">
+              <span>Base Income Tax:</span>
+              <strong id="old-base-tax">₹3,29,963</strong>
+            </div>
+            <div class="stat-row">
+              <span>Section 87A Rebate:</span>
+              <strong class="text-green" id="old-rebate-87a">₹0</strong>
+            </div>
+            <div class="stat-row">
+              <span>Health & Edu Cess (4%):</span>
+              <strong id="old-cess">₹13,198</strong>
+            </div>
+            <div class="stat-row highlight">
+              <span>TDS Deducted:</span>
+              <strong id="old-tds-deducted">₹2,99,630</strong>
+            </div>
+            <div class="stat-row final">
+              <span>Net Balance:</span>
+              <strong class="text-payable" id="old-net-payable">₹43,531 (Payable)</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Deduction Hunter Section -->
+      <div class="section-card deduction-hunter-card">
+        <div class="section-card-header">
+          <div>
+            <span class="badge-accent"><i class="fa-solid fa-crosshairs"></i> AI Deduction Hunter</span>
+            <h3 class="section-card-title">Explore Unclaimed Deductions & Real-time Tax Simulator</h3>
+            <p class="section-card-desc">Adjust potential deductions below to simulate if the Old Regime can beat the New Regime.</p>
+          </div>
+          <div class="hunter-savings-pill">
+            <span>Potential Extra Savings:</span>
+            <strong id="hunter-extra-savings">₹0</strong>
+          </div>
+        </div>
+
+        <div class="deduction-sliders-grid">
+          <!-- 80C Slider -->
+          <div class="slider-control">
+            <div class="slider-label-row">
+              <label for="slider-80c"><i class="fa-solid fa-piggy-bank"></i> Section 80C (EPF / PPF / ELSS)</label>
+              <span class="slider-value" id="val-80c">₹1,50,000</span>
+            </div>
+            <input type="range" id="slider-80c" min="0" max="150000" step="5000" value="150000" class="range-slider">
+            <span class="slider-hint">Statutory Max: ₹1,50,000</span>
+          </div>
+
+          <!-- 80D Slider -->
+          <div class="slider-control">
+            <div class="slider-label-row">
+              <label for="slider-80d"><i class="fa-solid fa-heart-pulse"></i> Section 80D (Health Insurance)</label>
+              <span class="slider-value" id="val-80d">₹25,000</span>
+            </div>
+            <input type="range" id="slider-80d" min="0" max="100000" step="5000" value="25000" class="range-slider">
+            <span class="slider-hint">Self + Family (₹25k) + Senior Parents (₹50k)</span>
+          </div>
+
+          <!-- 80CCD(1B) NPS Slider -->
+          <div class="slider-control">
+            <div class="slider-label-row">
+              <label for="slider-nps"><i class="fa-solid fa-shield-halved"></i> Section 80CCD(1B) (NPS Extra)</label>
+              <span class="slider-value" id="val-nps">₹50,000</span>
+            </div>
+            <input type="range" id="slider-nps" min="0" max="50000" step="5000" value="50000" class="range-slider">
+            <span class="slider-hint">Additional ₹50,000 over and above 80C</span>
+          </div>
+
+          <!-- Home Loan Interest 24(b) Slider -->
+          <div class="slider-control">
+            <div class="slider-label-row">
+              <label for="slider-home-loan"><i class="fa-solid fa-house"></i> Section 24(b) (Home Loan Interest)</label>
+              <span class="slider-value" id="val-home-loan">₹0</span>
+            </div>
+            <input type="range" id="slider-home-loan" min="0" max="200000" step="10000" value="0" class="range-slider">
+            <span class="slider-hint">Max ₹2,00,000 for self-occupied property</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITR Form Recommendation & Statutory Filing Pack -->
+      <div class="filing-pack-grid">
+        <!-- Form Recommendation -->
+        <div class="section-card form-recommendation-card">
+          <div class="section-card-header">
+            <div>
+              <span class="badge-primary"><i class="fa-solid fa-file-lines"></i> ITR Eligibility</span>
+              <h3 class="section-card-title" id="itr-form-title">Recommended Form: ITR-1 (Sahaj)</h3>
+            </div>
+            <div class="form-badge" id="itr-form-badge">ITR-1</div>
+          </div>
+          <ul class="eligibility-list" id="eligibility-reasons">
+            <li><i class="fa-solid fa-circle-check text-green"></i> Total income is under ₹50 Lakh</li>
+            <li><i class="fa-solid fa-circle-check text-green"></i> Salaried individual with single employer</li>
+            <li><i class="fa-solid fa-circle-check text-green"></i> No capital gains or business turnover</li>
+            <li><i class="fa-solid fa-circle-check text-green"></i> Standard interest & dividend other sources</li>
+          </ul>
+        </div>
+
+        <!-- Filing Deadlines & Checklist -->
+        <div class="section-card checklist-card">
+          <div class="section-card-header">
+            <div>
+              <span class="badge-gold"><i class="fa-solid fa-clock"></i> Statutory Filing Deadlines</span>
+              <h3 class="section-card-title">AY 2026-27 Timeline</h3>
+            </div>
+          </div>
+          <div class="deadline-row">
+            <div class="deadline-date">31 July 2026</div>
+            <div class="deadline-desc">
+              <strong>Due Date for ITR-1 & ITR-2</strong>
+              <p>Last date to opt for Old Regime under Section 115BAC(6)</p>
+            </div>
+          </div>
+          <div class="deadline-row">
+            <div class="deadline-date">31 Dec 2026</div>
+            <div class="deadline-desc">
+              <strong>Belated Return Deadline</strong>
+              <p>Subject to Section 234F late fee (₹1k/₹5k) & New Regime lock-in</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span>© 2026 ITR-TaxPilot. Governed by Indian Income Tax Act, 1961.</span>
+      </div>
+      <div class="footer-right">
+        <span>100% Deterministic Engine · Zero AI Arithmetic · Verified against Finance Act 2024 & 2025</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="scripts/app.js"></script>
+</body>
+</html>

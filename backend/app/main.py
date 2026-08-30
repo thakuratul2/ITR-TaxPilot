@@ -156,6 +156,21 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     # API v1 Router (GET /api/v1/health etc.)
     app.include_router(api_router, prefix=app_settings.API_V1_STR)
 
+    # Mount interactive frontend UI
+    from pathlib import Path
+    from fastapi.staticfiles import StaticFiles
+
+    candidate_frontend_paths = [
+        Path(__file__).resolve().parent.parent.parent / "frontend",  # Local dev
+        Path("/app/frontend"),                                      # Docker mounted /app/frontend
+        Path("/frontend"),                                          # Docker root
+        Path("frontend"),                                           # Cwd
+    ]
+
+    frontend_dir = next((p for p in candidate_frontend_paths if p.exists() and (p / "index.html").exists()), None)
+    if frontend_dir:
+        app.mount("/", StaticFiles(directory=str(frontend_dir), html=True), name="frontend")
+
     return app
 
 
