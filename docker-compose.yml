@@ -13,8 +13,10 @@ services:
       - DEBUG=True
       - DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/itrtaxpilot
       - REDIS_URL=redis://redis:6379/0
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - DEFAULT_AI_PROVIDER=openai
       - LOG_LEVEL=INFO
       - LOG_FORMAT=json
       - ENABLE_PII_MASKING=True

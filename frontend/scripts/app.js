@@ -358,34 +358,88 @@ document.addEventListener('DOMContentLoaded', () => {
     uploadSection.style.display = 'none';
     pipelineSection.style.display = 'block';
 
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      const token = getAuthToken();
-      fetch('/api/v1/documents/form16', {
-        method: 'POST',
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        body: formData,
-      }).catch(() => null);
-    }
+    let extractedData = null;
 
     // Step 1: Security scan
     updateStep(1, 'active');
+    
+    // Start backend extraction in parallel with visual tracker
+    const uploadPromise = (async () => {
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        const token = getAuthToken();
+        try {
+          const res = await fetch('/api/v1/documents/form16', {
+            method: 'POST',
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+            body: formData,
+          });
+          if (res.ok) {
+            const json = await res.json();
+            if (json.data && json.data.extracted) {
+              return json.data.extracted;
+            }
+          }
+        } catch (e) {
+          console.warn('Backend extraction error:', e);
+        }
+      }
+      return null;
+    })();
+
     await sleep(600);
     updateStep(1, 'completed');
 
     // Step 2: PyMuPDF Extraction
     updateStep(2, 'active');
-    await sleep(800);
+    await sleep(700);
     updateStep(2, 'completed');
 
     // Step 3: AI Normalization
     updateStep(3, 'active');
-    await sleep(700);
+    extractedData = await uploadPromise;
+    await sleep(600);
     updateStep(3, 'completed');
 
     // Step 4: Deterministic Math
     updateStep(4, 'active');
+    
+    if (extractedData && extractedData.gross_salary > 0) {
+      currentTaxpayer.grossSalary = extractedData.gross_salary;
+      currentTaxpayer.tdsDeducted = extractedData.total_tds_deducted || 0;
+      currentTaxpayer.pt = extractedData.professional_tax_sec16iii || 0;
+      currentTaxpayer.allowancesSec10 = extractedData.exempt_allowances_sec10 || 0;
+      currentTaxpayer.ay = extractedData.assessment_year || '2026-27';
+
+      // Reset sliders according to extracted deductions
+      let ext80c = 0;
+      let ext80d = 0;
+      if (extractedData.deductions_chapter_vi_a) {
+        for (const d of extractedData.deductions_chapter_vi_a) {
+          if (d.section === '80C') ext80c = d.amount || 0;
+          if (d.section === '80D') ext80d = d.amount || 0;
+        }
+      }
+      slider80c.value = ext80c;
+      slider80d.value = ext80d;
+      sliderNps.value = 0;
+      sliderHomeLoan.value = 0;
+    } else if (!file) {
+      // Sample Data Mode (₹26.06 Lakh)
+      currentTaxpayer = {
+        grossSalary: 2606700,
+        allowancesSec10: 0,
+        pt: 2500,
+        tdsDeducted: 299630,
+        ay: '2026-27',
+      };
+      slider80c.value = 150000;
+      slider80d.value = 25000;
+      sliderNps.value = 50000;
+      sliderHomeLoan.value = 0;
+    }
+
     await sleep(500);
     updateStep(4, 'completed');
 
