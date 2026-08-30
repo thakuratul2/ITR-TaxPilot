@@ -41,6 +41,26 @@ async def upload_form16(
     # Deterministic parameter extraction
     extracted = parse_form16_text_deterministically(normalized_doc.full_text)
 
+    # If AI provider is configured, run AI extraction
+    try:
+        from app.ai.providers.factory import get_ai_provider
+        from app.core.config import get_settings
+        settings = get_settings()
+        if settings.OPENAI_API_KEY and extracted.get("gross_salary", 0) == 0:
+            ai_provider = get_ai_provider("openai")
+            ai_data = await ai_provider.extract_form16(normalized_doc)
+            if ai_data.gross_salary > 0:
+                extracted["gross_salary"] = ai_data.gross_salary
+                extracted["total_tds_deducted"] = ai_data.total_tds_deducted
+                if ai_data.deductions_chapter_vi_a:
+                    extracted["deductions_chapter_vi_a"] = [
+                        {"section": d.section, "amount": d.amount}
+                        for d in ai_data.deductions_chapter_vi_a
+                    ]
+                    extracted["total_deductions_chapter_vi_a"] = sum(d["amount"] for d in extracted["deductions_chapter_vi_a"])
+    except Exception:
+        pass
+
     # Persist document record in PostgreSQL DB for Admin telemetry
     try:
         doc_record = Document(

@@ -12,16 +12,16 @@ export interface TaxRegimeResult {
 }
 
 export const useTaxCalculator = () => {
-  const grossSalary = useState<number>('tax_gross_salary', () => 2606700)
+  const grossSalary = useState<number>('tax_gross_salary', () => 0)
   const allowancesSec10 = useState<number>('tax_allowances_sec10', () => 0)
-  const professionalTax = useState<number>('tax_professional_tax', () => 2500)
-  const tdsDeducted = useState<number>('tax_tds_deducted', () => 299630)
+  const professionalTax = useState<number>('tax_professional_tax', () => 0)
+  const tdsDeducted = useState<number>('tax_tds_deducted', () => 0)
   const assessmentYear = useState<string>('tax_ay', () => '2026-27')
 
   // Reactive Deduction Sliders
-  const deduction80C = useState<number>('tax_ded_80c', () => 150000)
-  const deduction80D = useState<number>('tax_ded_80d', () => 25000)
-  const deductionNPS = useState<number>('tax_ded_nps', () => 50000)
+  const deduction80C = useState<number>('tax_ded_80c', () => 0)
+  const deduction80D = useState<number>('tax_ded_80d', () => 0)
+  const deductionNPS = useState<number>('tax_ded_nps', () => 0)
   const deductionHomeLoan = useState<number>('tax_ded_home_loan', () => 0)
 
   // Computed New Tax Regime

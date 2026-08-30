@@ -66,8 +66,8 @@ export const useDocumentUpload = () => {
     currentStep.value = 4
 
     // Step 4: Apply real values to reactive state
-    if (extracted && extracted.gross_salary > 0) {
-      grossSalary.value = extracted.gross_salary
+    if (file && extracted) {
+      grossSalary.value = extracted.gross_salary || 0
       tdsDeducted.value = extracted.total_tds_deducted || 0
       professionalTax.value = extracted.professional_tax_sec16iii || 0
       allowancesSec10.value = extracted.exempt_allowances_sec10 || 0
