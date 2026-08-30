@@ -34,8 +34,12 @@ async def close_redis_client() -> None:
     """Close Redis client connection gracefully."""
     global _redis_client
     if _redis_client is not None:
-        await _redis_client.aclose()
-        _redis_client = None
+        try:
+            await _redis_client.aclose()
+        except Exception:
+            pass
+        finally:
+            _redis_client = None
 
 
 async def check_redis_health() -> bool:

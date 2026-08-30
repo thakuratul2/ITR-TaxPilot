@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [███░░░░░░░░░░░░░░░░░░░░░░░░░] 11% (2 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 22 | In Progress: 0 | Pending: 101
-Current Active Branch: main
+Progress: [█████░░░░░░░░░░░░░░░░░░░░░░░] 17% (3 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 30 | In Progress: 0 | Pending: 93
+Current Active Branch: milestone/m03-form16-upload-pipeline
 ```
 
 ---
@@ -21,7 +21,7 @@ Current Active Branch: main
 |:---:|---|:---:|---|:---:|:---:|:---:|
 | **M01** | [Milestone 1 — Project Setup & Foundation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone1-project-setup) | Phase 0 | `milestone/m01-project-setup` | 12 | 12 | 🟢 Completed |
 | **M02** | [Milestone 2 — Backend Core & Architecture](file:///D:/Projects/ITR-TaxPilot/milestones/milestone2-backend-core) | Phase 1 | `milestone/m02-backend-core` | 10 | 10 | 🟢 Completed |
-| **M03** | [Milestone 3 — Form 16 Upload & Document Pipeline](file:///D:/Projects/ITR-TaxPilot/milestones/milestone3-form16-upload-pipeline) | Phase 2 | `milestone/m03-form16-upload-pipeline` | 8 | 0 | ⚪ Pending |
+| **M03** | [Milestone 3 — Form 16 Upload & Document Pipeline](file:///D:/Projects/ITR-TaxPilot/milestones/milestone3-form16-upload-pipeline) | Phase 2 | `milestone/m03-form16-upload-pipeline` | 8 | 8 | 🟢 Completed |
 | **M04** | [Milestone 4 — AI Extraction Layer](file:///D:/Projects/ITR-TaxPilot/milestones/milestone4-ai-extraction-layer) | Phase 3 | `milestone/m04-ai-extraction-layer` | 8 | 0 | ⚪ Pending |
 | **M05** | [Milestone 5 — Validation & Data Normalization](file:///D:/Projects/ITR-TaxPilot/milestones/milestone5-validation-and-normalization) | Phase 4 | `milestone/m05-validation-and-normalization` | 7 | 0 | ⚪ Pending |
 | **M06** | [Milestone 6 — Assessment Year Rule Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone6-assessment-year-rules) | Phase 5 | `milestone/m06-assessment-year-rules` | 7 | 0 | ⚪ Pending |
@@ -80,8 +80,16 @@ Current Active Branch: main
 
 ### [Milestone 3 — Form 16 Upload & Document Pipeline](file:///D:/Projects/ITR-TaxPilot/milestones/milestone3-form16-upload-pipeline)
 - **Branch:** `milestone/m03-form16-upload-pipeline`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 8
+- **Status:** `Completed`
+- **Tasks Completed:** 8 / 8
+  - [x] `TASK-3.1`: Secure PDF upload handler & MIME validation
+  - [x] `TASK-3.2`: Malicious file safety checks and rejection
+  - [x] `TASK-3.3`: PDF text extraction using PyMuPDF (fitz)
+  - [x] `TASK-3.4`: Table extraction for Part A & Part B
+  - [x] `TASK-3.5`: OCR fallback pipeline for scanned documents
+  - [x] `TASK-3.6`: Form 16 document classification & validation
+  - [x] `TASK-3.7`: Normalized document representation data model
+  - [x] `TASK-3.8`: Ephemeral file storage and auto-cleanup
 
 ---
 

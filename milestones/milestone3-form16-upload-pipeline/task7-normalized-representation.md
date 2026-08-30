@@ -4,15 +4,15 @@
 
 **Phase:** Phase 2
 
-**Status:** `Not Started`
+**Status:** `Completed`
 
 ## Objective & Goal
 
-Create NormalizedDocumentContent schema.
+Create NormalizedDocument, ExtractedPage, and ExtractedTable Pydantic schemas.
 
 ## Acceptance Criteria
 
-- [ ] Implementation completed as specified in `README.md`
-- [ ] Unit / integration tests added and passing
-- [ ] Verified deterministic behavior and security controls
-- [ ] Code reviewed and documented
+- [x] Implementation completed as specified in `README.md`
+- [x] Unit / integration tests added and passing
+- [x] Verified deterministic behavior and security controls
+- [x] Code reviewed and documented
