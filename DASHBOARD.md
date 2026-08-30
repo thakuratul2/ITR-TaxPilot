@@ -10,7 +10,7 @@
 ```text
 Progress: [████████░░░░░░░░░░░░░░░░░░] 28% (5 / 18 Milestones Completed)
 Total Tasks: 123 | Completed: 45 | In Progress: 0 | Pending: 78
-Current Active Branch: milestone/m05-validation-and-normalization
+Current Active Branch: main
 ```
 
 ---
