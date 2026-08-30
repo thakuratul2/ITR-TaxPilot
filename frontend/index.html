@@ -37,12 +37,53 @@
       </a>
 
       <nav class="nav-links">
-        <a href="#upload-section" class="nav-link">Upload Form 16</a>
-        <a href="#regimes-guide" class="nav-link">Old vs New</a>
-        <a href="#deduction-guide" class="nav-link">Deduction Hunter</a>
-        <a href="#marginal-relief-guide" class="nav-link">87A Rebate</a>
-        <a href="#itr-selector-guide" class="nav-link">ITR Forms</a>
-        <a href="#security-guide" class="nav-link">Privacy</a>
+        <a href="#upload-section" class="nav-link"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</a>
+        
+        <!-- Tax Guides Dropdown -->
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" id="guides-dropdown-btn">
+            <span>Tax Guides</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="#regimes-guide" class="dropdown-item">
+              <div class="dropdown-item-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+              <div class="dropdown-item-text">
+                <strong>Old vs New Regime</strong>
+                <span>AY 2026-27 S.115BAC slabs & differences</span>
+              </div>
+            </a>
+            <a href="#deduction-guide" class="dropdown-item">
+              <div class="dropdown-item-icon"><i class="fa-solid fa-crosshairs"></i></div>
+              <div class="dropdown-item-text">
+                <strong>Deduction Hunter</strong>
+                <span>80C, 80D, 80CCD(1B), 24(b) catalog</span>
+              </div>
+            </a>
+            <a href="#marginal-relief-guide" class="dropdown-item">
+              <div class="dropdown-item-icon"><i class="fa-solid fa-chart-line"></i></div>
+              <div class="dropdown-item-text">
+                <strong>Section 87A Marginal Relief</strong>
+                <span>Zero tax cliff formula & example</span>
+              </div>
+            </a>
+            <a href="#itr-selector-guide" class="dropdown-item">
+              <div class="dropdown-item-icon"><i class="fa-solid fa-file-signature"></i></div>
+              <div class="dropdown-item-text">
+                <strong>ITR Form Selector</strong>
+                <span>ITR-1 Sahaj vs ITR-2 decision tree</span>
+              </div>
+            </a>
+            <a href="#security-guide" class="dropdown-item">
+              <div class="dropdown-item-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <div class="dropdown-item-text">
+                <strong>Privacy & Security</strong>
+                <span>Ephemeral in-memory data processing</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
         <a href="#faq-section" class="nav-link">FAQ</a>
         <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="nav-link github-nav-link">
           <i class="fa-brands fa-github"></i> GitHub
