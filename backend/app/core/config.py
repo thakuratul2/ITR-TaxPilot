@@ -39,10 +39,12 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
 
     # AI Providers
+    OPENAI_API_KEY: str = ""
+    OPENAI_MODEL: str = "gpt-4o-mini"
     ANTHROPIC_API_KEY: str = ""
     GOOGLE_API_KEY: str = ""
     GEMINI_API_KEY: str = ""
-    DEFAULT_AI_PROVIDER: str = "gemini"
+    DEFAULT_AI_PROVIDER: str = "openai"
     GEMINI_MODEL: str = "gemini-2.5-flash"
     CLAUDE_MODEL: str = "claude-3-7-sonnet-20250219"
 

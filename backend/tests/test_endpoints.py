@@ -69,3 +69,21 @@ def test_frontend_index_route(client: TestClient):
     assert response.status_code == 200
     assert "ITR-TaxPilot" in response.text
     assert "Section 115BAC" in response.text
+
+
+def test_admin_ai_providers_endpoint(client: TestClient):
+    """Test GET /api/v1/admin/ai-providers returns configured providers."""
+    response = client.get("/api/v1/admin/ai-providers")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert any(p["provider"] == "OpenAI" for p in data)
+    assert any(p["provider"] == "Google Gemini" for p in data)
+    assert any(p["provider"] == "Anthropic Claude" for p in data)
+
+
+def test_frontend_admin_page_route(client: TestClient):
+    """Test GET /admin.html serves the admin dashboard."""
+    response = client.get("/admin.html")
+    assert response.status_code == 200
+    assert "Admin & Telemetry Portal" in response.text
