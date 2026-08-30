@@ -10,7 +10,7 @@
 ```text
 Progress: [███░░░░░░░░░░░░░░░░░░░░░░░░░] 11% (2 / 18 Milestones Completed)
 Total Tasks: 123 | Completed: 22 | In Progress: 0 | Pending: 101
-Current Active Branch: milestone/m02-backend-core
+Current Active Branch: main
 ```
 
 ---
