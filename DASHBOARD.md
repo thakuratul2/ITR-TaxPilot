@@ -10,7 +10,7 @@
 ```text
 Progress: [██████░░░░░░░░░░░░░░░░░░░░] 22% (4 / 18 Milestones Completed)
 Total Tasks: 123 | Completed: 38 | In Progress: 0 | Pending: 85
-Current Active Branch: milestone/m04-ai-extraction-layer
+Current Active Branch: main
 ```
 
 ---
