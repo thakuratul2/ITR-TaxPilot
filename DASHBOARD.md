@@ -10,7 +10,7 @@
 ```text
 Progress: [█████░░░░░░░░░░░░░░░░░░░░░░░] 17% (3 / 18 Milestones Completed)
 Total Tasks: 123 | Completed: 30 | In Progress: 0 | Pending: 93
-Current Active Branch: milestone/m03-form16-upload-pipeline
+Current Active Branch: main
 ```
 
 ---
