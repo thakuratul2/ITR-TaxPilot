@@ -61,3 +61,11 @@ def test_get_analysis_result(client: TestClient):
     assert payload["data"]["assessment_year"] == "2026-27"
     assert len(payload["data"]["calculations"]) == 2
     assert payload["data"]["calculations"][0]["regime"] in ["OLD", "NEW"]
+
+
+def test_frontend_index_route(client: TestClient):
+    """Test GET / serves the frontend single page app."""
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "ITR-TaxPilot" in response.text
+    assert "Section 115BAC" in response.text

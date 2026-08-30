@@ -22,6 +22,7 @@ services:
       - DOCUMENT_RETENTION_MINUTES=30
     volumes:
       - ./backend:/app
+      - ./frontend:/app/frontend
     depends_on:
       postgres:
         condition: service_healthy
