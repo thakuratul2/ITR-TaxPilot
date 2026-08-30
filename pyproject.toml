@@ -22,6 +22,7 @@ ignore = [
     "E501", # line length handled by black/formatter
     "B008", # do not perform function calls in argument defaults (FastAPI Depends)
     "UP046", # Generic class typing parameter syntax for Pydantic Generic models
+    "UP042", # StrEnum vs (str, Enum) compatibility for SQLAlchemy Enum types
 ]
 
 [tool.ruff.lint.isort]

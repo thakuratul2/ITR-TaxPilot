@@ -82,6 +82,34 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
         return response
 
+    # Custom Domain Exception Handler
+    from app.core.exceptions import AppException
+
+    @app.exception_handler(AppException)
+    async def app_exception_handler(request: Request, exc: AppException) -> JSONResponse:
+        request_id = getattr(request.state, "request_id", "req_unknown")
+        logger.warning(
+            "Application error [%s]: %s",
+            exc.code,
+            exc.message,
+            extra={"request_id": request_id, "details": exc.details},
+        )
+        error_response = APIResponse(
+            success=False,
+            data=None,
+            error=APIError(
+                code=exc.code,
+                message=exc.message,
+                details=exc.details,
+            ),
+            request_id=request_id,
+        )
+        return JSONResponse(
+            status_code=exc.status_code,
+            content=error_response.model_dump(),
+            headers={"X-Request-ID": request_id},
+        )
+
     # Global Exception Handlers for both FastAPI & Starlette HTTPExceptions
     @app.exception_handler(StarletteHTTPException)
     @app.exception_handler(HTTPException)
