@@ -4,15 +4,15 @@
 
 **Phase:** Phase 4
 
-**Status:** `Not Started`
+**Status:** `Completed`
 
 ## Objective & Goal
 
-Ensure valid amounts without negative or corrupt values.
+Assert all currency amounts are non-negative and within reasonable bounds.
 
 ## Acceptance Criteria
 
-- [ ] Implementation completed as specified in `README.md`
-- [ ] Unit / integration tests added and passing
-- [ ] Verified deterministic behavior and security controls
-- [ ] Code reviewed and documented
+- [x] Implementation completed as specified in `README.md`
+- [x] Unit / integration tests added and passing
+- [x] Verified deterministic behavior and security controls
+- [x] Code reviewed and documented

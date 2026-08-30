@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [██████░░░░░░░░░░░░░░░░░░░░] 22% (4 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 38 | In Progress: 0 | Pending: 85
-Current Active Branch: main
+Progress: [████████░░░░░░░░░░░░░░░░░░] 28% (5 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 45 | In Progress: 0 | Pending: 78
+Current Active Branch: milestone/m05-validation-and-normalization
 ```
 
 ---
@@ -23,7 +23,7 @@ Current Active Branch: main
 | **M02** | [Milestone 2 — Backend Core & Architecture](file:///D:/Projects/ITR-TaxPilot/milestones/milestone2-backend-core) | Phase 1 | `milestone/m02-backend-core` | 10 | 10 | 🟢 Completed |
 | **M03** | [Milestone 3 — Form 16 Upload & Document Pipeline](file:///D:/Projects/ITR-TaxPilot/milestones/milestone3-form16-upload-pipeline) | Phase 2 | `milestone/m03-form16-upload-pipeline` | 8 | 8 | 🟢 Completed |
 | **M04** | [Milestone 4 — AI Extraction Layer](file:///D:/Projects/ITR-TaxPilot/milestones/milestone4-ai-extraction-layer) | Phase 3 | `milestone/m04-ai-extraction-layer` | 8 | 8 | 🟢 Completed |
-| **M05** | [Milestone 5 — Validation & Data Normalization](file:///D:/Projects/ITR-TaxPilot/milestones/milestone5-validation-and-normalization) | Phase 4 | `milestone/m05-validation-and-normalization` | 7 | 0 | ⚪ Pending |
+| **M05** | [Milestone 5 — Validation & Data Normalization](file:///D:/Projects/ITR-TaxPilot/milestones/milestone5-validation-and-normalization) | Phase 4 | `milestone/m05-validation-and-normalization` | 7 | 7 | 🟢 Completed |
 | **M06** | [Milestone 6 — Assessment Year Rule Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone6-assessment-year-rules) | Phase 5 | `milestone/m06-assessment-year-rules` | 7 | 0 | ⚪ Pending |
 | **M07** | [Milestone 7 — Deterministic Tax Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone7-deterministic-tax-engine) | Phase 6 | `milestone/m07-deterministic-tax-engine` | 13 | 0 | ⚪ Pending |
 | **M08** | [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison) | Phase 7 | `milestone/m08-tax-regime-comparison` | 5 | 0 | ⚪ Pending |
@@ -110,8 +110,15 @@ Current Active Branch: main
 
 ### [Milestone 5 — Validation & Data Normalization](file:///D:/Projects/ITR-TaxPilot/milestones/milestone5-validation-and-normalization)
 - **Branch:** `milestone/m05-validation-and-normalization`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 7
+- **Status:** `Completed`
+- **Tasks Completed:** 7 / 7
+  - [x] `TASK-5.1`: Mandatory fields & PAN/AY regex validation
+  - [x] `TASK-5.2`: Non-negative currency and numeric validation
+  - [x] `TASK-5.3`: Cross-check Part A vs Part B TDS consistency
+  - [x] `TASK-5.4`: Arithmetic relationship consistency checks
+  - [x] `TASK-5.5`: Explicit 0 vs unknown/not found distinction
+  - [x] `TASK-5.6`: Duplicate field reconciliation and resolver
+  - [x] `TASK-5.7`: Low-confidence field flagging & review states
 
 ---
 
