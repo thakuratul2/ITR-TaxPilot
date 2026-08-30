@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 6% (1 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 12 | In Progress: 0 | Pending: 111
-Current Active Branch: main
+Progress: [███░░░░░░░░░░░░░░░░░░░░░░░░░] 11% (2 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 22 | In Progress: 0 | Pending: 101
+Current Active Branch: milestone/m02-backend-core
 ```
 
 ---
@@ -20,7 +20,7 @@ Current Active Branch: main
 | # | Milestone | Phase | Target Branch | Tasks | Completed | Status |
 |:---:|---|:---:|---|:---:|:---:|:---:|
 | **M01** | [Milestone 1 — Project Setup & Foundation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone1-project-setup) | Phase 0 | `milestone/m01-project-setup` | 12 | 12 | 🟢 Completed |
-| **M02** | [Milestone 2 — Backend Core & Architecture](file:///D:/Projects/ITR-TaxPilot/milestones/milestone2-backend-core) | Phase 1 | `milestone/m02-backend-core` | 10 | 0 | ⚪ Pending |
+| **M02** | [Milestone 2 — Backend Core & Architecture](file:///D:/Projects/ITR-TaxPilot/milestones/milestone2-backend-core) | Phase 1 | `milestone/m02-backend-core` | 10 | 10 | 🟢 Completed |
 | **M03** | [Milestone 3 — Form 16 Upload & Document Pipeline](file:///D:/Projects/ITR-TaxPilot/milestones/milestone3-form16-upload-pipeline) | Phase 2 | `milestone/m03-form16-upload-pipeline` | 8 | 0 | ⚪ Pending |
 | **M04** | [Milestone 4 — AI Extraction Layer](file:///D:/Projects/ITR-TaxPilot/milestones/milestone4-ai-extraction-layer) | Phase 3 | `milestone/m04-ai-extraction-layer` | 8 | 0 | ⚪ Pending |
 | **M05** | [Milestone 5 — Validation & Data Normalization](file:///D:/Projects/ITR-TaxPilot/milestones/milestone5-validation-and-normalization) | Phase 4 | `milestone/m05-validation-and-normalization` | 7 | 0 | ⚪ Pending |
@@ -63,8 +63,18 @@ Current Active Branch: main
 
 ### [Milestone 2 — Backend Core & Architecture](file:///D:/Projects/ITR-TaxPilot/milestones/milestone2-backend-core)
 - **Branch:** `milestone/m02-backend-core`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 10
+- **Status:** `Completed`
+- **Tasks Completed:** 10 / 10
+  - [x] `TASK-2.1`: FastAPI routing and `/api/v1` prefixing
+  - [x] `TASK-2.2`: Standard Pydantic request/response envelope schemas
+  - [x] `TASK-2.3`: Central exception handling & custom error codes
+  - [x] `TASK-2.4`: Request ID and correlation tracing middleware
+  - [x] `TASK-2.5`: Configuration management via Pydantic Settings
+  - [x] `TASK-2.6`: PostgreSQL connection & session management
+  - [x] `TASK-2.7`: SQLAlchemy database models
+  - [x] `TASK-2.8`: Alembic migrations setup & baseline migration
+  - [x] `TASK-2.9`: Redis connection pool & health check
+  - [x] `TASK-2.10`: Implement initial API route stubs
 
 ---
 
