@@ -112,6 +112,10 @@ class RuleRegistry:
         """Retrieve rule set for an Assessment Year."""
         return self._rules.get(assessment_year)
 
+    def get(self, assessment_year: str) -> BaseRuleSet | None:
+        """Alias for get_rule_set."""
+        return self.get_rule_set(assessment_year)
+
     def list_registered_ays(self) -> list[str]:
         """List all registered Assessment Years."""
         return sorted(self._rules.keys())

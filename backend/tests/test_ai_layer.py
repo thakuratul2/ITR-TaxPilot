@@ -84,6 +84,7 @@ def test_confidence_score_calculation():
 async def test_gemini_provider_fallback_extraction():
     """Test Gemini provider extraction with fallback."""
     provider = GeminiProvider()
+    provider.api_key = ""
     doc = NormalizedDocument(
         document_id="doc-123",
         filename="form16.pdf",
