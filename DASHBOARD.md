@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [███████████░░░░░░░░░░░░░░░] 39% (7 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 60 | In Progress: 0 | Pending: 63
-Current Active Branch: main
+Progress: [████████████████░░░░░░░░░░] 59% (8 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 73 | In Progress: 0 | Pending: 50
+Current Active Branch: milestone/m07-deterministic-tax-engine
 ```
 
 ---
@@ -25,7 +25,7 @@ Current Active Branch: main
 | **M04** | [Milestone 4 — AI Extraction Layer](file:///D:/Projects/ITR-TaxPilot/milestones/milestone4-ai-extraction-layer) | Phase 3 | `milestone/m04-ai-extraction-layer` | 8 | 8 | 🟢 Completed |
 | **M05** | [Milestone 5 — Validation & Data Normalization](file:///D:/Projects/ITR-TaxPilot/milestones/milestone5-validation-and-normalization) | Phase 4 | `milestone/m05-validation-and-normalization` | 7 | 7 | 🟢 Completed |
 | **M06** | [Milestone 6 — Assessment Year Rule Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone6-assessment-year-rules) | Phase 5 | `milestone/m06-assessment-year-rules` | 7 | 7 | 🟢 Completed |
-| **M07** | [Milestone 7 — Deterministic Tax Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone7-deterministic-tax-engine) | Phase 6 | `milestone/m07-deterministic-tax-engine` | 13 | 0 | ⚪ Pending |
+| **M07** | [Milestone 7 — Deterministic Tax Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone7-deterministic-tax-engine) | Phase 6 | `milestone/m07-deterministic-tax-engine` | 13 | 13 | 🟢 Completed |
 | **M08** | [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison) | Phase 7 | `milestone/m08-tax-regime-comparison` | 5 | 0 | ⚪ Pending |
 | **M09** | [Milestone 9 — ITR Recommendation Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone9-itr-recommendation-engine) | Phase 8 | `milestone/m09-itr-recommendation-engine` | 6 | 0 | ⚪ Pending |
 | **M10** | [Milestone 10 — Explanation AI & Guardrails](file:///D:/Projects/ITR-TaxPilot/milestones/milestone10-explanation-ai) | Phase 9 | `milestone/m10-explanation-ai` | 6 | 0 | ⚪ Pending |
@@ -124,15 +124,35 @@ Current Active Branch: main
 
 ### [Milestone 6 — Assessment Year Rule Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone6-assessment-year-rules)
 - **Branch:** `milestone/m06-assessment-year-rules`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 7
+- **Status:** `Completed`
+- **Tasks Completed:** 7 / 7
+  - [x] `TASK-6.1`: Modular rule engine architecture (`app/tax/rules/`)
+  - [x] `TASK-6.2`: Rule metadata schema (AY, legal source, effective period)
+  - [x] `TASK-6.3`: Implement AY 2025-26 tax rules
+  - [x] `TASK-6.4`: Implement AY 2026-27 tax rules
+  - [x] `TASK-6.5`: AY 2027-28 extensible rule module structure
+  - [x] `TASK-6.6`: Chapter VI-A deduction eligibility catalog
+  - [x] `TASK-6.7`: Comprehensive unit tests for all AY rules
 
 ---
 
 ### [Milestone 7 — Deterministic Tax Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone7-deterministic-tax-engine)
 - **Branch:** `milestone/m07-deterministic-tax-engine`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 13
+- **Status:** `Completed`
+- **Tasks Completed:** 13 / 13
+  - [x] `TASK-7.1`: Core calculation engine orchestration (`backend/app/calculator/tax_engine.py`)
+  - [x] `TASK-7.2`: Gross Total Income computation (`salary_engine.py`, `house_property_engine.py`, `other_sources_engine.py`)
+  - [x] `TASK-7.3`: Section 16 deductions computation (`salary_engine.py`)
+  - [x] `TASK-7.4`: Chapter VI-A eligible deductions computation (`deduction_engine.py`)
+  - [x] `TASK-7.5`: Net Taxable Income rounding Section 288A (`regime_comparator.py`)
+  - [x] `TASK-7.6`: Slab-wise tax computation (`slab_engine.py`)
+  - [x] `TASK-7.7`: Section 87A rebate & Marginal Relief (`rebate_engine.py`)
+  - [x] `TASK-7.8`: Surcharge & Surcharge Marginal Relief (`surcharge_engine.py`)
+  - [x] `TASK-7.9`: 4% Health & Education Cess computation (`tax_engine.py`)
+  - [x] `TASK-7.10`: TDS credit offset & net tax computation (`interest_engine.py`, `tax_engine.py`)
+  - [x] `TASK-7.11`: Final Tax Payable / Refund Section 288B (`tax_engine.py`, `regime_comparator.py`)
+  - [x] `TASK-7.12`: Detailed calculation audit trail generator (`models.py`, `SlabBracketDetail`)
+  - [x] `TASK-7.13`: Complete unit test suite for tax calculations (`test_deterministic_tax_engine.py`)
 
 ---
 
