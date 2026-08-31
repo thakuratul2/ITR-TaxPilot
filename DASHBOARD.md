@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [████████████████░░░░░░░░░░] 59% (8 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 73 | In Progress: 0 | Pending: 50
-Current Active Branch: milestone/m07-deterministic-tax-engine
+Progress: [█████████████████░░░░░░░░░] 63% (9 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 78 | In Progress: 0 | Pending: 45
+Current Active Branch: milestone/m08-tax-regime-comparison
 ```
 
 ---
@@ -26,7 +26,7 @@ Current Active Branch: milestone/m07-deterministic-tax-engine
 | **M05** | [Milestone 5 — Validation & Data Normalization](file:///D:/Projects/ITR-TaxPilot/milestones/milestone5-validation-and-normalization) | Phase 4 | `milestone/m05-validation-and-normalization` | 7 | 7 | 🟢 Completed |
 | **M06** | [Milestone 6 — Assessment Year Rule Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone6-assessment-year-rules) | Phase 5 | `milestone/m06-assessment-year-rules` | 7 | 7 | 🟢 Completed |
 | **M07** | [Milestone 7 — Deterministic Tax Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone7-deterministic-tax-engine) | Phase 6 | `milestone/m07-deterministic-tax-engine` | 13 | 13 | 🟢 Completed |
-| **M08** | [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison) | Phase 7 | `milestone/m08-tax-regime-comparison` | 5 | 0 | ⚪ Pending |
+| **M08** | [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison) | Phase 7 | `milestone/m08-tax-regime-comparison` | 5 | 5 | 🟢 Completed |
 | **M09** | [Milestone 9 — ITR Recommendation Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone9-itr-recommendation-engine) | Phase 8 | `milestone/m09-itr-recommendation-engine` | 6 | 0 | ⚪ Pending |
 | **M10** | [Milestone 10 — Explanation AI & Guardrails](file:///D:/Projects/ITR-TaxPilot/milestones/milestone10-explanation-ai) | Phase 9 | `milestone/m10-explanation-ai` | 6 | 0 | ⚪ Pending |
 | **M11** | [Milestone 11 — Redis & Job Processing](file:///D:/Projects/ITR-TaxPilot/milestones/milestone11-redis-job-processing) | Phase 10 | `milestone/m11-redis-job-processing` | 6 | 0 | ⚪ Pending |
@@ -37,6 +37,20 @@ Current Active Branch: milestone/m07-deterministic-tax-engine
 | **M16** | [Milestone 16 — Observability & Monitoring](file:///D:/Projects/ITR-TaxPilot/milestones/milestone16-observability-monitoring) | Phase 15 | `milestone/m16-observability-monitoring` | 4 | 0 | ⚪ Pending |
 | **M17** | [Milestone 17 — Production Deployment](file:///D:/Projects/ITR-TaxPilot/milestones/milestone17-production-deployment) | Phase 16 | `milestone/m17-production-deployment` | 5 | 0 | ⚪ Pending |
 | **M18** | [Milestone 18 — Future Expansion (Post-MVP)](file:///D:/Projects/ITR-TaxPilot/milestones/milestone18-future-expansion) | Phase 17 | `milestone/m18-future-expansion` | 6 | 0 | ⚪ Pending |
+
+---
+
+## 📌 Milestone Detailed Status
+
+### [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison)
+- **Branch:** `milestone/m08-tax-regime-comparison`
+- **Status:** `Completed`
+- **Tasks Completed:** 5 / 5
+  - [x] `TASK-8.1`: Parallel Old vs New Regime calculator (`backend/app/comparison/comparison_engine.py`)
+  - [x] `TASK-8.2`: Net tax liability difference & savings analysis (`take_home_analysis`)
+  - [x] `TASK-8.3`: Deduction breakeven threshold analysis (`backend/app/comparison/breakeven_solver.py`)
+  - [x] `TASK-8.4`: Transparent regime comparison breakdown (`generate_line_items`)
+  - [x] `TASK-8.5`: Unit tests for tax regime comparison (`backend/tests/test_regime_comparison.py`)
 
 ---
 
