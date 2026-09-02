@@ -81,3 +81,40 @@ class ExtractedForm16Data(BaseModel):
     model_name: str = Field(default="unknown", description="AI Model used for extraction")
     has_dual_verification: bool = Field(default=False, description="True if cross-verified by secondary model")
     disagreements: list[str] = Field(default_factory=list, description="Fields with model disagreements if any")
+
+
+class MissingInfoAdvisoryItem(BaseModel):
+    """Specific missing or unverified tax data advisory item."""
+    field_category: str = Field(..., description="Category (e.g. 'Chapter VI-A', 'Deductions', 'AIS Reconciliation')")
+    title: str = Field(..., description="Short descriptive title of the advisory")
+    description: str = Field(..., description="Explanation of why this information matters and potential tax savings")
+    action_required: str = Field(..., description="Clear action taxpayer should take before filing")
+
+
+class ExplanationOutputSchema(BaseModel):
+    """Structured plain-English explanation payload produced by AI Layer."""
+    executive_summary: str = Field(..., description="Bottom-line summary for taxpayer")
+    recommended_regime: str = Field(..., description="Winning regime (NEW or OLD)")
+    regime_comparison_narrative: str = Field(..., description="Clear explanation of why the winning regime saves money")
+    tax_breakdown_highlights: list[str] = Field(default_factory=list, description="Bullet points explaining key calculation components")
+    take_home_impact: str = Field(..., description="Monthly in-hand cash flow differential explanation")
+    itr_form_guidance: str = Field(..., description="Guidance on recommended ITR form and required statutory schedules")
+    missing_information_advisories: list[str] = Field(default_factory=list, description="Checklist of unverified items, AIS items, or missing proofs")
+    tax_planning_tips: list[str] = Field(default_factory=list, description="Actionable tax optimization recommendations")
+    statutory_disclaimer: str = Field(..., description="Mandatory legal disclaimer")
+    is_verified_against_calculation: bool = Field(default=True, description="True if passed strict anti-hallucination numerical verification")
+    guardrail_interventions: list[str] = Field(default_factory=list, description="Notes on any sanitized or corrected figures")
+
+
+class TaxQuestionRequest(BaseModel):
+    """Taxpayer conversational Q&A request."""
+    question: str = Field(..., description="User's natural language question regarding their tax analysis")
+    session_id: str | None = Field(default=None, description="Optional conversational session ID")
+
+
+class TaxQuestionResponse(BaseModel):
+    """Taxpayer conversational Q&A response."""
+    answer: str = Field(..., description="Plain English answer grounded strictly in deterministic calculation context")
+    relevant_figures: list[str] = Field(default_factory=list, description="Referenced statutory figures")
+    disclaimer: str = Field(..., description="Standard educational disclaimer")
+

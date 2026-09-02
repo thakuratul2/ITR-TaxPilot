@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [███████████████░░░░░░░░░░] 56% (10 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 84 | In Progress: 0 | Pending: 39
-Current Active Branch: main
+Progress: [████████████████░░░░░░░░░░] 61% (11 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 90 | In Progress: 0 | Pending: 33
+Current Active Branch: milestone/m10-explanation-ai
 ```
 
 ---
@@ -28,7 +28,7 @@ Current Active Branch: main
 | **M07** | [Milestone 7 — Deterministic Tax Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone7-deterministic-tax-engine) | Phase 6 | `milestone/m07-deterministic-tax-engine` | 13 | 13 | 🟢 Completed |
 | **M08** | [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison) | Phase 7 | `milestone/m08-tax-regime-comparison` | 5 | 5 | 🟢 Completed |
 | **M09** | [Milestone 9 — ITR Recommendation Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone9-itr-recommendation-engine) | Phase 8 | `milestone/m09-itr-recommendation-engine` | 6 | 6 | 🟢 Completed |
-| **M10** | [Milestone 10 — Explanation AI & Guardrails](file:///D:/Projects/ITR-TaxPilot/milestones/milestone10-explanation-ai) | Phase 9 | `milestone/m10-explanation-ai` | 6 | 0 | ⚪ Pending |
+| **M10** | [Milestone 10 — Explanation AI & Guardrails](file:///D:/Projects/ITR-TaxPilot/milestones/milestone10-explanation-ai) | Phase 9 | `milestone/m10-explanation-ai` | 6 | 6 | 🟢 Completed |
 | **M11** | [Milestone 11 — Redis & Job Processing](file:///D:/Projects/ITR-TaxPilot/milestones/milestone11-redis-job-processing) | Phase 10 | `milestone/m11-redis-job-processing` | 6 | 0 | ⚪ Pending |
 | **M12** | [Milestone 12 — Frontend MVP](file:///D:/Projects/ITR-TaxPilot/milestones/milestone12-frontend-mvp) | Phase 11 | `milestone/m12-frontend-mvp` | 8 | 8 | 🟢 Completed |
 | **M13** | [Milestone 13 — Report Generation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone13-report-generation) | Phase 12 | `milestone/m13-report-generation` | 5 | 0 | ⚪ Pending |
@@ -54,6 +54,19 @@ Current Active Branch: main
 
 ---
 
+### [Milestone 10 — Explanation AI & Guardrails](milestones/milestone10-explanation-ai)
+- **Branch:** `milestone/m10-explanation-ai`
+- **Status:** `Completed`
+- **Tasks Completed:** 6 / 6
+  - [x] `TASK-10.1`: Structured calculation context builder (`backend/app/ai/explanation_context.py`)
+  - [x] `TASK-10.2`: Explanation prompt templates with safety guardrails (`backend/app/ai/prompts/explanation_prompt.py`)
+  - [x] `TASK-10.3`: Tax result explanation generation service (`backend/app/ai/explanation_engine.py`)
+  - [x] `TASK-10.4`: Missing information & assumptions advisory (`missing_info_advisories`)
+  - [x] `TASK-10.5`: Strict numerical output verification guardrails (`backend/app/ai/guardrails.py`)
+  - [x] `TASK-10.6`: Automated anti-hallucination guardrail tests (`backend/tests/test_explanation_ai.py`)
+
+---
+
 ### [Milestone 9 — ITR Recommendation Engine](milestones/milestone9-itr-recommendation-engine)
 - **Branch:** `milestone/m09-itr-recommendation-engine`
 - **Status:** `Completed`
@@ -64,6 +77,7 @@ Current Active Branch: main
   - [x] `TASK-9.4`: ITR-3 & ITR-4 (Sugam) detection triggers (`evaluate_itr4_sugam`, `evaluate_itr3`)
   - [x] `TASK-9.5`: Recommendation payload with reasons and disclaimer (`backend/app/tax/itr_models.py`)
   - [x] `TASK-9.6`: Unit tests for ITR recommendation engine (`backend/tests/test_itr_selector.py`)
+
 
 ---
 
@@ -183,13 +197,6 @@ Current Active Branch: main
 
 ---
 
-### [Milestone 10 — Explanation AI & Guardrails](milestones/milestone10-explanation-ai)
-- **Branch:** `milestone/m10-explanation-ai`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 6
-
----
-
 ### [Milestone 11 — Redis & Job Processing](milestones/milestone11-redis-job-processing)
 - **Branch:** `milestone/m11-redis-job-processing`
 - **Status:** `Pending`
@@ -246,4 +253,5 @@ Current Active Branch: main
 
 ---
 
-*Last Updated: 2026-09-02 (Milestone 9 Completed) | Maintained automatically via [`EXECUTION_PROMPT.md`](file:///D:/Projects/ITR-TaxPilot/EXECUTION_PROMPT.md)*
+*Last Updated: 2026-09-02 (Milestone 10 Completed) | Maintained automatically via [`EXECUTION_PROMPT.md`](file:///D:/Projects/ITR-TaxPilot/EXECUTION_PROMPT.md)*
+
