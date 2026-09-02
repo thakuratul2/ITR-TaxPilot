@@ -214,8 +214,6 @@ class GeminiProvider(AIProvider):
   "tax": {{
     "total_taxable_income": 950000.0,
     "tax_on_total_income": 65000.0,
-    "rebate_87a": 0.0,
-    "surcharge": 0.0,
     "health_and_education_cess": 2600.0,
     "total_tax_payable": 67600.0,
     "relief_89": 0.0,
@@ -223,3 +221,44 @@ class GeminiProvider(AIProvider):
     "total_tds_deducted": 67600.0
   }}
 }}"""
+
+    async def explain_tax_calculation(
+        self,
+        context: dict[str, Any],
+        temperature: float = 0.1,
+    ) -> str:
+        """Generate AI explanation from structured calculation context using Gemini."""
+        from app.ai.prompts.explanation_prompt import (
+            EXPLANATION_SYSTEM_PROMPT,
+            build_explanation_user_prompt,
+        )
+        prompt = build_explanation_user_prompt(context)
+
+        if self.api_key:
+            try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_name}:generateContent?key={self.api_key}"
+                payload = {
+                    "systemInstruction": {
+                        "parts": [{"text": EXPLANATION_SYSTEM_PROMPT}]
+                    },
+                    "contents": [{
+                        "parts": [{"text": prompt}]
+                    }],
+                    "generationConfig": {
+                        "response_mime_type": "application/json",
+                        "temperature": temperature,
+                    },
+                }
+                req = urllib.request.Request(
+                    url,
+                    data=json.dumps(payload).encode("utf-8"),
+                    headers={"Content-Type": "application/json"},
+                )
+                with urllib.request.urlopen(req, timeout=12) as resp:
+                    res_data = json.loads(resp.read().decode("utf-8"))
+                    return res_data["candidates"][0]["content"]["parts"][0]["text"]
+            except Exception as err:
+                logger.warning("Gemini explanation API call failed (%s); falling back.", str(err))
+
+        return ""
+

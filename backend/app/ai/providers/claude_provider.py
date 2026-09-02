@@ -80,27 +80,25 @@ class ClaudeProvider(AIProvider):
         context: dict[str, Any],
         temperature: float = 0.2,
     ) -> str:
-        """Generate tax explanation using Claude."""
+        """Generate tax explanation using Claude with strict guardrail prompts."""
+        from app.ai.prompts.explanation_prompt import (
+            EXPLANATION_SYSTEM_PROMPT,
+            build_explanation_user_prompt,
+        )
         if not self.client:
-            regime = context.get("recommended_regime", "NEW")
-            savings = context.get("tax_savings", 0.0)
-            return (
-                f"Based on your salary and deduction figures, the {regime} tax regime "
-                f"is recommended, providing estimated tax savings of ₹{savings:,.2f}."
-            )
+            return ""
 
         try:
-            explanation_prompt = (
-                f"Explain the following Indian Income Tax calculation clearly to a taxpayer in 3 concise paragraphs:\n"
-                f"{context}\nHighlight regime comparison, major deductions, and the optimal ITR filing form."
-            )
+            user_prompt = build_explanation_user_prompt(context)
             response = await self.client.messages.create(
                 model=self.model_name,
-                max_tokens=1000,
+                max_tokens=2048,
                 temperature=temperature,
-                messages=[{"role": "user", "content": explanation_prompt}],
+                system=EXPLANATION_SYSTEM_PROMPT,
+                messages=[{"role": "user", "content": user_prompt}],
             )
-            return response.content[0].text if response.content else "Tax calculation explained."
+            return response.content[0].text if response.content else ""
         except Exception as e:
             logger.warning("Claude explanation generation error: %s", str(e))
-            return "Tax computation completed successfully."
+            return ""
+
