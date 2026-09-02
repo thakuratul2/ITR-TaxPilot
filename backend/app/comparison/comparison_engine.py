@@ -8,6 +8,7 @@ from app.comparison.models import (
     ComprehensiveComparisonResponse,
     TakeHomeAnalysis,
 )
+from app.tax.itr_selector import ITRSelector
 from app.tax.rules.base import TaxRegime
 
 
@@ -112,10 +113,10 @@ class ComparisonEngine:
         # Detailed line items
         line_items = cls.generate_line_items(old_comp, new_comp)
 
-        # Recommended ITR Form
-        is_single_sop = profile.house_property.annual_lettable_value_or_rent <= 0
-        total_inc = max(old_comp.total_taxable_income, new_comp.total_taxable_income)
-        itr_form = "ITR-1 (Sahaj)" if total_inc <= 5000000.0 and is_single_sop else "ITR-2"
+        # Deterministic ITR Recommendation
+        itr_profile = ITRSelector.from_taxpayer_profile_input(profile)
+        itr_rec = ITRSelector.recommend(itr_profile)
+        itr_form = itr_rec.recommended_form.value
 
         # Narrative Summary
         if recommended == "NEW":
@@ -150,5 +151,7 @@ class ComparisonEngine:
             old_regime=old_comp,
             new_regime=new_comp,
             recommended_itr_form=itr_form,
+            itr_recommendation=itr_rec,
             narrative_summary=narrative,
         )
+

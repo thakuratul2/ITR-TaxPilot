@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [█████████████████░░░░░░░░░] 63% (9 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 78 | In Progress: 0 | Pending: 45
-Current Active Branch: milestone/m08-tax-regime-comparison
+Progress: [███████████████░░░░░░░░░░] 56% (10 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 84 | In Progress: 0 | Pending: 39
+Current Active Branch: milestone/m09-itr-recommendation-engine
 ```
 
 ---
@@ -27,7 +27,7 @@ Current Active Branch: milestone/m08-tax-regime-comparison
 | **M06** | [Milestone 6 — Assessment Year Rule Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone6-assessment-year-rules) | Phase 5 | `milestone/m06-assessment-year-rules` | 7 | 7 | 🟢 Completed |
 | **M07** | [Milestone 7 — Deterministic Tax Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone7-deterministic-tax-engine) | Phase 6 | `milestone/m07-deterministic-tax-engine` | 13 | 13 | 🟢 Completed |
 | **M08** | [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison) | Phase 7 | `milestone/m08-tax-regime-comparison` | 5 | 5 | 🟢 Completed |
-| **M09** | [Milestone 9 — ITR Recommendation Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone9-itr-recommendation-engine) | Phase 8 | `milestone/m09-itr-recommendation-engine` | 6 | 0 | ⚪ Pending |
+| **M09** | [Milestone 9 — ITR Recommendation Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone9-itr-recommendation-engine) | Phase 8 | `milestone/m09-itr-recommendation-engine` | 6 | 6 | 🟢 Completed |
 | **M10** | [Milestone 10 — Explanation AI & Guardrails](file:///D:/Projects/ITR-TaxPilot/milestones/milestone10-explanation-ai) | Phase 9 | `milestone/m10-explanation-ai` | 6 | 0 | ⚪ Pending |
 | **M11** | [Milestone 11 — Redis & Job Processing](file:///D:/Projects/ITR-TaxPilot/milestones/milestone11-redis-job-processing) | Phase 10 | `milestone/m11-redis-job-processing` | 6 | 0 | ⚪ Pending |
 | **M12** | [Milestone 12 — Frontend MVP](file:///D:/Projects/ITR-TaxPilot/milestones/milestone12-frontend-mvp) | Phase 11 | `milestone/m12-frontend-mvp` | 8 | 8 | 🟢 Completed |
@@ -51,6 +51,19 @@ Current Active Branch: milestone/m08-tax-regime-comparison
   - [x] `TASK-8.3`: Deduction breakeven threshold analysis (`backend/app/comparison/breakeven_solver.py`)
   - [x] `TASK-8.4`: Transparent regime comparison breakdown (`generate_line_items`)
   - [x] `TASK-8.5`: Unit tests for tax regime comparison (`backend/tests/test_regime_comparison.py`)
+
+---
+
+### [Milestone 9 — ITR Recommendation Engine](milestones/milestone9-itr-recommendation-engine)
+- **Branch:** `milestone/m09-itr-recommendation-engine`
+- **Status:** `Completed`
+- **Tasks Completed:** 6 / 6
+  - [x] `TASK-9.1`: ITR eligibility selector module (`backend/app/tax/itr_selector.py`)
+  - [x] `TASK-9.2`: ITR-1 (Sahaj) eligibility rules (`evaluate_itr1_sahaj`)
+  - [x] `TASK-9.3`: ITR-2 eligibility rules (`evaluate_itr2`)
+  - [x] `TASK-9.4`: ITR-3 & ITR-4 (Sugam) detection triggers (`evaluate_itr4_sugam`, `evaluate_itr3`)
+  - [x] `TASK-9.5`: Recommendation payload with reasons and disclaimer (`backend/app/tax/itr_models.py`)
+  - [x] `TASK-9.6`: Unit tests for ITR recommendation engine (`backend/tests/test_itr_selector.py`)
 
 ---
 
@@ -170,81 +183,67 @@ Current Active Branch: milestone/m08-tax-regime-comparison
 
 ---
 
-### [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison)
-- **Branch:** `milestone/m08-tax-regime-comparison`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 5
-
----
-
-### [Milestone 9 — ITR Recommendation Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone9-itr-recommendation-engine)
-- **Branch:** `milestone/m09-itr-recommendation-engine`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 6
-
----
-
-### [Milestone 10 — Explanation AI & Guardrails](file:///D:/Projects/ITR-TaxPilot/milestones/milestone10-explanation-ai)
+### [Milestone 10 — Explanation AI & Guardrails](milestones/milestone10-explanation-ai)
 - **Branch:** `milestone/m10-explanation-ai`
 - **Status:** `Pending`
 - **Tasks Completed:** 0 / 6
 
 ---
 
-### [Milestone 11 — Redis & Job Processing](file:///D:/Projects/ITR-TaxPilot/milestones/milestone11-redis-job-processing)
+### [Milestone 11 — Redis & Job Processing](milestones/milestone11-redis-job-processing)
 - **Branch:** `milestone/m11-redis-job-processing`
 - **Status:** `Pending`
 - **Tasks Completed:** 0 / 6
 
 ---
 
-### [Milestone 12 — Frontend MVP](file:///D:/Projects/ITR-TaxPilot/milestones/milestone12-frontend-mvp)
+### [Milestone 12 — Frontend MVP](milestones/milestone12-frontend-mvp)
 - **Branch:** `milestone/m12-frontend-mvp`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 8
+- **Status:** `Completed`
+- **Tasks Completed:** 8 / 8
 
 ---
 
-### [Milestone 13 — Report Generation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone13-report-generation)
+### [Milestone 13 — Report Generation](milestones/milestone13-report-generation)
 - **Branch:** `milestone/m13-report-generation`
 - **Status:** `Pending`
 - **Tasks Completed:** 0 / 5
 
 ---
 
-### [Milestone 14 — Security & Privacy](file:///D:/Projects/ITR-TaxPilot/milestones/milestone14-security-and-privacy)
+### [Milestone 14 — Security & Privacy](milestones/milestone14-security-and-privacy)
 - **Branch:** `milestone/m14-security-and-privacy`
 - **Status:** `Pending`
 - **Tasks Completed:** 0 / 8
 
 ---
 
-### [Milestone 15 — Testing & Quality Assurance](file:///D:/Projects/ITR-TaxPilot/milestones/milestone15-testing-and-qa)
+### [Milestone 15 — Testing & Quality Assurance](milestones/milestone15-testing-and-qa)
 - **Branch:** `milestone/m15-testing-and-qa`
 - **Status:** `Pending`
 - **Tasks Completed:** 0 / 6
 
 ---
 
-### [Milestone 16 — Observability & Monitoring](file:///D:/Projects/ITR-TaxPilot/milestones/milestone16-observability-monitoring)
+### [Milestone 16 — Observability & Monitoring](milestones/milestone16-observability-monitoring)
 - **Branch:** `milestone/m16-observability-monitoring`
 - **Status:** `Pending`
 - **Tasks Completed:** 0 / 4
 
 ---
 
-### [Milestone 17 — Production Deployment](file:///D:/Projects/ITR-TaxPilot/milestones/milestone17-production-deployment)
+### [Milestone 17 — Production Deployment](milestones/milestone17-production-deployment)
 - **Branch:** `milestone/m17-production-deployment`
 - **Status:** `Pending`
 - **Tasks Completed:** 0 / 5
 
 ---
 
-### [Milestone 18 — Future Expansion (Post-MVP)](file:///D:/Projects/ITR-TaxPilot/milestones/milestone18-future-expansion)
+### [Milestone 18 — Future Expansion (Post-MVP)](milestones/milestone18-future-expansion)
 - **Branch:** `milestone/m18-future-expansion`
 - **Status:** `Pending`
 - **Tasks Completed:** 0 / 6
 
 ---
 
-*Last Updated: 2026-08-30 (Milestone 6 In Progress) | Maintained automatically via [`EXECUTION_PROMPT.md`](file:///D:/Projects/ITR-TaxPilot/EXECUTION_PROMPT.md)*
+*Last Updated: 2026-09-02 (Milestone 9 Completed) | Maintained automatically via [`EXECUTION_PROMPT.md`](file:///D:/Projects/ITR-TaxPilot/EXECUTION_PROMPT.md)*

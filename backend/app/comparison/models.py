@@ -38,6 +38,9 @@ class BreakevenAnalysis(BaseModel):
     optimization_recommendations: list[str] = Field(default_factory=list)
 
 
+from app.tax.itr_models import ITRRecommendation
+
+
 class ComprehensiveComparisonResponse(BaseModel):
     """Complete response payload for side-by-side regime comparison and breakeven intelligence."""
     assessment_year: str
@@ -55,4 +58,6 @@ class ComprehensiveComparisonResponse(BaseModel):
     new_regime: RegimeComputation
     
     recommended_itr_form: str
+    itr_recommendation: ITRRecommendation | None = Field(default=None, description="Detailed statutory ITR recommendation")
     narrative_summary: str
+
