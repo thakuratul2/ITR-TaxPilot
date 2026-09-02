@@ -10,7 +10,7 @@
 ```text
 Progress: [███████████████░░░░░░░░░░] 56% (10 / 18 Milestones Completed)
 Total Tasks: 123 | Completed: 84 | In Progress: 0 | Pending: 39
-Current Active Branch: milestone/m09-itr-recommendation-engine
+Current Active Branch: main
 ```
 
 ---
