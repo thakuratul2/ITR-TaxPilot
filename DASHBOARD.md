@@ -10,7 +10,7 @@
 ```text
 Progress: [████████████████░░░░░░░░░░] 61% (11 / 18 Milestones Completed)
 Total Tasks: 123 | Completed: 90 | In Progress: 0 | Pending: 33
-Current Active Branch: milestone/m10-explanation-ai
+Current Active Branch: main
 ```
 
 ---
