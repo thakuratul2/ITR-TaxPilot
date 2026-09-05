@@ -22,6 +22,17 @@ async def health_check(request: Request) -> HealthResponse:
     db_ok = await check_db_health()
     redis_ok = await check_redis_health()
 
+    # Probe AI providers configuration
+    ai_status = {
+        "gemini": "configured" if settings.GEMINI_API_KEY or settings.GOOGLE_API_KEY else "unconfigured",
+        "openai": "configured" if settings.OPENAI_API_KEY else "unconfigured",
+        "claude": "configured" if settings.ANTHROPIC_API_KEY else "unconfigured",
+    }
+
+    # Probe ephemeral storage
+    from app.documents.storage import storage_manager
+    storage_ok = storage_manager.base_dir.exists()
+
     health_data = HealthData(
         status="healthy",
         app_name=settings.APP_NAME,
@@ -30,6 +41,8 @@ async def health_check(request: Request) -> HealthResponse:
         timestamp=datetime.now(UTC).isoformat(),
         database="ready" if db_ok else "unreachable",
         redis="ready" if redis_ok else "unreachable",
+        storage="ready" if storage_ok else "unreachable",
+        ai_providers=ai_status,
     )
 
     return HealthResponse(

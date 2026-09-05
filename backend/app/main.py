@@ -114,6 +114,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         response.headers["X-Request-ID"] = request_id
         response.headers["X-Process-Time-MS"] = str(process_time_ms)
 
+        # Telemetry metrics collection
+        from app.core.telemetry import metrics_collector
+        metrics_collector.record_request(request.method, request.url.path, response.status_code, process_time_ms)
+
         # Structured request logging
         logger.info(
             "%s %s -> %s (%sms)",

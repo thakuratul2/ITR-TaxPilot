@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [█████████████████████░░░] 83% (15 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 115 | In Progress: 0 | Pending: 8
-Current Active Branch: main
+Progress: [██████████████████████░░] 89% (16 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 119 | In Progress: 0 | Pending: 4
+Current Active Branch: milestone/m16-observability-monitoring
 ```
 
 ---
@@ -34,7 +34,7 @@ Current Active Branch: main
 | **M13** | [Milestone 13 — Report Generation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone13-report-generation) | Phase 12 | `milestone/m13-report-generation` | 5 | 5 | 🟢 Completed |
 | **M14** | [Milestone 14 — Security & Privacy](file:///D:/Projects/ITR-TaxPilot/milestones/milestone14-security-and-privacy) | Phase 13 | `milestone/m14-security-and-privacy` | 8 | 8 | 🟢 Completed |
 | **M15** | [Milestone 15 — Testing & Quality Assurance](file:///D:/Projects/ITR-TaxPilot/milestones/milestone15-testing-and-qa) | Phase 14 | `milestone/m15-testing-and-qa` | 6 | 6 | 🟢 Completed |
-| **M16** | [Milestone 16 — Observability & Monitoring](file:///D:/Projects/ITR-TaxPilot/milestones/milestone16-observability-monitoring) | Phase 15 | `milestone/m16-observability-monitoring` | 4 | 0 | ⚪ Pending |
+| **M16** | [Milestone 16 — Observability & Monitoring](file:///D:/Projects/ITR-TaxPilot/milestones/milestone16-observability-monitoring) | Phase 15 | `milestone/m16-observability-monitoring` | 4 | 4 | 🟢 Completed |
 | **M17** | [Milestone 17 — Production Deployment](file:///D:/Projects/ITR-TaxPilot/milestones/milestone17-production-deployment) | Phase 16 | `milestone/m17-production-deployment` | 5 | 0 | ⚪ Pending |
 | **M18** | [Milestone 18 — Future Expansion (Post-MVP)](file:///D:/Projects/ITR-TaxPilot/milestones/milestone18-future-expansion) | Phase 17 | `milestone/m18-future-expansion` | 6 | 0 | ⚪ Pending |
 
@@ -259,8 +259,12 @@ Current Active Branch: main
 
 ### [Milestone 16 — Observability & Monitoring](milestones/milestone16-observability-monitoring)
 - **Branch:** `milestone/m16-observability-monitoring`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 4
+- **Status:** `Completed`
+- **Tasks Completed:** 4 / 4
+  - [x] `TASK-16.1`: Structured JSON logging with request/job tracing (`backend/app/core/logging.py`)
+  - [x] `TASK-16.2`: Performance & error metrics tracking (`backend/app/core/telemetry.py`, `backend/app/api/routes/metrics.py`)
+  - [x] `TASK-16.3`: Comprehensive health check suite (`backend/app/api/routes/health.py`)
+  - [x] `TASK-16.4`: Log sanitization verification audit (`backend/tests/test_observability.py`)
 
 ---
 
