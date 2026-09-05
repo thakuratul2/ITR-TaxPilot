@@ -90,6 +90,8 @@
             <i class="fa-solid fa-lock"></i> Lock Console
           </button>
         </div>
+      </div>
+
       <!-- Launch & Product Hunt Live Telemetry -->
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
         <h2 class="section-heading" style="margin-bottom: 0; display: flex; align-items: center; gap: 0.5rem;">
