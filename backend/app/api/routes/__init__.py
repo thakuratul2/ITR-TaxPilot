@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from app.api.routes import analysis, documents, health, jobs
+from app.api.routes import analysis, documents, health, jobs, reports
 from app.api.v1.admin import router as admin_router
 from app.api.v1.auth import router as auth_router
 from app.api.v1.calculator import router as calculator_router
@@ -17,3 +17,4 @@ api_router.include_router(comparison_router)
 api_router.include_router(documents.router)
 api_router.include_router(jobs.router)
 api_router.include_router(analysis.router)
+api_router.include_router(reports.router)
