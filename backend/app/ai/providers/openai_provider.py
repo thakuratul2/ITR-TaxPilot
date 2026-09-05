@@ -4,7 +4,6 @@ import os
 from typing import Any
 
 from app.ai.confidence import calculate_field_confidence_scores
-from app.ai.json_parser import parse_and_recover_llm_json
 from app.ai.prompts.extraction_prompt import (
     FORM16_EXTRACTION_SYSTEM_PROMPT,
     build_extraction_user_prompt,
@@ -19,7 +18,6 @@ from app.ai.schemas import (
     ExtractedTaxSummary,
 )
 from app.core.config import get_settings
-from app.core.exceptions import AIProviderError
 from app.core.logging import get_logger
 from app.documents.models import NormalizedDocument
 
@@ -146,6 +144,7 @@ class OpenAIProvider(AIProvider):
     def _generate_fallback_json(self, document: NormalizedDocument) -> str:
         """Provide deterministic fallback extracted directly from document text."""
         import json
+
         from app.documents.form16_parser import parse_form16_text_deterministically
         data = parse_form16_text_deterministically(document.full_text)
         return json.dumps(data)

@@ -1,6 +1,7 @@
 """Admin panel endpoints for system telemetry, user management, and AI provider status."""
 
 from typing import Any
+
 from fastapi import APIRouter, Depends
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession

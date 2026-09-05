@@ -1,6 +1,10 @@
 """Side-by-side Regime Comparison and Recommendation Sub-Engine."""
 
-from app.calculator.models import RegimeComparisonResult, RegimeComputation, TaxpayerProfileInput
+from app.calculator.models import (
+    RegimeComparisonResult,
+    RegimeComputation,
+    TaxpayerProfileInput,
+)
 
 
 class RegimeComparator:
@@ -48,7 +52,7 @@ class RegimeComparator:
         # ITR-1 Sahaj is valid if Total Income <= ₹50 Lakhs, has 1 House Property (SOP), no business income
         is_single_sop = profile.house_property.annual_lettable_value_or_rent <= 0
         total_inc = max(old_regime.total_taxable_income, new_regime.total_taxable_income)
-        
+
         if total_inc <= 5000000.0 and is_single_sop:
             recommended_itr = "ITR-1 (Sahaj)"
         else:

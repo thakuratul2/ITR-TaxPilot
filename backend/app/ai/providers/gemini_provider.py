@@ -6,13 +6,11 @@ from typing import Any
 from app.ai.confidence import calculate_field_confidence_scores
 from app.ai.json_parser import parse_and_recover_llm_json
 from app.ai.prompts.extraction_prompt import (
-    FORM16_EXTRACTION_SYSTEM_PROMPT,
     build_extraction_user_prompt,
 )
 from app.ai.providers.base import AIProvider
 from app.ai.schemas import ExtractedForm16Data
 from app.core.config import get_settings
-from app.core.exceptions import AIProviderError
 from app.core.logging import get_logger
 from app.documents.models import NormalizedDocument
 
@@ -20,8 +18,9 @@ logger = get_logger("app.ai.gemini")
 
 
 import json
-import urllib.request
 import urllib.error
+import urllib.request
+
 
 class GeminiProvider(AIProvider):
     """Google Gemini extraction provider."""
@@ -76,7 +75,6 @@ class GeminiProvider(AIProvider):
         try:
             model_obj = ExtractedForm16Data.model_validate(parsed_dict)
         except Exception:
-            from app.documents.form16_parser import parse_form16_text_deterministically
             from app.ai.schemas import (
                 ExtractedChapterVIA,
                 ExtractedEmployee,
@@ -84,10 +82,11 @@ class GeminiProvider(AIProvider):
                 ExtractedSalaryBreakdown,
                 ExtractedTaxSummary,
             )
+            from app.documents.form16_parser import parse_form16_text_deterministically
             det = parse_form16_text_deterministically(document.full_text)
             salary_dict = parsed_dict.get("salary") if isinstance(parsed_dict.get("salary"), dict) else {}
             tax_dict = parsed_dict.get("tax") if isinstance(parsed_dict.get("tax"), dict) else {}
-            
+
             gross = (
                 salary_dict.get("total_gross_salary", 0.0)
                 or det.get("gross_salary", 0.0)
@@ -103,7 +102,7 @@ class GeminiProvider(AIProvider):
                 or parsed_dict.get("total_tds_deducted", 0.0)
                 or parsed_dict.get("total_tax_deducted", 0.0)
             )
-            
+
             salary_obj = ExtractedSalaryBreakdown(
                 total_gross_salary=gross,
                 gross_salary_sec_17_1=gross,

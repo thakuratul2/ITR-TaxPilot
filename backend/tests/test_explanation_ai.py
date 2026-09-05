@@ -22,7 +22,6 @@ from app.calculator.models import (
     TaxpayerProfileInput,
 )
 from app.comparison.comparison_engine import ComparisonEngine
-from app.tax.itr_models import ITRFormType, ITRRecommendation
 
 
 @pytest.fixture

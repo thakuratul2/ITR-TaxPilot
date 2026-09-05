@@ -1,6 +1,7 @@
 """Pydantic data schemas and models for the ITR Form Recommendation Engine."""
 
 from enum import Enum
+
 from pydantic import BaseModel, Field
 
 
@@ -59,28 +60,28 @@ class TaxpayerProfileForITR(BaseModel):
     """Comprehensive taxpayer profile for deterministic ITR form recommendation."""
     filing_type: TaxpayerFilingType = Field(default=TaxpayerFilingType.INDIVIDUAL, description="Taxpayer entity type")
     residential_status: ResidentialStatus = Field(default=ResidentialStatus.RESIDENT, description="Residential status")
-    
+
     # Income metrics
     total_income: float = Field(default=0.0, ge=0.0, description="Gross Total Income or Total Taxable Income in INR")
     has_salary_income: bool = Field(default=True, description="True if salary or pension income present")
     salary_income_amount: float = Field(default=0.0, ge=0.0, description="Net salary/pension income")
-    
+
     # House Property
     house_property_count: int = Field(default=1, ge=0, description="Number of house properties owned (0, 1, 2+)")
     has_brought_forward_hp_loss: bool = Field(default=False, description="Has brought forward house property loss")
-    
+
     # Other Sources
     has_other_sources_income: bool = Field(default=False, description="Has income from other sources (interest, dividends, etc.)")
     other_sources_amount: float = Field(default=0.0, ge=0.0, description="Total income from other sources")
     has_lottery_or_racehorse_income: bool = Field(default=False, description="Winnings from lottery, betting, gambling, horse races")
     has_section_57_deduction_other_than_family_pension: bool = Field(
-        default=False, 
+        default=False,
         description="Claimed deductions u/s 57 other than family pension standard deduction"
     )
-    
+
     # Agriculture
     agricultural_income: float = Field(default=0.0, ge=0.0, description="Net agricultural income in INR")
-    
+
     # Statutory Flags & Disqualifications
     is_director_in_company: bool = Field(default=False, description="Director in an Indian or foreign company")
     holds_unlisted_equity_shares: bool = Field(default=False, description="Held unlisted equity shares at any time during FY")
@@ -89,7 +90,7 @@ class TaxpayerProfileForITR(BaseModel):
     has_unabsorbed_depreciation_or_loss: bool = Field(default=False, description="Has brought forward or carry forward losses under any head")
     has_section_194n_tds: bool = Field(default=False, description="TDS deducted under Section 194N (cash withdrawals)")
     has_esop_deferred_tax: bool = Field(default=False, description="Tax on ESOP deferred u/s 191(2) or 192(1C)")
-    
+
     # Sub-models
     capital_gains: CapitalGainsDetail = Field(default_factory=CapitalGainsDetail)
     business_profession: BusinessProfessionDetail = Field(default_factory=BusinessProfessionDetail)
@@ -110,22 +111,22 @@ class ITRRecommendation(BaseModel):
     summary_rationale: str = Field(..., description="Plain-English explanation of why this form is recommended")
     eligibility_reasons: list[str] = Field(default_factory=list, description="Primary reasons supporting the recommended form")
     disqualification_reasons_for_other_forms: dict[str, list[str]] = Field(
-        default_factory=dict, 
+        default_factory=dict,
         description="Why simpler/alternative ITR forms were ruled out"
     )
     all_form_evaluations: dict[str, ITRRuleCheckResult] = Field(
-        default_factory=dict, 
+        default_factory=dict,
         description="Detailed evaluation results for all considered ITR forms"
     )
     statutory_disclaimers: list[str] = Field(
-        default_factory=list, 
+        default_factory=list,
         description="Mandatory legal and regulatory disclaimers"
     )
     notes_and_limitations: list[str] = Field(
-        default_factory=list, 
+        default_factory=list,
         description="Specific notes on schedule attachments and verification instructions"
     )
     statutory_authority: str = Field(
-        default="Income Tax Department, Government of India", 
+        default="Income Tax Department, Government of India",
         description="Governing tax administration"
     )

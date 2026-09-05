@@ -1,6 +1,5 @@
 """Document ingestion and upload routes."""
 
-import uuid
 from typing import Any
 
 from fastapi import APIRouter, Depends, File, Request, UploadFile, status
@@ -11,6 +10,7 @@ from app.documents.form16_parser import parse_form16_text_deterministically
 from app.models.document import Document, DocumentStatus
 from app.schemas.base import APIResponse
 from app.services.document_service import DocumentService
+from app.services.job_service import JobService
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
 
@@ -77,10 +77,11 @@ async def upload_form16(
         )
         db.add(doc_record)
         await db.commit()
-    except Exception as exc:
+    except Exception:
         await db.rollback()
 
-    job_id = str(uuid.uuid4())
+    job = await JobService.create_job(document_id=normalized_doc.document_id)
+    job_id = job.job_id
 
     detected_ay = normalized_doc.classification.detected_ay or extracted.get("assessment_year") or "2026-27"
     payload = {
@@ -96,6 +97,17 @@ async def upload_form16(
             "confidence": normalized_doc.classification.confidence,
         },
     }
+
+    # Update job to completed with result data and cache
+    from app.models.job import JobStatus
+    await JobService.update_job(
+        job_id=job_id,
+        status=JobStatus.COMPLETED,
+        progress_percentage=100,
+        step_description="Form 16 extracted and processed successfully",
+        result_id=normalized_doc.document_id,
+        result_data=payload,
+    )
 
     return APIResponse(
         success=True,

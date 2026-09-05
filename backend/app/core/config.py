@@ -63,6 +63,11 @@ class Settings(BaseSettings):
     LOG_FORMAT: str = "json"
     ENABLE_PII_MASKING: bool = True
 
+    # Caching & Rate Limiting
+    RESULT_CACHE_TTL_SECONDS: int = 3600
+    RATE_LIMIT_PER_MINUTE: int = 60
+    RATE_LIMIT_ENABLED: bool = True
+
 
 @lru_cache
 def get_settings() -> Settings:

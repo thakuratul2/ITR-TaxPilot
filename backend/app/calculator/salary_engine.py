@@ -18,17 +18,17 @@ class SalaryEngine:
         """
         hra_received = salary_input.hra_received
         rent_paid = salary_input.rent_paid_annual
-        
+
         # Salary for HRA purposes = Basic + DA
         salary_for_hra = salary_input.basic_salary + salary_input.dearness_allowance
-        
+
         # If no rent paid or rent paid <= 10% of salary, no exemption
         if rent_paid <= 0 or salary_for_hra <= 0 or hra_received <= 0:
             return 0.0
 
         limit_1_actual = hra_received
         limit_2_rent_excess = max(0.0, rent_paid - (0.10 * salary_for_hra))
-        
+
         rate = 0.50 if salary_input.is_metro else 0.40
         limit_3_percent = rate * salary_for_hra
 

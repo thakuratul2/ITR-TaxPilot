@@ -18,7 +18,7 @@ class SlabEngine:
         """Fetch registered statutory tax slabs for the regime and assessment year."""
         rule_set = registry.get(assessment_year)
         slabs = rule_set.get_slabs(regime)
-        
+
         # In Old Regime, adjust base exemption for Senior Citizens
         if regime == TaxRegime.OLD and category != SeniorCitizenCategory.INDIVIDUAL:
             if category == SeniorCitizenCategory.SENIOR_CITIZEN:
@@ -36,7 +36,7 @@ class SlabEngine:
                     TaxSlab(lower_limit=500000.0, upper_limit=1000000.0, rate_percent=20.0),
                     TaxSlab(lower_limit=1000000.0, upper_limit=None, rate_percent=30.0),
                 ]
-        
+
         return slabs
 
     @classmethod
@@ -60,7 +60,7 @@ class SlabEngine:
         for slab in slabs:
             min_inc = getattr(slab, "lower_limit", getattr(slab, "min_income", 0.0))
             max_inc = getattr(slab, "upper_limit", getattr(slab, "max_income", None))
-            
+
             # Rate can be in percent (5.0) or fraction (0.05)
             if hasattr(slab, "rate_percent"):
                 rate_pct = slab.rate_percent

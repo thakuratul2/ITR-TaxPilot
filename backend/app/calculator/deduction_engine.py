@@ -1,6 +1,10 @@
 """Chapter VI-A Deductions Aggregator Sub-Engine."""
 
-from app.calculator.models import ChapterVIAInput, OtherSourcesInput, SeniorCitizenCategory
+from app.calculator.models import (
+    ChapterVIAInput,
+    OtherSourcesInput,
+    SeniorCitizenCategory,
+)
 from app.tax.rules.base import TaxRegime
 
 
@@ -23,12 +27,12 @@ class DeductionEngine:
         parents_cap = 50000.0 if ch_input.parents_are_senior_citizens else 25000.0
 
         preventive_claimed = min(5000.0, ch_input.section_80d_preventive)
-        
+
         # Allocate preventive to self first
         self_premium = ch_input.section_80d_self
         self_allowed = min(self_cap, self_premium + preventive_claimed)
         preventive_used_in_self = max(0.0, self_allowed - self_premium)
-        
+
         # Remaining preventive checkup if any to parents
         remaining_preventive = max(0.0, preventive_claimed - preventive_used_in_self)
         parents_premium = ch_input.section_80d_parents
@@ -55,7 +59,7 @@ class DeductionEngine:
             if ch_input.section_80ccd_2 > 0:
                 # Employer NPS contribution
                 itemized["80CCD(2)"] = round(ch_input.section_80ccd_2, 2)
-            
+
             total_deductions = sum(itemized.values())
             # Cannot exceed Gross Total Income
             total_allowed = min(gross_total_income, total_deductions)
@@ -115,14 +119,14 @@ class DeductionEngine:
         # 8. Section 80G - Donations
         g_100_no = ch_input.section_80g_100_no_limit
         g_50_no = 0.50 * ch_input.section_80g_50_no_limit
-        
+
         # Qualifying limit for 80G is 10% of Adjusted Gross Total Income
         adjusted_gti = max(0.0, gross_total_income - cce_allowed - ded_80d)
         qualifying_limit = 0.10 * adjusted_gti
-        
+
         qualifying_pool = ch_input.section_80g_100_qualifying + (0.50 * ch_input.section_80g_50_qualifying)
         g_qualifying_allowed = min(qualifying_limit, qualifying_pool)
-        
+
         total_80g = g_100_no + g_50_no + g_qualifying_allowed
         if total_80g > 0:
             itemized["80G"] = round(total_80g, 2)

@@ -1,17 +1,13 @@
 """Unit Tests for Tax Regime Comparison and Breakeven Analysis Engine (Milestone 8)."""
 
-import pytest
 from app.calculator.models import (
     ChapterVIAInput,
     HousePropertyInput,
-    PropertyType,
     SalaryInput,
-    SeniorCitizenCategory,
     TaxpayerProfileInput,
 )
 from app.comparison.breakeven_solver import BreakevenSolver
 from app.comparison.comparison_engine import ComparisonEngine
-
 
 # ==========================================
 # 1. Breakeven Solver Tests

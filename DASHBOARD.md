@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [████████████████░░░░░░░░░░] 61% (11 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 90 | In Progress: 0 | Pending: 33
-Current Active Branch: main
+Progress: [█████████████████░░░░░░░] 67% (12 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 96 | In Progress: 0 | Pending: 27
+Current Active Branch: milestone/m11-redis-job-processing
 ```
 
 ---
@@ -29,7 +29,7 @@ Current Active Branch: main
 | **M08** | [Milestone 8 — Tax Regime Comparison](file:///D:/Projects/ITR-TaxPilot/milestones/milestone8-tax-regime-comparison) | Phase 7 | `milestone/m08-tax-regime-comparison` | 5 | 5 | 🟢 Completed |
 | **M09** | [Milestone 9 — ITR Recommendation Engine](file:///D:/Projects/ITR-TaxPilot/milestones/milestone9-itr-recommendation-engine) | Phase 8 | `milestone/m09-itr-recommendation-engine` | 6 | 6 | 🟢 Completed |
 | **M10** | [Milestone 10 — Explanation AI & Guardrails](file:///D:/Projects/ITR-TaxPilot/milestones/milestone10-explanation-ai) | Phase 9 | `milestone/m10-explanation-ai` | 6 | 6 | 🟢 Completed |
-| **M11** | [Milestone 11 — Redis & Job Processing](file:///D:/Projects/ITR-TaxPilot/milestones/milestone11-redis-job-processing) | Phase 10 | `milestone/m11-redis-job-processing` | 6 | 0 | ⚪ Pending |
+| **M11** | [Milestone 11 — Redis & Job Processing](file:///D:/Projects/ITR-TaxPilot/milestones/milestone11-redis-job-processing) | Phase 10 | `milestone/m11-redis-job-processing` | 6 | 6 | 🟢 Completed |
 | **M12** | [Milestone 12 — Frontend MVP](file:///D:/Projects/ITR-TaxPilot/milestones/milestone12-frontend-mvp) | Phase 11 | `milestone/m12-frontend-mvp` | 8 | 8 | 🟢 Completed |
 | **M13** | [Milestone 13 — Report Generation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone13-report-generation) | Phase 12 | `milestone/m13-report-generation` | 5 | 0 | ⚪ Pending |
 | **M14** | [Milestone 14 — Security & Privacy](file:///D:/Projects/ITR-TaxPilot/milestones/milestone14-security-and-privacy) | Phase 13 | `milestone/m14-security-and-privacy` | 8 | 0 | ⚪ Pending |
@@ -197,10 +197,16 @@ Current Active Branch: main
 
 ---
 
-### [Milestone 11 — Redis & Job Processing](milestones/milestone11-redis-job-processing)
+### [Milestone 11 — Redis & Job Processing](file:///D:/Projects/ITR-TaxPilot/milestones/milestone11-redis-job-processing)
 - **Branch:** `milestone/m11-redis-job-processing`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 6
+- **Status:** `Completed`
+- **Tasks Completed:** 6 / 6
+  - [x] `TASK-11.1`: Async background task worker pipeline (`backend/app/services/job_service.py`)
+  - [x] `TASK-11.2`: Job lifecycle state management (`JobStatus`, `QUEUED`, `EXTRACTING`, `CALCULATING`, `COMPLETED`, `FAILED`)
+  - [x] `TASK-11.3`: Connect upload endpoint to async queue (`backend/app/api/routes/documents.py`)
+  - [x] `TASK-11.4`: Implement GET /api/v1/jobs/{job_id} endpoint (`backend/app/api/routes/jobs.py`)
+  - [x] `TASK-11.5`: Redis result caching and TTL management (`backend/app/cache/cache_service.py`)
+  - [x] `TASK-11.6`: Redis-based API rate limiting middleware (`backend/app/core/middleware/rate_limiter.py`)
 
 ---
 
@@ -253,5 +259,5 @@ Current Active Branch: main
 
 ---
 
-*Last Updated: 2026-09-02 (Milestone 10 Completed) | Maintained automatically via [`EXECUTION_PROMPT.md`](file:///D:/Projects/ITR-TaxPilot/EXECUTION_PROMPT.md)*
+*Last Updated: 2026-09-05 (Milestone 11 Completed) | Maintained automatically via [`EXECUTION_PROMPT.md`](file:///D:/Projects/ITR-TaxPilot/EXECUTION_PROMPT.md)*
 
