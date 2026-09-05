@@ -12,10 +12,58 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import get_settings
 
+import re
+from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
+
 settings = get_settings()
 
+
+def _sanitize_async_db_url(url: str) -> str:
+    """Sanitize database URL specifically for asyncpg compatibility."""
+    if url.startswith("postgresql://"):
+        url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    elif url.startswith("postgresql+psycopg://"):
+        url = url.replace("postgresql+psycopg://", "postgresql+asyncpg://", 1)
+
+    parsed = urlparse(url)
+    if not parsed.query:
+        return url
+
+    query_params = parse_qs(parsed.query)
+    clean_params: dict[str, str] = {}
+    for k, v in query_params.items():
+        if k.lower() == "sslmode":
+            # asyncpg uses 'ssl' instead of 'sslmode'
+            val = v[0]
+            clean_params["ssl"] = "require" if val in ("require", "verify-ca", "verify-full", "prefer") else val
+        elif k.lower() in ("channel_binding", "target_session_attrs"):
+            # libpq / psycopg3 specific parameters ignored by asyncpg
+            continue
+        else:
+            clean_params[k] = v[0]
+
+    new_query = urlencode(clean_params)
+    return urlunparse((
+        parsed.scheme,
+        parsed.netloc,
+        parsed.path,
+        parsed.params,
+        new_query,
+        parsed.fragment,
+    ))
+
+
+def _sanitize_sync_db_url(url: str) -> str:
+    """Sanitize database URL for synchronous psycopg/alembic compatibility."""
+    if url.startswith("postgresql+asyncpg://"):
+        url = url.replace("postgresql+asyncpg://", "postgresql+psycopg://", 1)
+    elif url.startswith("postgresql://"):
+        url = url.replace("postgresql://", "postgresql+psycopg://", 1)
+    return url
+
+
 # Sync Engine (for Alembic migrations and synchronous utilities)
-sync_db_url = settings.DATABASE_URL.replace("postgresql+asyncpg://", "postgresql+psycopg://")
+sync_db_url = _sanitize_sync_db_url(settings.DATABASE_URL)
 sync_engine = create_engine(
     sync_db_url,
     pool_pre_ping=True,
@@ -26,9 +74,7 @@ sync_engine = create_engine(
 SyncSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=sync_engine)
 
 # Async Engine (for FastAPI async request handlers)
-async_db_url = settings.DATABASE_URL
-if async_db_url.startswith("postgresql://") or async_db_url.startswith("postgresql+psycopg://"):
-    async_db_url = async_db_url.replace("postgresql+psycopg://", "postgresql+asyncpg://").replace("postgresql://", "postgresql+asyncpg://")
+async_db_url = _sanitize_async_db_url(settings.DATABASE_URL)
 
 async_engine = create_async_engine(
     async_db_url,
