@@ -1,0 +1,118 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: itr_taxpilot_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - taxpilot-network
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: itr_taxpilot_backend
+    restart: always
+    expose:
+      - "8000"
+    environment:
+      - APP_NAME=ITR-TaxPilot
+      - APP_ENV=production
+      - DEBUG=False
+      - DATABASE_URL=postgresql+psycopg://postgres:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-itrtaxpilot}
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=${SECRET_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - DEFAULT_AI_PROVIDER=${DEFAULT_AI_PROVIDER:-gemini}
+      - LOG_LEVEL=INFO
+      - LOG_FORMAT=json
+      - ENABLE_PII_MASKING=True
+      - RATE_LIMIT_ENABLED=True
+      - RATE_LIMIT_PER_MINUTE=60
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+      - taxpilot-network
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2048M
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: itr_taxpilot_postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres_secure_production_pass}
+      - POSTGRES_DB=${POSTGRES_DB:-itrtaxpilot}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ${POSTGRES_DB:-itrtaxpilot}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - taxpilot-network
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1024M
+
+  redis:
+    image: redis:7-alpine
+    container_name: itr_taxpilot_redis
+    restart: always
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_prod_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - taxpilot-network
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+
+volumes:
+  postgres_prod_data:
+    driver: local
+  redis_prod_data:
+    driver: local
+
+networks:
+  taxpilot-network:
+    driver: bridge
