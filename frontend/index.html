@@ -18,24 +18,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-  <!-- Product Hunt Pre-Launch & Live GitHub Stars Banner -->
-  <div class="launch-campaign-banner" id="launch-banner">
-    <div class="launch-banner-content">
-      <div class="launch-banner-left">
-        <span class="launch-badge"><i class="fa-brands fa-product-hunt"></i> Pre-Launch</span>
-        <span class="launch-text">ITR-TaxPilot is live for Product Hunt! 100% Deterministic AY 2026-27 Tax Co-Pilot.</span>
-      </div>
-      <div class="launch-actions">
-        <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="banner-btn banner-gh-btn" id="banner-gh-btn">
-          <i class="fa-brands fa-github"></i> Star Repo <span class="banner-star-pill" id="banner-gh-star-count">⭐ ...</span>
-        </a>
-        <button class="banner-btn banner-stats-btn" id="open-launch-stats-btn">
-          <i class="fa-solid fa-chart-line"></i> Live Analytics
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- Ambient background glow effects -->
   <div class="glow-orb orb-1"></div>
   <div class="glow-orb orb-2"></div>
@@ -103,12 +85,11 @@
         </div>
 
         <a href="#faq-section" class="nav-link">FAQ</a>
-        <a href="/admin.html" class="nav-link" title="Executive Admin & Telemetry"><i class="fa-solid fa-gauge-high"></i> Admin</a>
-        <button class="nav-link nav-btn-link" id="nav-launch-stats-btn" title="Live Launch & Visitor Stats">
-          <i class="fa-solid fa-chart-line"></i> Launch Stats
+        <button class="nav-link nav-btn-link" id="nav-admin-btn" title="Admin & Telemetry Dashboard">
+          <i class="fa-solid fa-gauge-high"></i> Admin
         </button>
         <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="nav-link github-nav-link" id="nav-gh-link">
-          <i class="fa-brands fa-github"></i> Star <span class="nav-star-pill" id="nav-gh-star-pill">⭐ ...</span>
+          <i class="fa-brands fa-github"></i> GitHub
         </a>
       </nav>
 
@@ -886,81 +867,158 @@
 
   </main>
 
-  <!-- Live Launch & Visitor Telemetry Modal -->
-  <div class="modal-backdrop" id="launch-stats-modal" style="display: none;">
-    <div class="modal-card launch-modal-card">
-      <button class="modal-close-btn" id="launch-modal-close-btn" aria-label="Close modal">
+  <!-- Embedded Executive Admin & Launch Telemetry Modal -->
+  <div class="modal-backdrop" id="admin-panel-modal" style="display: none;">
+    <div class="modal-card admin-modal-card">
+      <button class="modal-close-btn" id="admin-modal-close-btn" aria-label="Close modal">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <div class="modal-header">
-        <div class="modal-badge-ph">
-          <i class="fa-brands fa-product-hunt"></i> Product Hunt Pre-Launch
+      <div class="admin-modal-header">
+        <div class="admin-modal-title-group">
+          <div class="admin-badge-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <div>
+            <h2 class="admin-modal-title">Executive Admin & Telemetry Portal</h2>
+            <p class="admin-modal-subtitle">Real-time Product Hunt attribution, live GitHub stars, database state, and AI engine health.</p>
+          </div>
         </div>
-        <h3 class="modal-title">Live Launch Telemetry</h3>
-        <p class="modal-subtitle">
-          Real-time visitor tracking, referral attribution, and live GitHub stargazers.
+        <div class="admin-header-actions">
+          <button class="btn btn-sm btn-outline" id="btn-admin-refresh"><i class="fa-solid fa-arrows-rotate"></i> Refresh Telemetry</button>
+        </div>
+      </div>
+
+      <!-- Admin Auth Gate (Shown if not verified) -->
+      <div id="admin-auth-gate" style="display: none; padding: 2rem 1rem; text-align: center;">
+        <div style="font-size: 2.5rem; color: var(--accent-indigo); margin-bottom: 1rem;">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.5rem;">Admin Access Required</h3>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); max-width: 400px; margin: 0 auto 1.5rem;">
+          Enter administrator credentials to inspect live traffic attribution, database records, and system telemetry.
         </p>
+        <form id="admin-quick-login-form" style="max-width: 360px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.85rem;">
+          <input type="email" id="admin-input-email" placeholder="admin@itrtaxpilot.com" value="admin@itrtaxpilot.com" class="form-input" required>
+          <input type="password" id="admin-input-password" placeholder="admin123" value="admin123" class="form-input" required>
+          <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-lock-open"></i> Unlock Dashboard</button>
+        </form>
       </div>
 
-      <!-- Real-Time Metrics 4-Box Grid -->
-      <div class="launch-metrics-grid">
-        <div class="launch-metric-box">
-          <div class="metric-icon visitors-icon"><i class="fa-solid fa-users"></i></div>
-          <div class="metric-info">
-            <span class="metric-label">Total Visitors</span>
-            <strong class="metric-value" id="stats-total-visitors">--</strong>
-            <span class="metric-sub" id="stats-unique-visitors">-- unique</span>
+      <!-- Main Admin Dashboard Content -->
+      <div id="admin-dashboard-view" class="admin-dashboard-scrollable">
+        
+        <!-- Section 1: Product Hunt & Launch Telemetry -->
+        <div class="admin-section-header">
+          <span><i class="fa-brands fa-product-hunt text-orange"></i> Product Hunt & GitHub Launch Telemetry</span>
+          <span class="status-live-pill"><span class="pulse-dot"></span> Live Async Tracking</span>
+        </div>
+        
+        <div class="admin-kpi-grid">
+          <div class="admin-kpi-card highlight-ph">
+            <div class="admin-kpi-label"><span>Product Hunt Referrals</span><i class="fa-brands fa-product-hunt"></i></div>
+            <div class="admin-kpi-value text-orange" id="adm-ph-visitors">--</div>
+            <div class="admin-kpi-sub" id="adm-ph-pct"><i class="fa-solid fa-chart-line"></i> 0% of traffic</div>
+          </div>
+
+          <div class="admin-kpi-card">
+            <div class="admin-kpi-label"><span>Total Page Views</span><i class="fa-solid fa-eye"></i></div>
+            <div class="admin-kpi-value" id="adm-total-visitors">--</div>
+            <div class="admin-kpi-sub" id="adm-unique-visitors"><i class="fa-solid fa-users"></i> -- unique sessions</div>
+          </div>
+
+          <div class="admin-kpi-card highlight-gh">
+            <div class="admin-kpi-label"><span>GitHub Stars</span><i class="fa-brands fa-github"></i></div>
+            <div class="admin-kpi-value" id="adm-gh-stars">--</div>
+            <div class="admin-kpi-sub" id="adm-gh-forks"><i class="fa-solid fa-code-fork"></i> -- forks · repo</div>
+          </div>
+
+          <div class="admin-kpi-card">
+            <div class="admin-kpi-label"><span>Top Traffic Source</span><i class="fa-solid fa-network-wired"></i></div>
+            <div class="admin-kpi-value" id="adm-top-source" style="font-size: 1.4rem; text-transform: capitalize;">Direct</div>
+            <div class="admin-kpi-sub"><i class="fa-solid fa-satellite-dish"></i> Auto UTM & Referrer Engine</div>
           </div>
         </div>
 
-        <div class="launch-metric-box ph-box">
-          <div class="metric-icon ph-icon"><i class="fa-brands fa-product-hunt"></i></div>
-          <div class="metric-info">
-            <span class="metric-label">Product Hunt Traffic</span>
-            <strong class="metric-value" id="stats-ph-visitors">--</strong>
-            <span class="metric-sub" id="stats-ph-pct">(0% of total)</span>
+        <!-- Traffic Breakdown & Campaign Tool -->
+        <div class="admin-card-container">
+          <div class="admin-subcard-header">
+            <h4><i class="fa-solid fa-chart-pie"></i> Real-Time Referral Breakdown</h4>
+            <button class="btn btn-xs btn-outline" id="adm-btn-copy-ph-link">
+              <i class="fa-solid fa-copy"></i> Copy PH Link
+            </button>
+          </div>
+          <div class="traffic-bars-container" id="adm-traffic-bars">
+            <!-- Dynamically populated -->
           </div>
         </div>
 
-        <div class="launch-metric-box gh-box">
-          <div class="metric-icon gh-icon"><i class="fa-brands fa-github"></i></div>
-          <div class="metric-info">
-            <span class="metric-label">GitHub Stars</span>
-            <strong class="metric-value" id="stats-gh-stars">--</strong>
-            <span class="metric-sub" id="stats-gh-forks">0 forks</span>
+        <!-- Section 2: Platform & Engine Health -->
+        <div class="admin-section-header" style="margin-top: 1.5rem;">
+          <span><i class="fa-solid fa-server text-indigo"></i> Platform & Database Health</span>
+          <span class="ay-pill" id="adm-ay-badge">AY 2026-27</span>
+        </div>
+
+        <div class="admin-kpi-grid">
+          <div class="admin-kpi-card">
+            <div class="admin-kpi-label"><span>Registered Taxpayers</span><i class="fa-solid fa-user-group"></i></div>
+            <div class="admin-kpi-value" id="adm-kpi-users">1</div>
+            <div class="admin-kpi-sub text-green"><i class="fa-solid fa-database"></i> PostgreSQL Verified</div>
+          </div>
+
+          <div class="admin-kpi-card">
+            <div class="admin-kpi-label"><span>Documents Parsed</span><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="admin-kpi-value" id="adm-kpi-docs">0</div>
+            <div class="admin-kpi-sub"><i class="fa-solid fa-memory"></i> Ephemeral TTL In-Memory</div>
+          </div>
+
+          <div class="admin-kpi-card">
+            <div class="admin-kpi-label"><span>Active AI Provider</span><i class="fa-solid fa-robot"></i></div>
+            <div class="admin-kpi-value text-green" id="adm-kpi-ai" style="font-size: 1.4rem;">OPENAI</div>
+            <div class="admin-kpi-sub" id="adm-kpi-ai-model">Model: gpt-4o-mini</div>
+          </div>
+
+          <div class="admin-kpi-card">
+            <div class="admin-kpi-label"><span>Database Health</span><i class="fa-solid fa-circle-check"></i></div>
+            <div class="admin-kpi-value text-green" id="adm-kpi-db" style="font-size: 1.4rem;">Connected</div>
+            <div class="admin-kpi-sub"><i class="fa-solid fa-bolt"></i> Neon Serverless Pool</div>
           </div>
         </div>
 
-        <div class="launch-metric-box speed-box">
-          <div class="metric-icon ping-icon"><i class="fa-solid fa-bolt"></i></div>
-          <div class="metric-info">
-            <span class="metric-label">Tracking Engine</span>
-            <strong class="metric-value text-emerald"><i class="fa-solid fa-circle-check"></i> Active</strong>
-            <span class="metric-sub">Zero PII / Async</span>
+        <!-- Section 3: Registered Taxpayers Table -->
+        <div class="admin-card-container" style="margin-top: 1.5rem;">
+          <div class="admin-subcard-header">
+            <h4><i class="fa-solid fa-users"></i> Registered Taxpayers (PostgreSQL)</h4>
+            <span class="ay-pill" id="adm-user-count-badge">1 Users</span>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                </tr>
+              </thead>
+              <tbody id="adm-users-table-body">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: var(--text-muted);">Loading registered taxpayers...</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
 
-      <!-- Traffic Source Breakdown -->
-      <div class="traffic-sources-card">
-        <div class="traffic-sources-header">
-          <span><i class="fa-solid fa-chart-pie"></i> Traffic Referral Breakdown</span>
-          <span class="refresh-indicator" id="stats-last-updated"><i class="fa-solid fa-arrows-rotate"></i> Updated Live</span>
+        <!-- Section 4: AI Providers Grid -->
+        <div class="admin-card-container" style="margin-top: 1.5rem;">
+          <div class="admin-subcard-header">
+            <h4><i class="fa-solid fa-microchip"></i> Configured AI Engine Fallbacks</h4>
+          </div>
+          <div class="ai-models-grid" id="adm-ai-models-container" style="margin-bottom: 0;">
+            <!-- Dynamically populated -->
+          </div>
         </div>
-        <div class="traffic-bars-container" id="traffic-bars-container">
-          <!-- Dynamically populated -->
-        </div>
-      </div>
 
-      <!-- Community Actions -->
-      <div class="launch-modal-actions">
-        <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="btn btn-outline btn-block" id="modal-gh-star-link">
-          <i class="fa-brands fa-github"></i> Star on GitHub (<span id="modal-action-gh-stars">⭐ ...</span>)
-        </a>
-        <button class="btn btn-primary btn-block" id="btn-copy-launch-link">
-          <i class="fa-solid fa-share-nodes"></i> Copy Product Hunt Campaign URL
-        </button>
       </div>
     </div>
   </div>

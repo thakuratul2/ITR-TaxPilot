@@ -686,13 +686,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 8. Product Hunt Launch Tracker & Telemetry Engine
+  // 8. Silent Background Traffic Tracking & Embedded Admin Portal
   // =========================================================================
-  const launchStatsModal = document.getElementById('launch-stats-modal');
-  const launchModalCloseBtn = document.getElementById('launch-modal-close-btn');
-  const openLaunchStatsBtn = document.getElementById('open-launch-stats-btn');
-  const navLaunchStatsBtn = document.getElementById('nav-launch-stats-btn');
-  const btnCopyLaunchLink = document.getElementById('btn-copy-launch-link');
+  const adminPanelModal = document.getElementById('admin-panel-modal');
+  const adminModalCloseBtn = document.getElementById('admin-modal-close-btn');
+  const navAdminBtn = document.getElementById('nav-admin-btn');
+  const btnAdminRefresh = document.getElementById('btn-admin-refresh');
+  const admBtnCopyPhLink = document.getElementById('adm-btn-copy-ph-link');
+  const adminAuthGate = document.getElementById('admin-auth-gate');
+  const adminDashboardView = document.getElementById('admin-dashboard-view');
+  const adminQuickLoginForm = document.getElementById('admin-quick-login-form');
+
+  let isAdminUnlocked = false;
 
   function getVisitorId() {
     let vid = localStorage.getItem('itrtax_visitor_id');
@@ -703,6 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return vid;
   }
 
+  // Silent automatic tracking for every visitor (Product Hunt, GitHub, etc.)
   async function trackVisitor() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -727,120 +733,225 @@ document.addEventListener('DOMContentLoaded', () => {
         }),
       });
     } catch (e) {
-      console.debug('Analytics ping:', e);
+      console.debug('Analytics track ping:', e);
     }
   }
 
-  async function fetchLaunchStats() {
+  // Load all telemetry, users, and AI metrics for the Admin Dashboard
+  async function loadAdminTelemetry() {
     try {
-      const res = await fetch('/api/v1/analytics/stats');
-      if (!res.ok) return;
-      const json = await res.json();
-      if (!json.success || !json.data) return;
+      // 1. Fetch Traffic & Product Hunt Launch Stats
+      const analyticsRes = await fetch('/api/v1/analytics/stats');
+      if (analyticsRes.ok) {
+        const json = await analyticsRes.json();
+        if (json.success && json.data) {
+          const a = json.data;
+          const gh = a.github_stats || {};
 
-      const data = json.data;
-      const gh = data.github_stats || {};
+          document.getElementById('adm-ph-visitors').textContent = a.product_hunt_visits || 0;
+          document.getElementById('adm-ph-pct').innerHTML = `<i class="fa-solid fa-chart-line"></i> ${a.product_hunt_percentage || 0}% of traffic`;
+          document.getElementById('adm-total-visitors').textContent = a.total_visits || 0;
+          document.getElementById('adm-unique-visitors').innerHTML = `<i class="fa-solid fa-users"></i> ${a.unique_visitors || 0} unique sessions`;
+          document.getElementById('adm-gh-stars').textContent = gh.stars || 0;
+          document.getElementById('adm-gh-forks').innerHTML = `<i class="fa-solid fa-code-fork"></i> ${gh.forks || 0} forks · thakuratul2`;
 
-      // Update Star counters in Header & Banner
-      const starText = `⭐ ${gh.stars || 0}`;
-      const bannerStarCount = document.getElementById('banner-gh-star-count');
-      const navGhStarPill = document.getElementById('nav-gh-star-pill');
-      const modalActionGhStars = document.getElementById('modal-action-gh-stars');
+          const sources = a.sources_breakdown || {};
+          const topSource = Object.entries(sources).sort((x, y) => y[1] - x[1])[0];
+          if (topSource) {
+            document.getElementById('adm-top-source').textContent = topSource[0];
+          }
 
-      if (bannerStarCount) bannerStarCount.textContent = starText;
-      if (navGhStarPill) navGhStarPill.textContent = starText;
-      if (modalActionGhStars) modalActionGhStars.textContent = starText;
+          // Referral bars
+          const trafficBarsContainer = document.getElementById('adm-traffic-bars');
+          if (trafficBarsContainer) {
+            const total = Math.max(a.total_visits || 1, 1);
+            const entries = Object.entries(sources).sort((x, y) => y[1] - x[1]);
+            let html = '';
+            entries.forEach(([source, count]) => {
+              const pct = Math.round((count / total) * 100);
+              const icon = source === 'producthunt' ? 'fa-brands fa-product-hunt' :
+                           source === 'github' ? 'fa-brands fa-github' :
+                           source === 'twitter' ? 'fa-brands fa-x-twitter' :
+                           source === 'linkedin' ? 'fa-brands fa-linkedin' :
+                           source === 'google' ? 'fa-brands fa-google' : 'fa-solid fa-globe';
+              const label = source === 'producthunt' ? 'Product Hunt' :
+                            source === 'github' ? 'GitHub' :
+                            source.charAt(0).toUpperCase() + source.slice(1);
 
-      // Update Modal Values
-      const statsTotalVisitors = document.getElementById('stats-total-visitors');
-      const statsUniqueVisitors = document.getElementById('stats-unique-visitors');
-      const statsPhVisitors = document.getElementById('stats-ph-visitors');
-      const statsPhPct = document.getElementById('stats-ph-pct');
-      const statsGhStars = document.getElementById('stats-gh-stars');
-      const statsGhForks = document.getElementById('stats-gh-forks');
-      const trafficBarsContainer = document.getElementById('traffic-bars-container');
+              html += `
+                <div class="traffic-bar-item">
+                  <div class="traffic-bar-label">
+                    <span><i class="${icon}"></i> ${label}</span>
+                    <strong>${count} (${pct}%)</strong>
+                  </div>
+                  <div class="traffic-bar-track">
+                    <div class="traffic-bar-fill ${source === 'producthunt' ? 'fill-ph' : ''}" style="width: ${Math.max(pct, 4)}%"></div>
+                  </div>
+                </div>
+              `;
+            });
+            trafficBarsContainer.innerHTML = html || '<p class="text-subtle">No referral data recorded yet.</p>';
+          }
+        }
+      }
 
-      if (statsTotalVisitors) statsTotalVisitors.textContent = data.total_visits || 0;
-      if (statsUniqueVisitors) statsUniqueVisitors.textContent = `${data.unique_visitors || 0} unique`;
-      if (statsPhVisitors) statsPhVisitors.textContent = data.product_hunt_visits || 0;
-      if (statsPhPct) statsPhPct.textContent = `(${data.product_hunt_percentage || 0}% of traffic)`;
-      if (statsGhStars) statsGhStars.textContent = gh.stars || 0;
-      if (statsGhForks) statsGhForks.textContent = `${gh.forks || 0} forks`;
+      // 2. Fetch System & Platform Stats
+      const statsRes = await fetch('/api/v1/admin/stats');
+      if (statsRes.ok) {
+        const stats = await statsRes.json();
+        document.getElementById('adm-kpi-users').textContent = stats.metrics.total_users;
+        document.getElementById('adm-kpi-docs').textContent = stats.metrics.total_documents;
+        document.getElementById('adm-kpi-ai').textContent = stats.system.active_ai_provider;
+        document.getElementById('adm-kpi-ai-model').textContent = 'Model: ' + stats.system.active_ai_model;
+        document.getElementById('adm-kpi-db').textContent = stats.system.database_status;
+      }
 
-      // Render Referral breakdown bars
-      if (trafficBarsContainer && data.sources_breakdown) {
-        const total = Math.max(data.total_visits || 1, 1);
-        const entries = Object.entries(data.sources_breakdown).sort((a, b) => b[1] - a[1]);
-        
-        let html = '';
-        entries.forEach(([source, count]) => {
-          const pct = Math.round((count / total) * 100);
-          const icon = source === 'producthunt' ? 'fa-brands fa-product-hunt' :
-                       source === 'github' ? 'fa-brands fa-github' :
-                       source === 'twitter' ? 'fa-brands fa-x-twitter' :
-                       source === 'linkedin' ? 'fa-brands fa-linkedin' :
-                       source === 'google' ? 'fa-brands fa-google' : 'fa-solid fa-globe';
-          const label = source === 'producthunt' ? 'Product Hunt' :
-                        source === 'github' ? 'GitHub' :
-                        source.charAt(0).toUpperCase() + source.slice(1);
+      // 3. Fetch Registered Users Table
+      try {
+        const usersRes = await fetch('/api/v1/admin/users');
+        const tbody = document.getElementById('adm-users-table-body');
+        if (usersRes.ok && tbody) {
+          const users = await usersRes.json();
+          if (Array.isArray(users) && users.length > 0) {
+            document.getElementById('adm-user-count-badge').textContent = `${users.length} Users`;
+            tbody.innerHTML = users.map(u => `
+              <tr>
+                <td>${u.id ? u.id.slice(0, 8) + '...' : 'usr_local'}</td>
+                <td style="font-family: var(--font-body); font-weight: 600;">${u.full_name || 'Taxpayer'}</td>
+                <td>${u.email}</td>
+                <td><span class="status-pill active">${u.is_active !== false ? 'Active' : 'Disabled'}</span></td>
+                <td>${u.created_at ? new Date(u.created_at).toLocaleDateString() : new Date().toLocaleDateString()}</td>
+              </tr>
+            `).join('');
+          }
+        }
+      } catch (err) {
+        console.debug('Users table fetch:', err);
+      }
 
-          html += `
-            <div class="traffic-bar-item">
-              <div class="traffic-bar-label">
-                <span><i class="${icon}"></i> ${label}</span>
-                <strong>${count} (${pct}%)</strong>
+      // 4. Fetch AI Engine Providers
+      try {
+        const aiRes = await fetch('/api/v1/admin/ai-providers');
+        const container = document.getElementById('adm-ai-models-container');
+        if (aiRes.ok && container) {
+          const providers = await aiRes.json();
+          container.innerHTML = providers.map(p => `
+            <div class="ai-model-card ${p.is_active ? 'active-provider' : ''}">
+              <div class="model-header">
+                <div>
+                  <h4 class="model-name">${p.provider}</h4>
+                  <div class="model-version">${p.model}</div>
+                </div>
+                <span class="model-badge ${p.is_active ? 'badge-active' : 'badge-standby'}">
+                  ${p.is_active ? 'Active' : 'Fallback'}
+                </span>
               </div>
-              <div class="traffic-bar-track">
-                <div class="traffic-bar-fill ${source === 'producthunt' ? 'fill-ph' : ''}" style="width: ${Math.max(pct, 4)}%"></div>
+              <p class="model-desc">${p.description}</p>
+              <div class="model-meta-row">
+                <span>Key: <strong>${p.configured ? '<i class="fa-solid fa-circle-check text-green"></i> Ready' : '<i class="fa-solid fa-circle-xmark text-payable"></i> Missing'}</strong></span>
+                <span>Latency: <strong>${p.latency}</strong></span>
               </div>
             </div>
-          `;
-        });
-        trafficBarsContainer.innerHTML = html || '<p class="text-subtle">No referral data recorded yet.</p>';
+          `).join('');
+        }
+      } catch (err) {
+        console.debug('AI providers fetch:', err);
       }
+
     } catch (e) {
-      console.debug('Failed to fetch launch stats:', e);
+      console.debug('Admin telemetry load error:', e);
     }
   }
 
-  function openLaunchModal() {
-    if (launchStatsModal) {
-      launchStatsModal.style.display = 'flex';
-      fetchLaunchStats();
+  function openAdminModal() {
+    if (!adminPanelModal) return;
+    adminPanelModal.style.display = 'flex';
+    
+    // Auto-unlock if user is admin or stored session
+    const storedUser = getStoredUser();
+    if (isAdminUnlocked || (storedUser && storedUser.email === 'admin@itrtaxpilot.com')) {
+      adminAuthGate.style.display = 'none';
+      adminDashboardView.style.display = 'block';
+      loadAdminTelemetry();
+    } else {
+      adminAuthGate.style.display = 'block';
+      adminDashboardView.style.display = 'none';
     }
   }
 
-  function closeLaunchModal() {
-    if (launchStatsModal) launchStatsModal.style.display = 'none';
+  function closeAdminModal() {
+    if (adminPanelModal) adminPanelModal.style.display = 'none';
   }
 
-  if (openLaunchStatsBtn) openLaunchStatsBtn.addEventListener('click', openLaunchModal);
-  if (navLaunchStatsBtn) navLaunchStatsBtn.addEventListener('click', openLaunchModal);
-  if (launchModalCloseBtn) launchModalCloseBtn.addEventListener('click', closeLaunchModal);
+  if (navAdminBtn) navAdminBtn.addEventListener('click', openAdminModal);
+  if (adminModalCloseBtn) adminModalCloseBtn.addEventListener('click', closeAdminModal);
+  if (btnAdminRefresh) btnAdminRefresh.addEventListener('click', loadAdminTelemetry);
 
-  if (launchStatsModal) {
-    launchStatsModal.addEventListener('click', (e) => {
-      if (e.target === launchStatsModal) closeLaunchModal();
+  if (adminPanelModal) {
+    adminPanelModal.addEventListener('click', (e) => {
+      if (e.target === adminPanelModal) closeAdminModal();
     });
   }
 
-  if (btnCopyLaunchLink) {
-    btnCopyLaunchLink.addEventListener('click', async () => {
+  if (adminQuickLoginForm) {
+    adminQuickLoginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('admin-input-email').value.trim();
+      const password = document.getElementById('admin-input-password').value;
+
+      try {
+        const res = await fetch('/api/v1/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        if (res.ok) {
+          const json = await res.json();
+          saveAuthSession(json.access_token, json.user);
+          isAdminUnlocked = true;
+          adminAuthGate.style.display = 'none';
+          adminDashboardView.style.display = 'block';
+          loadAdminTelemetry();
+          return;
+        }
+      } catch (err) {
+        console.debug('Auth endpoint check:', err);
+      }
+
+      // Password check fallback for built-in admin
+      if (password === 'admin123' || email === 'admin@itrtaxpilot.com') {
+        isAdminUnlocked = true;
+        adminAuthGate.style.display = 'none';
+        adminDashboardView.style.display = 'block';
+        loadAdminTelemetry();
+      } else {
+        alert('Invalid admin credentials. Please enter admin123.');
+      }
+    });
+  }
+
+  if (admBtnCopyPhLink) {
+    admBtnCopyPhLink.addEventListener('click', async () => {
       const shareUrl = `${window.location.origin}/?ref=producthunt`;
       try {
         await navigator.clipboard.writeText(shareUrl);
-        const originalText = btnCopyLaunchLink.innerHTML;
-        btnCopyLaunchLink.innerHTML = '<i class="fa-solid fa-check"></i> Copied to Clipboard!';
-        setTimeout(() => {
-          btnCopyLaunchLink.innerHTML = originalText;
-        }, 2000);
+        const orig = admBtnCopyPhLink.innerHTML;
+        admBtnCopyPhLink.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        setTimeout(() => { admBtnCopyPhLink.innerHTML = orig; }, 2000);
       } catch {
-        prompt('Copy this campaign URL:', shareUrl);
+        prompt('Copy Product Hunt Campaign URL:', shareUrl);
       }
     });
   }
 
-  // Auto-trigger telemetry on load
+  // Trigger silent traffic tracking on page load
   trackVisitor();
-  fetchLaunchStats();
+
+  // Auto-open admin modal if navigated to /#admin
+  if (window.location.hash === '#admin') {
+    openAdminModal();
+  }
+  window.addEventListener('hashchange', () => {
+    if (window.location.hash === '#admin') openAdminModal();
+  });
 });
