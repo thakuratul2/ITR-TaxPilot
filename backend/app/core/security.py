@@ -32,14 +32,44 @@ def sanitize_filename(filename: str) -> str:
     return clean_name or f"upload_{uuid.uuid4().hex[:8]}.pdf"
 
 
-def mask_pan(pan: str | None) -> str:
-    """Mask 10-character PAN leaving first 5 and last character: ABCDE****F."""
-    if not pan or len(pan) < 6:
-        return "ABCDE****F"
+def mask_pan(pan: str | None, style: str = "middle") -> str:
+    """Mask 10-character PAN.
+    - style='middle': ABCDE****F
+    - style='prefix': XXXXX1234A or XXXXX1234X
+    """
+    if not pan or len(pan.strip()) < 5:
+        return "XXXXX1234X"
     clean = pan.strip().upper()
     if len(clean) == 10:
+        if style == "prefix":
+            return f"XXXXX{clean[5:]}"
         return f"{clean[:5]}****{clean[-1]}"
+    if style == "prefix":
+        return f"XXXXX{clean[-4:]}"
     return f"{clean[:3]}****{clean[-1]}"
+
+
+def mask_aadhaar(aadhaar: str | None) -> str:
+    """Mask 12-digit Aadhaar number: XXXX-XXXX-1234."""
+    if not aadhaar:
+        return "XXXX-XXXX-XXXX"
+    digits = re.sub(r"\D", "", str(aadhaar))
+    if len(digits) == 12:
+        return f"XXXX-XXXX-{digits[-4:]}"
+    return "XXXX-XXXX-XXXX"
+
+
+def mask_email(email: str | None) -> str:
+    """Mask email address: j***n@example.com."""
+    if not email or "@" not in email:
+        return "u***r@domain.com"
+    parts = email.strip().split("@")
+    user, domain = parts[0], parts[1]
+    if len(user) <= 2:
+        masked_user = user[0] + "*"
+    else:
+        masked_user = f"{user[0]}{'*' * (len(user) - 2)}{user[-1]}"
+    return f"{masked_user}@{domain}"
 
 
 class TokenPayload(BaseModel):
