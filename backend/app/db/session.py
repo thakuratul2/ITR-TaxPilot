@@ -64,25 +64,22 @@ def _sanitize_sync_db_url(url: str) -> str:
 
 # Sync Engine (for Alembic migrations and synchronous utilities)
 sync_db_url = _sanitize_sync_db_url(settings.DATABASE_URL)
-sync_engine = create_engine(
-    sync_db_url,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-    echo=settings.DEBUG,
-)
+sync_kwargs = {"pool_pre_ping": True, "echo": settings.DEBUG}
+if not sync_db_url.startswith("sqlite"):
+    sync_kwargs["pool_size"] = 10
+    sync_kwargs["max_overflow"] = 20
+
+sync_engine = create_engine(sync_db_url, **sync_kwargs)
 SyncSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=sync_engine)
 
 # Async Engine (for FastAPI async request handlers)
 async_db_url = _sanitize_async_db_url(settings.DATABASE_URL)
+async_kwargs = {"pool_pre_ping": True, "echo": settings.DEBUG}
+if not async_db_url.startswith("sqlite"):
+    async_kwargs["pool_size"] = 10
+    async_kwargs["max_overflow"] = 20
 
-async_engine = create_async_engine(
-    async_db_url,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-    echo=settings.DEBUG,
-)
+async_engine = create_async_engine(async_db_url, **async_kwargs)
 AsyncSessionLocal = async_sessionmaker(
     bind=async_engine,
     class_=AsyncSession,

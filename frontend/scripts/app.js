@@ -684,4 +684,163 @@ document.addEventListener('DOMContentLoaded', () => {
   [slider80c, slider80d, sliderNps, sliderHomeLoan].forEach(slider => {
     slider.addEventListener('input', recalculateTax);
   });
+
+  // =========================================================================
+  // 8. Product Hunt Launch Tracker & Telemetry Engine
+  // =========================================================================
+  const launchStatsModal = document.getElementById('launch-stats-modal');
+  const launchModalCloseBtn = document.getElementById('launch-modal-close-btn');
+  const openLaunchStatsBtn = document.getElementById('open-launch-stats-btn');
+  const navLaunchStatsBtn = document.getElementById('nav-launch-stats-btn');
+  const btnCopyLaunchLink = document.getElementById('btn-copy-launch-link');
+
+  function getVisitorId() {
+    let vid = localStorage.getItem('itrtax_visitor_id');
+    if (!vid) {
+      vid = 'vis_' + Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
+      localStorage.setItem('itrtax_visitor_id', vid);
+    }
+    return vid;
+  }
+
+  async function trackVisitor() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref') || urlParams.get('source');
+      const utm_source = urlParams.get('utm_source');
+      const utm_medium = urlParams.get('utm_medium');
+      const utm_campaign = urlParams.get('utm_campaign');
+      const referrer = document.referrer || '';
+      const visitor_id = getVisitorId();
+
+      await fetch('/api/v1/analytics/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          visitor_id,
+          ref,
+          utm_source,
+          utm_medium,
+          utm_campaign,
+          referrer,
+          path: window.location.pathname,
+        }),
+      });
+    } catch (e) {
+      console.debug('Analytics ping:', e);
+    }
+  }
+
+  async function fetchLaunchStats() {
+    try {
+      const res = await fetch('/api/v1/analytics/stats');
+      if (!res.ok) return;
+      const json = await res.json();
+      if (!json.success || !json.data) return;
+
+      const data = json.data;
+      const gh = data.github_stats || {};
+
+      // Update Star counters in Header & Banner
+      const starText = `⭐ ${gh.stars || 0}`;
+      const bannerStarCount = document.getElementById('banner-gh-star-count');
+      const navGhStarPill = document.getElementById('nav-gh-star-pill');
+      const modalActionGhStars = document.getElementById('modal-action-gh-stars');
+
+      if (bannerStarCount) bannerStarCount.textContent = starText;
+      if (navGhStarPill) navGhStarPill.textContent = starText;
+      if (modalActionGhStars) modalActionGhStars.textContent = starText;
+
+      // Update Modal Values
+      const statsTotalVisitors = document.getElementById('stats-total-visitors');
+      const statsUniqueVisitors = document.getElementById('stats-unique-visitors');
+      const statsPhVisitors = document.getElementById('stats-ph-visitors');
+      const statsPhPct = document.getElementById('stats-ph-pct');
+      const statsGhStars = document.getElementById('stats-gh-stars');
+      const statsGhForks = document.getElementById('stats-gh-forks');
+      const trafficBarsContainer = document.getElementById('traffic-bars-container');
+
+      if (statsTotalVisitors) statsTotalVisitors.textContent = data.total_visits || 0;
+      if (statsUniqueVisitors) statsUniqueVisitors.textContent = `${data.unique_visitors || 0} unique`;
+      if (statsPhVisitors) statsPhVisitors.textContent = data.product_hunt_visits || 0;
+      if (statsPhPct) statsPhPct.textContent = `(${data.product_hunt_percentage || 0}% of traffic)`;
+      if (statsGhStars) statsGhStars.textContent = gh.stars || 0;
+      if (statsGhForks) statsGhForks.textContent = `${gh.forks || 0} forks`;
+
+      // Render Referral breakdown bars
+      if (trafficBarsContainer && data.sources_breakdown) {
+        const total = Math.max(data.total_visits || 1, 1);
+        const entries = Object.entries(data.sources_breakdown).sort((a, b) => b[1] - a[1]);
+        
+        let html = '';
+        entries.forEach(([source, count]) => {
+          const pct = Math.round((count / total) * 100);
+          const icon = source === 'producthunt' ? 'fa-brands fa-product-hunt' :
+                       source === 'github' ? 'fa-brands fa-github' :
+                       source === 'twitter' ? 'fa-brands fa-x-twitter' :
+                       source === 'linkedin' ? 'fa-brands fa-linkedin' :
+                       source === 'google' ? 'fa-brands fa-google' : 'fa-solid fa-globe';
+          const label = source === 'producthunt' ? 'Product Hunt' :
+                        source === 'github' ? 'GitHub' :
+                        source.charAt(0).toUpperCase() + source.slice(1);
+
+          html += `
+            <div class="traffic-bar-item">
+              <div class="traffic-bar-label">
+                <span><i class="${icon}"></i> ${label}</span>
+                <strong>${count} (${pct}%)</strong>
+              </div>
+              <div class="traffic-bar-track">
+                <div class="traffic-bar-fill ${source === 'producthunt' ? 'fill-ph' : ''}" style="width: ${Math.max(pct, 4)}%"></div>
+              </div>
+            </div>
+          `;
+        });
+        trafficBarsContainer.innerHTML = html || '<p class="text-subtle">No referral data recorded yet.</p>';
+      }
+    } catch (e) {
+      console.debug('Failed to fetch launch stats:', e);
+    }
+  }
+
+  function openLaunchModal() {
+    if (launchStatsModal) {
+      launchStatsModal.style.display = 'flex';
+      fetchLaunchStats();
+    }
+  }
+
+  function closeLaunchModal() {
+    if (launchStatsModal) launchStatsModal.style.display = 'none';
+  }
+
+  if (openLaunchStatsBtn) openLaunchStatsBtn.addEventListener('click', openLaunchModal);
+  if (navLaunchStatsBtn) navLaunchStatsBtn.addEventListener('click', openLaunchModal);
+  if (launchModalCloseBtn) launchModalCloseBtn.addEventListener('click', closeLaunchModal);
+
+  if (launchStatsModal) {
+    launchStatsModal.addEventListener('click', (e) => {
+      if (e.target === launchStatsModal) closeLaunchModal();
+    });
+  }
+
+  if (btnCopyLaunchLink) {
+    btnCopyLaunchLink.addEventListener('click', async () => {
+      const shareUrl = `${window.location.origin}/?ref=producthunt`;
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        const originalText = btnCopyLaunchLink.innerHTML;
+        btnCopyLaunchLink.innerHTML = '<i class="fa-solid fa-check"></i> Copied to Clipboard!';
+        setTimeout(() => {
+          btnCopyLaunchLink.innerHTML = originalText;
+        }, 2000);
+      } catch {
+        prompt('Copy this campaign URL:', shareUrl);
+      }
+    });
+  }
+
+  // Auto-trigger telemetry on load
+  trackVisitor();
+  fetchLaunchStats();
 });

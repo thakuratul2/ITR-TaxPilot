@@ -18,6 +18,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
+  <!-- Product Hunt Pre-Launch & Live GitHub Stars Banner -->
+  <div class="launch-campaign-banner" id="launch-banner">
+    <div class="launch-banner-content">
+      <div class="launch-banner-left">
+        <span class="launch-badge"><i class="fa-brands fa-product-hunt"></i> Pre-Launch</span>
+        <span class="launch-text">ITR-TaxPilot is live for Product Hunt! 100% Deterministic AY 2026-27 Tax Co-Pilot.</span>
+      </div>
+      <div class="launch-actions">
+        <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="banner-btn banner-gh-btn" id="banner-gh-btn">
+          <i class="fa-brands fa-github"></i> Star Repo <span class="banner-star-pill" id="banner-gh-star-count">⭐ ...</span>
+        </a>
+        <button class="banner-btn banner-stats-btn" id="open-launch-stats-btn">
+          <i class="fa-solid fa-chart-line"></i> Live Analytics
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Ambient background glow effects -->
   <div class="glow-orb orb-1"></div>
   <div class="glow-orb orb-2"></div>
@@ -86,8 +104,11 @@
 
         <a href="#faq-section" class="nav-link">FAQ</a>
         <a href="/admin.html" class="nav-link" title="Executive Admin & Telemetry"><i class="fa-solid fa-gauge-high"></i> Admin</a>
-        <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="nav-link github-nav-link">
-          <i class="fa-brands fa-github"></i> GitHub
+        <button class="nav-link nav-btn-link" id="nav-launch-stats-btn" title="Live Launch & Visitor Stats">
+          <i class="fa-solid fa-chart-line"></i> Launch Stats
+        </button>
+        <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="nav-link github-nav-link" id="nav-gh-link">
+          <i class="fa-brands fa-github"></i> Star <span class="nav-star-pill" id="nav-gh-star-pill">⭐ ...</span>
         </a>
       </nav>
 
@@ -864,6 +885,85 @@
     </section>
 
   </main>
+
+  <!-- Live Launch & Visitor Telemetry Modal -->
+  <div class="modal-backdrop" id="launch-stats-modal" style="display: none;">
+    <div class="modal-card launch-modal-card">
+      <button class="modal-close-btn" id="launch-modal-close-btn" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-badge-ph">
+          <i class="fa-brands fa-product-hunt"></i> Product Hunt Pre-Launch
+        </div>
+        <h3 class="modal-title">Live Launch Telemetry</h3>
+        <p class="modal-subtitle">
+          Real-time visitor tracking, referral attribution, and live GitHub stargazers.
+        </p>
+      </div>
+
+      <!-- Real-Time Metrics 4-Box Grid -->
+      <div class="launch-metrics-grid">
+        <div class="launch-metric-box">
+          <div class="metric-icon visitors-icon"><i class="fa-solid fa-users"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">Total Visitors</span>
+            <strong class="metric-value" id="stats-total-visitors">--</strong>
+            <span class="metric-sub" id="stats-unique-visitors">-- unique</span>
+          </div>
+        </div>
+
+        <div class="launch-metric-box ph-box">
+          <div class="metric-icon ph-icon"><i class="fa-brands fa-product-hunt"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">Product Hunt Traffic</span>
+            <strong class="metric-value" id="stats-ph-visitors">--</strong>
+            <span class="metric-sub" id="stats-ph-pct">(0% of total)</span>
+          </div>
+        </div>
+
+        <div class="launch-metric-box gh-box">
+          <div class="metric-icon gh-icon"><i class="fa-brands fa-github"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">GitHub Stars</span>
+            <strong class="metric-value" id="stats-gh-stars">--</strong>
+            <span class="metric-sub" id="stats-gh-forks">0 forks</span>
+          </div>
+        </div>
+
+        <div class="launch-metric-box speed-box">
+          <div class="metric-icon ping-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">Tracking Engine</span>
+            <strong class="metric-value text-emerald"><i class="fa-solid fa-circle-check"></i> Active</strong>
+            <span class="metric-sub">Zero PII / Async</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Traffic Source Breakdown -->
+      <div class="traffic-sources-card">
+        <div class="traffic-sources-header">
+          <span><i class="fa-solid fa-chart-pie"></i> Traffic Referral Breakdown</span>
+          <span class="refresh-indicator" id="stats-last-updated"><i class="fa-solid fa-arrows-rotate"></i> Updated Live</span>
+        </div>
+        <div class="traffic-bars-container" id="traffic-bars-container">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Community Actions -->
+      <div class="launch-modal-actions">
+        <a href="https://github.com/thakuratul2/ITR-TaxPilot" target="_blank" class="btn btn-outline btn-block" id="modal-gh-star-link">
+          <i class="fa-brands fa-github"></i> Star on GitHub (<span id="modal-action-gh-stars">⭐ ...</span>)
+        </a>
+        <button class="btn btn-primary btn-block" id="btn-copy-launch-link">
+          <i class="fa-solid fa-share-nodes"></i> Copy Product Hunt Campaign URL
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Login & Signup Auth Modal -->
   <div class="modal-backdrop" id="auth-modal" style="display: none;">

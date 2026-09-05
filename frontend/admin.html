@@ -77,9 +77,35 @@
         <i class="fa-solid fa-bolt text-green"></i>
         <span>AI Engine: OpenAI (GPT-4o Mini)</span>
       </div>
-    </div>
+    <!-- Launch & Product Hunt Live Telemetry -->
+    <h2 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+      <i class="fa-brands fa-product-hunt" style="color: #DA552F;"></i> Product Hunt & GitHub Launch Telemetry
+    </h2>
+    <section class="stats-kpi-grid" style="margin-bottom: 2rem;">
+      <div class="kpi-card" style="border-color: rgba(218, 85, 47, 0.4);">
+        <div class="kpi-label"><span>Product Hunt Referrals</span><i class="fa-brands fa-product-hunt" style="color: #FF7448;"></i></div>
+        <div class="kpi-value" id="kpi-ph-visitors" style="color: #FF7448;">--</div>
+        <div class="kpi-sub" id="kpi-ph-pct"><i class="fa-solid fa-chart-line"></i> 0% of total visitors</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label"><span>Total Page Views</span><i class="fa-solid fa-eye"></i></div>
+        <div class="kpi-value" id="kpi-total-visitors">--</div>
+        <div class="kpi-sub" id="kpi-unique-visitors"><i class="fa-solid fa-users"></i> Live analytics active</div>
+      </div>
+      <div class="kpi-card" style="border-color: rgba(255, 255, 255, 0.2);">
+        <div class="kpi-label"><span>GitHub Stars</span><i class="fa-brands fa-github"></i></div>
+        <div class="kpi-value" id="kpi-gh-stars">--</div>
+        <div class="kpi-sub" id="kpi-gh-forks"><i class="fa-solid fa-code-fork"></i> thakuratul2/ITR-TaxPilot</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label"><span>Traffic Origin</span><i class="fa-solid fa-network-wired"></i></div>
+        <div class="kpi-value" id="kpi-top-source" style="font-size: 1.5rem; text-transform: capitalize;">Direct</div>
+        <div class="kpi-sub"><i class="fa-solid fa-satellite-dish"></i> Real-time UTM & Ref Tracker</div>
+      </div>
+    </section>
 
     <!-- KPI Summary Grid -->
+    <h2 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 1.25rem;">Platform & Engine Health</h2>
     <section class="stats-kpi-grid">
       <div class="kpi-card">
         <div class="kpi-label"><span>Registered Taxpayers</span><i class="fa-solid fa-users"></i></div>
@@ -170,6 +196,31 @@
   <script>
     async function loadAdminData() {
       try {
+        // 0. Fetch Launch & Product Hunt Telemetry
+        try {
+          const analyticsRes = await fetch('/api/v1/analytics/stats');
+          if (analyticsRes.ok) {
+            const json = await analyticsRes.json();
+            if (json.success && json.data) {
+              const a = json.data;
+              const gh = a.github_stats || {};
+              document.getElementById('kpi-ph-visitors').textContent = a.product_hunt_visits || 0;
+              document.getElementById('kpi-ph-pct').innerHTML = `<i class="fa-solid fa-chart-line"></i> ${a.product_hunt_percentage || 0}% of total visitors`;
+              document.getElementById('kpi-total-visitors').textContent = a.total_visits || 0;
+              document.getElementById('kpi-unique-visitors').innerHTML = `<i class="fa-solid fa-users"></i> ${a.unique_visitors || 0} unique visitors`;
+              document.getElementById('kpi-gh-stars').textContent = gh.stars || 0;
+              document.getElementById('kpi-gh-forks').innerHTML = `<i class="fa-solid fa-code-fork"></i> ${gh.forks || 0} forks · thakuratul2`;
+              
+              const topSource = Object.entries(a.sources_breakdown || {}).sort((x, y) => y[1] - x[1])[0];
+              if (topSource) {
+                document.getElementById('kpi-top-source').textContent = topSource[0];
+              }
+            }
+          }
+        } catch (e) {
+          console.debug('Analytics fetch fallback:', e);
+        }
+
         // 1. Fetch Stats
         const statsRes = await fetch('/api/v1/admin/stats');
         if (statsRes.ok) {

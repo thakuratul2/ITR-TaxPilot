@@ -2030,11 +2030,259 @@ body {
 }
 
 /* ==========================================================================
+   Product Hunt Launch Banner & Telemetry Modal Styling
+   ========================================================================== */
+.launch-campaign-banner {
+  background: linear-gradient(90deg, #DA552F 0%, #EA580C 50%, #6366F1 100%);
+  color: #FFFFFF;
+  padding: 0.55rem 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  position: relative;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(218, 85, 47, 0.3);
+}
+
+.launch-banner-content {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.launch-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.launch-badge {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.launch-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.banner-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--trans-fast);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.banner-gh-btn {
+  background: rgba(0, 0, 0, 0.4);
+  color: #FFFFFF;
+}
+
+.banner-gh-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: translateY(-1px);
+}
+
+.banner-stats-btn {
+  background: #FFFFFF;
+  color: #DA552F;
+  border-color: #FFFFFF;
+}
+
+.banner-stats-btn:hover {
+  background: #F8FAFC;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.banner-star-pill, .nav-star-pill {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.1rem 0.45rem;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.nav-btn-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.modal-badge-ph {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(218, 85, 47, 0.15);
+  color: #FF7448;
+  border: 1px solid rgba(218, 85, 47, 0.4);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.launch-modal-card {
+  max-width: 580px;
+  background: #0D1424;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.launch-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.launch-metric-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.launch-metric-box .metric-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.visitors-icon { background: rgba(99, 102, 241, 0.15); color: #818CF8; }
+.ph-icon { background: rgba(218, 85, 47, 0.15); color: #FF7448; }
+.gh-icon { background: rgba(255, 255, 255, 0.1); color: #F8FAFC; }
+.ping-icon { background: rgba(16, 185, 129, 0.15); color: #34D399; }
+
+.launch-metric-box .metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.launch-metric-box .metric-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.launch-metric-box .metric-value {
+  font-size: 1.35rem;
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-weight: 800;
+}
+
+.launch-metric-box .metric-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.traffic-sources-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.traffic-sources-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.refresh-indicator {
+  font-size: 0.75rem;
+  color: #34D399;
+  font-weight: 500;
+}
+
+.traffic-bars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.traffic-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.traffic-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.traffic-bar-track {
+  background: rgba(255, 255, 255, 0.06);
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.traffic-bar-fill {
+  height: 100%;
+  background: var(--accent-indigo);
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.traffic-bar-fill.fill-ph {
+  background: linear-gradient(90deg, #DA552F, #FF7448);
+}
+
+.launch-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 992px) {
   .marginal-grid { grid-template-columns: 1fr; }
   .tables-comparison-container { grid-template-columns: 1fr; }
+  .launch-metrics-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
@@ -2043,4 +2291,6 @@ body {
   .header-status .ay-pill { display: none; }
   .comparison-grid { grid-template-columns: 1fr; }
   .recommendation-banner { flex-direction: column; align-items: flex-start; }
+  .launch-banner-content { flex-direction: column; text-align: center; }
+  .launch-banner-left { flex-direction: column; }
 }
