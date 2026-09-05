@@ -10,7 +10,7 @@
 ```text
 Progress: [████████████████████░░░░] 78% (14 / 18 Milestones Completed)
 Total Tasks: 123 | Completed: 109 | In Progress: 0 | Pending: 14
-Current Active Branch: milestone/m14-security-and-privacy
+Current Active Branch: main
 ```
 
 ---
