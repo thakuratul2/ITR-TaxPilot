@@ -10,7 +10,7 @@
 ```text
 Progress: [█████████████████░░░░░░░] 67% (12 / 18 Milestones Completed)
 Total Tasks: 123 | Completed: 96 | In Progress: 0 | Pending: 27
-Current Active Branch: milestone/m11-redis-job-processing
+Current Active Branch: main
 ```
 
 ---
