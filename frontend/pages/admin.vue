@@ -90,9 +90,66 @@
             <i class="fa-solid fa-lock"></i> Lock Console
           </button>
         </div>
+      <!-- Launch & Product Hunt Live Telemetry -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+        <h2 class="section-heading" style="margin-bottom: 0; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-brands fa-product-hunt" style="color: #FF7448;"></i> Product Hunt & GitHub Launch Telemetry
+        </h2>
+        <button class="btn btn-sm btn-outline" @click="copyPhLink" style="font-size: 0.8rem;">
+          <i class="fa-solid fa-copy"></i> {{ copiedPh ? 'Copied Campaign Link!' : 'Copy Product Hunt Link' }}
+        </button>
       </div>
 
+      <section class="stats-kpi-grid" style="margin-bottom: 2rem;">
+        <div class="kpi-card" style="border-color: rgba(218, 85, 47, 0.4); background: rgba(218, 85, 47, 0.05);">
+          <div class="kpi-label"><span>Product Hunt Traffic</span><i class="fa-brands fa-product-hunt" style="color: #FF7448;"></i></div>
+          <div class="kpi-value" style="color: #FF7448;">{{ launchStats.product_hunt_visits || 0 }}</div>
+          <div class="kpi-sub"><i class="fa-solid fa-chart-line"></i> {{ launchStats.product_hunt_percentage || 0 }}% of total traffic</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label"><span>Total Page Views</span><i class="fa-solid fa-eye"></i></div>
+          <div class="kpi-value">{{ launchStats.total_visits || 0 }}</div>
+          <div class="kpi-sub"><i class="fa-solid fa-users"></i> {{ launchStats.unique_visitors || 0 }} unique visitors</div>
+        </div>
+
+        <div class="kpi-card" style="border-color: rgba(255, 255, 255, 0.2);">
+          <div class="kpi-label"><span>GitHub Stars</span><i class="fa-brands fa-github"></i></div>
+          <div class="kpi-value">{{ (launchStats.github_stats && launchStats.github_stats.stars) || 0 }}</div>
+          <div class="kpi-sub"><i class="fa-solid fa-code-fork"></i> {{ (launchStats.github_stats && launchStats.github_stats.forks) || 0 }} forks · thakuratul2</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label"><span>Tracking Engine</span><i class="fa-solid fa-bolt"></i></div>
+          <div class="kpi-value text-green" style="font-size: 1.5rem;">Live Active</div>
+          <div class="kpi-sub"><i class="fa-solid fa-shield-check"></i> Zero PII / Async</div>
+        </div>
+      </section>
+
+      <!-- Referral Breakdown Card -->
+      <section class="data-table-card" style="margin-bottom: 2rem;" v-if="launchStats.sources_breakdown && Object.keys(launchStats.sources_breakdown).length">
+        <div class="data-table-header">
+          <h3><i class="fa-solid fa-chart-pie"></i> Traffic Referral Sources Breakdown</h3>
+          <span class="ay-pill">Live Telemetry</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div v-for="(count, source) in launchStats.sources_breakdown" :key="source" style="display: flex; flex-direction: column; gap: 0.3rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary);">
+              <span style="text-transform: capitalize; font-weight: 600;">
+                <i :class="source === 'producthunt' ? 'fa-brands fa-product-hunt text-orange' : source === 'github' ? 'fa-brands fa-github' : 'fa-solid fa-globe'"></i>
+                {{ source === 'producthunt' ? 'Product Hunt' : source === 'github' ? 'GitHub' : source }}
+              </span>
+              <strong>{{ count }} ({{ Math.round((count / Math.max(launchStats.total_visits || 1, 1)) * 100) }}%)</strong>
+            </div>
+            <div style="background: rgba(255,255,255,0.06); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div :style="{ width: Math.max(Math.round((count / Math.max(launchStats.total_visits || 1, 1)) * 100), 5) + '%', background: source === 'producthunt' ? 'linear-gradient(90deg, #DA552F, #FF7448)' : '#6366F1' }" style="height: 100%; border-radius: 4px; transition: width 0.5s ease;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- KPI Summary Grid -->
+      <h2 class="section-heading">Platform & Database Health</h2>
       <section class="stats-kpi-grid">
         <div class="kpi-card">
           <div class="kpi-label"><span>Registered Taxpayers</span><i class="fa-solid fa-users"></i></div>
@@ -222,6 +279,19 @@ const systemInfo = ref<any>({})
 const aiProviders = ref<any[]>([])
 const usersList = ref<any[]>([])
 const docsList = ref<any[]>([])
+const launchStats = ref<any>({})
+const copiedPh = ref(false)
+
+const copyPhLink = async () => {
+  const link = `${window.location.origin}/?ref=producthunt`
+  try {
+    await navigator.clipboard.writeText(link)
+    copiedPh.value = true
+    setTimeout(() => { copiedPh.value = false }, 2000)
+  } catch {
+    prompt('Copy Campaign URL:', link)
+  }
+}
 
 const isAdminAuthenticated = computed(() => {
   if (adminSessionUnlocked.value) return true
@@ -270,6 +340,17 @@ const lockAdminSession = () => {
 const fetchAdminTelemetry = async () => {
   isLoading.value = true
   try {
+    // 0. Launch & Product Hunt Telemetry
+    try {
+      const aRes = await fetch('/api/v1/analytics/stats')
+      if (aRes.ok) {
+        const json = await aRes.json()
+        if (json.success && json.data) {
+          launchStats.value = json.data
+        }
+      }
+    } catch {}
+
     // 1. Stats
     try {
       const statsRes = await fetch('/api/v1/admin/stats')
@@ -745,5 +826,15 @@ onUnmounted(() => {
   text-align: center;
   color: var(--text-muted);
   padding: 2rem !important;
+}
+
+.text-orange {
+  color: #FF7448 !important;
+}
+
+.btn-xs {
+  padding: 0.25rem 0.65rem;
+  font-size: 0.75rem;
+  border-radius: 6px;
 }
 </style>
