@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [█████████████████░░░░░░░] 67% (12 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 96 | In Progress: 0 | Pending: 27
-Current Active Branch: main
+Progress: [██████████████████░░░░░░] 72% (13 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 101 | In Progress: 0 | Pending: 22
+Current Active Branch: milestone/m13-report-generation
 ```
 
 ---
@@ -31,7 +31,7 @@ Current Active Branch: main
 | **M10** | [Milestone 10 — Explanation AI & Guardrails](file:///D:/Projects/ITR-TaxPilot/milestones/milestone10-explanation-ai) | Phase 9 | `milestone/m10-explanation-ai` | 6 | 6 | 🟢 Completed |
 | **M11** | [Milestone 11 — Redis & Job Processing](file:///D:/Projects/ITR-TaxPilot/milestones/milestone11-redis-job-processing) | Phase 10 | `milestone/m11-redis-job-processing` | 6 | 6 | 🟢 Completed |
 | **M12** | [Milestone 12 — Frontend MVP](file:///D:/Projects/ITR-TaxPilot/milestones/milestone12-frontend-mvp) | Phase 11 | `milestone/m12-frontend-mvp` | 8 | 8 | 🟢 Completed |
-| **M13** | [Milestone 13 — Report Generation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone13-report-generation) | Phase 12 | `milestone/m13-report-generation` | 5 | 0 | ⚪ Pending |
+| **M13** | [Milestone 13 — Report Generation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone13-report-generation) | Phase 12 | `milestone/m13-report-generation` | 5 | 5 | 🟢 Completed |
 | **M14** | [Milestone 14 — Security & Privacy](file:///D:/Projects/ITR-TaxPilot/milestones/milestone14-security-and-privacy) | Phase 13 | `milestone/m14-security-and-privacy` | 8 | 0 | ⚪ Pending |
 | **M15** | [Milestone 15 — Testing & Quality Assurance](file:///D:/Projects/ITR-TaxPilot/milestones/milestone15-testing-and-qa) | Phase 14 | `milestone/m15-testing-and-qa` | 6 | 0 | ⚪ Pending |
 | **M16** | [Milestone 16 — Observability & Monitoring](file:///D:/Projects/ITR-TaxPilot/milestones/milestone16-observability-monitoring) | Phase 15 | `milestone/m16-observability-monitoring` | 4 | 0 | ⚪ Pending |

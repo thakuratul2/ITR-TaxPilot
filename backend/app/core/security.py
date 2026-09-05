@@ -32,6 +32,16 @@ def sanitize_filename(filename: str) -> str:
     return clean_name or f"upload_{uuid.uuid4().hex[:8]}.pdf"
 
 
+def mask_pan(pan: str | None) -> str:
+    """Mask 10-character PAN leaving first 5 and last character: ABCDE****F."""
+    if not pan or len(pan) < 6:
+        return "ABCDE****F"
+    clean = pan.strip().upper()
+    if len(clean) == 10:
+        return f"{clean[:5]}****{clean[-1]}"
+    return f"{clean[:3]}****{clean[-1]}"
+
+
 class TokenPayload(BaseModel):
     """Decoded JWT payload model."""
     sub: str

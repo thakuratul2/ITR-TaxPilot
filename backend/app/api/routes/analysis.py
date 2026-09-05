@@ -59,3 +59,19 @@ async def get_analysis_result(analysis_id: str, request: Request) -> APIResponse
         error=None,
         request_id=request_id,
     )
+
+
+@router.get(
+    "/{analysis_id}/report/download",
+    summary="Download Analysis PDF Report",
+    responses={
+        200: {
+            "content": {"application/pdf": {}},
+            "description": "Streamed PDF tax assessment and regime comparison report",
+        }
+    },
+)
+async def download_analysis_report(analysis_id: str, request: Request):
+    """Direct alias endpoint to stream the generated analysis PDF report."""
+    from app.api.routes.reports import download_tax_report
+    return await download_tax_report(analysis_id=analysis_id, request=request)
