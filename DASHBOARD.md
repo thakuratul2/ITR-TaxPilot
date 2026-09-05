@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [████████████████████░░░░] 78% (14 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 109 | In Progress: 0 | Pending: 14
-Current Active Branch: main
+Progress: [█████████████████████░░░] 83% (15 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 115 | In Progress: 0 | Pending: 8
+Current Active Branch: milestone/m15-testing-and-qa
 ```
 
 ---
@@ -33,7 +33,7 @@ Current Active Branch: main
 | **M12** | [Milestone 12 — Frontend MVP](file:///D:/Projects/ITR-TaxPilot/milestones/milestone12-frontend-mvp) | Phase 11 | `milestone/m12-frontend-mvp` | 8 | 8 | 🟢 Completed |
 | **M13** | [Milestone 13 — Report Generation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone13-report-generation) | Phase 12 | `milestone/m13-report-generation` | 5 | 5 | 🟢 Completed |
 | **M14** | [Milestone 14 — Security & Privacy](file:///D:/Projects/ITR-TaxPilot/milestones/milestone14-security-and-privacy) | Phase 13 | `milestone/m14-security-and-privacy` | 8 | 8 | 🟢 Completed |
-| **M15** | [Milestone 15 — Testing & Quality Assurance](file:///D:/Projects/ITR-TaxPilot/milestones/milestone15-testing-and-qa) | Phase 14 | `milestone/m15-testing-and-qa` | 6 | 0 | ⚪ Pending |
+| **M15** | [Milestone 15 — Testing & Quality Assurance](file:///D:/Projects/ITR-TaxPilot/milestones/milestone15-testing-and-qa) | Phase 14 | `milestone/m15-testing-and-qa` | 6 | 6 | 🟢 Completed |
 | **M16** | [Milestone 16 — Observability & Monitoring](file:///D:/Projects/ITR-TaxPilot/milestones/milestone16-observability-monitoring) | Phase 15 | `milestone/m16-observability-monitoring` | 4 | 0 | ⚪ Pending |
 | **M17** | [Milestone 17 — Production Deployment](file:///D:/Projects/ITR-TaxPilot/milestones/milestone17-production-deployment) | Phase 16 | `milestone/m17-production-deployment` | 5 | 0 | ⚪ Pending |
 | **M18** | [Milestone 18 — Future Expansion (Post-MVP)](file:///D:/Projects/ITR-TaxPilot/milestones/milestone18-future-expansion) | Phase 17 | `milestone/m18-future-expansion` | 6 | 0 | ⚪ Pending |
@@ -246,8 +246,14 @@ Current Active Branch: main
 
 ### [Milestone 15 — Testing & Quality Assurance](milestones/milestone15-testing-and-qa)
 - **Branch:** `milestone/m15-testing-and-qa`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 6
+- **Status:** `Completed`
+- **Tasks Completed:** 6 / 6
+  - [x] `TASK-15.1`: 100% tax calculation unit test coverage (`backend/tests/test_tax_rules.py`, `test_deterministic_tax_engine.py`)
+  - [x] `TASK-15.2`: Anonymized Form 16 test fixture library (`backend/tests/fixtures/form16_fixtures.py`)
+  - [x] `TASK-15.3`: AI extraction schema & boundary tests (`backend/tests/test_explanation_ai.py`, `test_validation_normalization.py`)
+  - [x] `TASK-15.4`: Golden Test Suite (Form 16 -> Deterministic Tax) (`backend/tests/test_golden_suite.py`)
+  - [x] `TASK-15.5`: End-to-end API integration tests (`backend/tests/test_e2e_pipeline.py`)
+  - [x] `TASK-15.6`: Automated test script and CI workflow (`scripts/run_tests.py`, `.github/workflows/ci.yml`)
 
 ---
 
