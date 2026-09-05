@@ -30,42 +30,43 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     )
     logger.info("Initializing %s (v%s) in %s mode", settings.APP_NAME, settings.APP_VERSION, settings.APP_ENV)
 
-    # Initialize database tables
-    try:
-        import asyncio
-        async def _init_db():
-            import app.models  # noqa: F401
-            from app.db.base import Base
-            from app.db.session import async_engine
-            async with async_engine.begin() as conn:
-                await conn.run_sync(Base.metadata.create_all)
-            logger.info("Database tables verified/created successfully.")
+    # Initialize database tables (production and development)
+    if settings.APP_ENV != "test":
+        try:
+            import asyncio
+            async def _init_db():
+                import app.models  # noqa: F401
+                from app.db.base import Base
+                from app.db.session import async_engine
+                async with async_engine.begin() as conn:
+                    await conn.run_sync(Base.metadata.create_all)
+                logger.info("Database tables verified/created successfully.")
 
-            # Seed default admin account if not present
-            import uuid
-            from sqlalchemy import select
-            from app.core.security import get_password_hash
-            from app.db.session import AsyncSessionLocal
-            from app.models.user import User
+                # Seed default admin account if not present
+                import uuid
+                from sqlalchemy import select
+                from app.core.security import get_password_hash
+                from app.db.session import AsyncSessionLocal
+                from app.models.user import User
 
-            async with AsyncSessionLocal() as session:
-                admin_res = await session.execute(select(User).where(User.email == "admin@itrtaxpilot.com"))
-                if not admin_res.scalars().first():
-                    admin_user = User(
-                        id=str(uuid.uuid4()),
-                        email="admin@itrtaxpilot.com",
-                        hashed_password=get_password_hash("admin123"),
-                        full_name="System Administrator",
-                        is_active=True,
-                        is_verified=True,
-                    )
-                    session.add(admin_user)
-                    await session.commit()
-                    logger.info("Default admin account created (admin@itrtaxpilot.com / admin123).")
+                async with AsyncSessionLocal() as session:
+                    admin_res = await session.execute(select(User).where(User.email == "admin@itrtaxpilot.com"))
+                    if not admin_res.scalars().first():
+                        admin_user = User(
+                            id=str(uuid.uuid4()),
+                            email="admin@itrtaxpilot.com",
+                            hashed_password=get_password_hash("admin123"),
+                            full_name="System Administrator",
+                            is_active=True,
+                            is_verified=True,
+                        )
+                        session.add(admin_user)
+                        await session.commit()
+                        logger.info("Default admin account created (admin@itrtaxpilot.com / admin123).")
 
-        await asyncio.wait_for(_init_db(), timeout=5.0)
-    except Exception as exc:
-        logger.warning("Could not auto-create database tables/admin seed (fallback mode): %s", exc)
+            await asyncio.wait_for(_init_db(), timeout=5.0)
+        except Exception as exc:
+            logger.warning("Could not auto-create database tables/admin seed (fallback mode): %s", exc)
 
     yield
 

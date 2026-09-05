@@ -45,8 +45,8 @@ async def upload_form16(
     try:
         from app.ai.providers.factory import get_ai_provider
         from app.core.config import get_settings
-        settings = get_settings()
-        if settings.OPENAI_API_KEY and extracted.get("gross_salary", 0) == 0:
+        settings = getattr(request.app.state, "settings", None) or get_settings()
+        if settings.APP_ENV != "test" and settings.OPENAI_API_KEY and extracted.get("gross_salary", 0) == 0:
             ai_provider = get_ai_provider("openai")
             ai_data = await ai_provider.extract_form16(normalized_doc)
             if ai_data.gross_salary > 0:

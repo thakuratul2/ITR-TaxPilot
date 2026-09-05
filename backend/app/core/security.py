@@ -26,8 +26,7 @@ def generate_request_id() -> str:
 
 def sanitize_filename(filename: str) -> str:
     """Sanitize uploaded filename to prevent directory traversal and special character exploits."""
-    import os
-    clean_name = os.path.basename(filename)
+    clean_name = filename.replace("\\", "/").rstrip("/").split("/")[-1]
     clean_name = re.sub(r"[^\w\.\-\s]", "_", clean_name)
     return clean_name or f"upload_{uuid.uuid4().hex[:8]}.pdf"
 
