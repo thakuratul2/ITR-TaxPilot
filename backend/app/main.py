@@ -40,11 +40,13 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         logger.info("Database tables verified/created successfully.")
 
         # Seed default admin account if not present
+        import uuid
+
         from sqlalchemy import select
-        from app.models.user import User
+
         from app.core.security import get_password_hash
         from app.db.session import AsyncSessionLocal
-        import uuid
+        from app.models.user import User
 
         async with AsyncSessionLocal() as session:
             admin_res = await session.execute(select(User).where(User.email == "admin@itrtaxpilot.com"))
@@ -90,6 +92,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    # Redis Rate Limiter Middleware
+    from app.core.middleware.rate_limiter import RateLimiterMiddleware
+    app.add_middleware(RateLimiterMiddleware)
 
     # Request ID and Telemetry Middleware
     @app.middleware("http")
@@ -191,8 +197,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     # Mount interactive Nuxt 3 frontend UI
     from pathlib import Path
-    from starlette.types import Scope, Receive, Send
+
     from fastapi.staticfiles import StaticFiles
+    from starlette.types import Receive, Scope, Send
 
     class SPAStaticFiles(StaticFiles):
         async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:

@@ -1,9 +1,6 @@
 """Deterministic Deduction Breakeven Solver Sub-Engine."""
 
 from app.calculator.models import (
-    ChapterVIAInput,
-    HousePropertyInput,
-    OtherSourcesInput,
     SalaryInput,
     SeniorCitizenCategory,
     TaxpayerProfileInput,
@@ -28,7 +25,7 @@ class BreakevenSolver:
         """Helper to compute Old Regime Tax + Cess for a given taxable income."""
         if taxable_income <= 0:
             return 0.0
-        
+
         base_tax, _ = SlabEngine.compute_slab_tax(
             taxable_income, TaxRegime.OLD, assessment_year, category
         )

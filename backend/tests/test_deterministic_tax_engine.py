@@ -1,6 +1,5 @@
 """Comprehensive Unit Tests for the Deterministic Tax Engine (Milestone 7)."""
 
-import pytest
 from app.calculator.deduction_engine import DeductionEngine
 from app.calculator.house_property_engine import HousePropertyEngine
 from app.calculator.interest_engine import InterestEngine
@@ -16,13 +15,11 @@ from app.calculator.models import (
 )
 from app.calculator.other_sources_engine import OtherSourcesEngine
 from app.calculator.rebate_engine import RebateEngine
-from app.calculator.regime_comparator import RegimeComparator
 from app.calculator.salary_engine import SalaryEngine
 from app.calculator.slab_engine import SlabEngine
 from app.calculator.surcharge_engine import SurchargeEngine
 from app.calculator.tax_engine import TaxEngine
 from app.tax.rules.base import TaxRegime
-
 
 # ==========================================
 # 1. Salary Engine & HRA Exemption Tests
@@ -66,7 +63,7 @@ def test_hra_exemption_calculation_non_metro():
 def test_salary_standard_deduction_ay_2026_27():
     """Test Standard Deduction ₹75,000 in New vs ₹50,000 in Old for AY 2026-27."""
     sal_input = SalaryInput(gross_salary_sec_17_1=1200000.0, professional_tax_paid=2400.0)
-    
+
     new_res = SalaryEngine.compute_salary_income(sal_input, TaxRegime.NEW, "2026-27")
     assert new_res["standard_deduction_sec_16_ia"] == 75000.0
     assert new_res["professional_tax_sec_16_iii"] == 0.0

@@ -9,12 +9,6 @@ from typing import Any
 from app.ai.explanation_context import ExplanationContextBuilder
 from app.ai.guardrails import ExplanationGuardrail
 from app.ai.json_parser import parse_and_recover_llm_json
-from app.ai.prompts.explanation_prompt import (
-    EXPLANATION_SYSTEM_PROMPT,
-    TAX_QA_SYSTEM_PROMPT,
-    build_explanation_user_prompt,
-    build_tax_qa_user_prompt,
-)
 from app.ai.providers.base import AIProvider
 from app.ai.schemas import (
     ExplanationOutputSchema,

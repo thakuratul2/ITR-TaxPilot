@@ -2,6 +2,7 @@
 
 import math
 from datetime import date
+
 from app.calculator.models import AdvanceTaxScheduleInput
 
 
@@ -80,7 +81,7 @@ class InterestEngine:
             # Default months: from 1st April of AY to date of filing/determination (e.g. July 31 = 4 months)
             filing_date = advance_tax.actual_filing_date or date(2026, 7, 31)
             start_date = date(filing_date.year, 4, 1)
-            
+
             if filing_date > start_date:
                 months_234b = math.ceil((filing_date - start_date).days / 30.0)
             else:

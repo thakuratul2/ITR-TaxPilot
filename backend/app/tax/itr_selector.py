@@ -245,7 +245,7 @@ class ITRSelector:
             positives.append("Accommodates company directorships and holdings in unlisted equity shares.")
 
         if profile.agricultural_income > cls.MAX_AGRICULTURAL_INCOME_ITR1_ITR4:
-            positives.append(f"Accommodates agricultural income exceeding ₹5,000 (Schedule EI).")
+            positives.append("Accommodates agricultural income exceeding ₹5,000 (Schedule EI).")
 
         if profile.residential_status in (ResidentialStatus.NON_RESIDENT, ResidentialStatus.RNOR):
             positives.append(f"Supports Non-Resident and RNOR taxpayers (status: '{profile.residential_status.value}').")

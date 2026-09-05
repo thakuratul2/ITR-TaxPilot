@@ -73,7 +73,7 @@ class ComparisonEngine:
         Execute comprehensive parallel regime comparison, take-home calculations, and breakeven intelligence.
         """
         ay = profile.assessment_year
-        
+
         # Parallel / fast sequential execution of both regimes
         old_comp = TaxEngine.compute_regime(profile, TaxRegime.OLD)
         new_comp = TaxEngine.compute_regime(profile, TaxRegime.NEW)

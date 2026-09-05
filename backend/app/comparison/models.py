@@ -1,6 +1,7 @@
 """Pydantic schemas for the Tax Regime Comparison & Breakeven Analysis Engine."""
 
 from pydantic import BaseModel, Field
+
 from app.calculator.models import RegimeComputation
 
 
@@ -49,14 +50,14 @@ class ComprehensiveComparisonResponse(BaseModel):
     percentage_savings: float
     effective_tax_rate_old: float
     effective_tax_rate_new: float
-    
+
     take_home_analysis: TakeHomeAnalysis
     breakeven_analysis: BreakevenAnalysis
     line_items: list[ComparisonLineItem] = Field(default_factory=list)
-    
+
     old_regime: RegimeComputation
     new_regime: RegimeComputation
-    
+
     recommended_itr_form: str
     itr_recommendation: ITRRecommendation | None = Field(default=None, description="Detailed statutory ITR recommendation")
     narrative_summary: str

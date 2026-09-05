@@ -20,7 +20,7 @@ class OtherSourcesEngine:
         # Family Pension Exemption u/s 57(iia)
         family_pension_raw = os_input.family_pension
         family_pension_deduction = 0.0
-        
+
         if family_pension_raw > 0:
             one_third_pension = (1.0 / 3.0) * family_pension_raw
             # Standard deduction cap for family pension

@@ -22,7 +22,7 @@ class HousePropertyEngine:
             municipal_taxes = 0.0
             nav = 0.0
             standard_deduction_24a = 0.0
-            
+
             if regime == TaxRegime.OLD:
                 # Under Old Regime, interest on SOP loan is allowed up to ₹2,00,000
                 interest_24b = min(200000.0, hp_input.housing_loan_interest_sop)
@@ -37,15 +37,15 @@ class HousePropertyEngine:
             gross_rent = hp_input.annual_lettable_value_or_rent
             municipal_taxes = hp_input.municipal_taxes_paid
             nav = max(0.0, gross_rent - municipal_taxes)
-            
+
             # Statutory 30% standard deduction u/s 24(a)
             standard_deduction_24a = 0.30 * nav
-            
+
             # Interest on housing loan for let-out property u/s 24(b)
             interest_24b = hp_input.housing_loan_interest_lop
-            
+
             net_hp_income = nav - standard_deduction_24a - interest_24b
-            
+
             # In New Regime, loss from let-out property cannot be set off against salary or other heads
             if regime == TaxRegime.NEW and net_hp_income < 0:
                 net_hp_income = 0.0

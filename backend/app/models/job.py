@@ -11,6 +11,9 @@ from app.db.base import Base, TimestampMixin
 
 class JobStatus(str, enum.Enum):
     """Job processing lifecycle state."""
+    QUEUED = "queued"
+    EXTRACTING = "extracting"
+    CALCULATING = "calculating"
     PENDING = "pending"
     PROCESSING = "processing"
     COMPLETED = "completed"
@@ -46,7 +49,7 @@ class Job(Base, TimestampMixin):
     )
     status: Mapped[JobStatus] = mapped_column(
         Enum(JobStatus),
-        default=JobStatus.PENDING,
+        default=JobStatus.QUEUED,
         nullable=False,
     )
     progress_percentage: Mapped[int] = mapped_column(Integer, default=0, nullable=False)

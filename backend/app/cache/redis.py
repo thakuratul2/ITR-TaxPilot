@@ -15,6 +15,16 @@ _redis_client: Redis | None = None
 async def get_redis_client() -> Redis | None:
     """Get or initialize singleton async Redis client."""
     global _redis_client
+
+    if _redis_client is not None:
+        try:
+            pool = getattr(_redis_client, "connection_pool", None)
+            loop = getattr(pool, "_loop", None) if pool else None
+            if loop is not None and loop.is_closed():
+                _redis_client = None
+        except Exception:
+            _redis_client = None
+
     if _redis_client is None:
         settings = get_settings()
         try:
