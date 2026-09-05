@@ -10,7 +10,7 @@
 ```text
 Progress: [██████████████████████░░] 89% (16 / 18 Milestones Completed)
 Total Tasks: 123 | Completed: 119 | In Progress: 0 | Pending: 4
-Current Active Branch: milestone/m16-observability-monitoring
+Current Active Branch: main
 ```
 
 ---
