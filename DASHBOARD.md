@@ -8,9 +8,9 @@
 ## 📈 Overall Progress Summary
 
 ```text
-Progress: [██████████████████░░░░░░] 72% (13 / 18 Milestones Completed)
-Total Tasks: 123 | Completed: 101 | In Progress: 0 | Pending: 22
-Current Active Branch: milestone/m13-report-generation
+Progress: [████████████████████░░░░] 78% (14 / 18 Milestones Completed)
+Total Tasks: 123 | Completed: 109 | In Progress: 0 | Pending: 14
+Current Active Branch: milestone/m14-security-and-privacy
 ```
 
 ---
@@ -32,7 +32,7 @@ Current Active Branch: milestone/m13-report-generation
 | **M11** | [Milestone 11 — Redis & Job Processing](file:///D:/Projects/ITR-TaxPilot/milestones/milestone11-redis-job-processing) | Phase 10 | `milestone/m11-redis-job-processing` | 6 | 6 | 🟢 Completed |
 | **M12** | [Milestone 12 — Frontend MVP](file:///D:/Projects/ITR-TaxPilot/milestones/milestone12-frontend-mvp) | Phase 11 | `milestone/m12-frontend-mvp` | 8 | 8 | 🟢 Completed |
 | **M13** | [Milestone 13 — Report Generation](file:///D:/Projects/ITR-TaxPilot/milestones/milestone13-report-generation) | Phase 12 | `milestone/m13-report-generation` | 5 | 5 | 🟢 Completed |
-| **M14** | [Milestone 14 — Security & Privacy](file:///D:/Projects/ITR-TaxPilot/milestones/milestone14-security-and-privacy) | Phase 13 | `milestone/m14-security-and-privacy` | 8 | 0 | ⚪ Pending |
+| **M14** | [Milestone 14 — Security & Privacy](file:///D:/Projects/ITR-TaxPilot/milestones/milestone14-security-and-privacy) | Phase 13 | `milestone/m14-security-and-privacy` | 8 | 8 | 🟢 Completed |
 | **M15** | [Milestone 15 — Testing & Quality Assurance](file:///D:/Projects/ITR-TaxPilot/milestones/milestone15-testing-and-qa) | Phase 14 | `milestone/m15-testing-and-qa` | 6 | 0 | ⚪ Pending |
 | **M16** | [Milestone 16 — Observability & Monitoring](file:///D:/Projects/ITR-TaxPilot/milestones/milestone16-observability-monitoring) | Phase 15 | `milestone/m16-observability-monitoring` | 4 | 0 | ⚪ Pending |
 | **M17** | [Milestone 17 — Production Deployment](file:///D:/Projects/ITR-TaxPilot/milestones/milestone17-production-deployment) | Phase 16 | `milestone/m17-production-deployment` | 5 | 0 | ⚪ Pending |
@@ -219,15 +219,28 @@ Current Active Branch: milestone/m13-report-generation
 
 ### [Milestone 13 — Report Generation](milestones/milestone13-report-generation)
 - **Branch:** `milestone/m13-report-generation`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 5
+- **Status:** `Completed`
+- **Tasks Completed:** 5 / 5
+  - [x] `TASK-13.1`: PDF report template design (`ReportService`)
+  - [x] `TASK-13.2`: Server-side PDF generation service (`backend/app/services/report_service.py`)
+  - [x] `TASK-13.3`: Comparison data & recommendation report binding
+  - [x] `TASK-13.4`: Secure PDF download endpoint (`GET /api/v1/analysis/{analysis_id}/report/download`)
+  - [x] `TASK-13.5`: PDF generation integration & unit tests (`backend/tests/test_report_generation.py`)
 
 ---
 
 ### [Milestone 14 — Security & Privacy](milestones/milestone14-security-and-privacy)
 - **Branch:** `milestone/m14-security-and-privacy`
-- **Status:** `Pending`
-- **Tasks Completed:** 0 / 8
+- **Status:** `Completed`
+- **Tasks Completed:** 8 / 8
+  - [x] `TASK-14.1`: PAN and PII masking filter (`backend/app/core/logging.py`, `security.py`)
+  - [x] `TASK-14.2`: Zero-raw-logging policy enforcement
+  - [x] `TASK-14.3`: Configurable document retention & deletion policy (`backend/app/documents/storage.py`)
+  - [x] `TASK-14.4`: File upload security hardening (`backend/app/documents/security_checker.py`, `validator.py`)
+  - [x] `TASK-14.5`: Security headers (CSP, HSTS, CORS) configuration (`backend/app/core/middleware/security_headers.py`)
+  - [x] `TASK-14.6`: Secret management & environment isolation
+  - [x] `TASK-14.7`: Rate limiting & abuse protection rules (`backend/app/core/middleware/rate_limiter.py`)
+  - [x] `TASK-14.8`: Data minimization audit across API endpoints (`backend/tests/test_security_and_privacy.py`)
 
 ---
 

@@ -11,6 +11,8 @@ from typing import Any
 PAN_PATTERN = re.compile(r"\b[A-Z]{5}[0-9]{4}[A-Z]{1}\b", re.IGNORECASE)
 AADHAAR_PATTERN = re.compile(r"\b\d{4}\s?\d{4}\s?\d{4}\b")
 EMAIL_PATTERN = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b")
+PHONE_PATTERN = re.compile(r"\b(?:\+91|91)?[-.\s]?[6-9]\d{9}\b")
+BANK_ACC_PATTERN = re.compile(r"\b\d{9,18}\b")
 
 
 def mask_pii(text: str) -> str:
@@ -19,6 +21,8 @@ def mask_pii(text: str) -> str:
         return text
     text = PAN_PATTERN.sub("[REDACTED_PAN]", text)
     text = AADHAAR_PATTERN.sub("[REDACTED_AADHAAR]", text)
+    text = EMAIL_PATTERN.sub("[REDACTED_EMAIL]", text)
+    text = PHONE_PATTERN.sub("[REDACTED_PHONE]", text)
     return text
 
 

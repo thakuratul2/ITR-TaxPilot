@@ -45,10 +45,11 @@ class EphemeralStorageManager:
                 logger.warning("Failed to remove directory %s: %s", str(target_dir), str(e))
         return False
 
-    def cleanup_expired_files(self) -> int:
-        """Remove document directories older than DOCUMENT_RETENTION_MINUTES."""
+    def cleanup_expired_files(self, retention_minutes: int | None = None) -> int:
+        """Remove document directories older than DOCUMENT_RETENTION_MINUTES (or retention_minutes override)."""
         settings = get_settings()
-        retention_seconds = settings.DOCUMENT_RETENTION_MINUTES * 60
+        mins = retention_minutes if retention_minutes is not None else settings.DOCUMENT_RETENTION_MINUTES
+        retention_seconds = mins * 60
         now = time.time()
         removed_count = 0
 
@@ -59,7 +60,7 @@ class EphemeralStorageManager:
             if doc_dir.is_dir():
                 try:
                     mtime = doc_dir.stat().st_mtime
-                    if now - mtime > retention_seconds:
+                    if now - mtime >= retention_seconds:
                         self.delete_document_files(doc_dir.name)
                         removed_count += 1
                 except Exception as e:
