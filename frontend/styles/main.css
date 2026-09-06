@@ -504,6 +504,26 @@ body {
   margin: 0 auto;
 }
 
+.producthunt-badge-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.75rem;
+  transition: transform var(--trans-normal), filter var(--trans-normal);
+}
+
+.producthunt-badge-wrapper:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 8px 20px rgba(255, 97, 84, 0.3));
+}
+
+.producthunt-badge-wrapper img {
+  border-radius: 12px;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 /* ==========================================================================
    Upload Area & Dropzone
    ========================================================================== */

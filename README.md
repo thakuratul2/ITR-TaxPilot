@@ -1,5 +1,7 @@
 # ITR-TaxPilot
 
+<a href="https://www.producthunt.com/products/taxpilot-ai?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-taxpilot-ai" target="_blank" rel="noopener noreferrer"><img alt="TaxPilot AI - AI-powered Indian Tax Optimizer &amp; Form 16 Analyzer | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1242187&amp;theme=light&amp;t=1788677392587"></a>
+
 > AI-powered Indian Income Tax Return analysis and assistance platform.
 
 ITR-TaxPilot is designed to let a user upload a Form 16 and receive a clear, explainable estimate of their income-tax position for the selected Assessment Year, including extracted income details, applicable deductions, tax-regime comparison where supported, estimated tax/refund, and an ITR-form recommendation.

@@ -16,6 +16,12 @@
         Old vs New Regimes for <strong>AY 2026-27</strong>. 100% deterministic arithmetic with zero LLM hallucination risk.
       </p>
 
+      <div class="producthunt-badge-wrapper">
+        <a href="https://www.producthunt.com/products/taxpilot-ai?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-taxpilot-ai" target="_blank" rel="noopener noreferrer">
+          <img alt="TaxPilot AI - AI-powered Indian Tax Optimizer &amp; Form 16 Analyzer | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1242187&amp;theme=light&amp;t=1788677392587" />
+        </a>
+      </div>
+
       <div
         class="upload-card"
         :class="{ 'is-dragging': isDragging }"
@@ -271,6 +277,27 @@ const handleSampleData = () => {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-weight: 600;
+}
+
+.producthunt-badge-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.producthunt-badge-wrapper:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 8px 20px rgba(255, 97, 84, 0.3));
+}
+
+.producthunt-badge-wrapper img {
+  border-radius: 12px;
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 @media (max-width: 768px) {
